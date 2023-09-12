@@ -1,9 +1,8 @@
 import React from 'react';
-import { Input } from '../../components/forms/Input';
-// import { entities, states } from './Entity';
-import validator from '../../components/forms/validate';
-import StatusBar from '../../components/layouts/StatusBar';
-import Preloader from '../../components/layouts/Preloader';
+import { Input } from './Input';
+import validator from './validate';
+import StatusBar from '../layouts/StatusBar';
+import Preloader from '../layouts/Preloader';
 import customerService from '../../services/customer.service';
 
 class Form extends React.Component {
@@ -107,9 +106,9 @@ class Form extends React.Component {
             })
             // console.log(validationsArr);
             // console.log(validate);
-            // console.log(validationsArr.indexOf(true));
+            console.log(validationsArr.indexOf(true));
             if (validationsArr.indexOf(true) !== -1) {
-                // console.log("First");
+                console.log("First");
                 let stateObj = { ...this.state };
                 stateObj.states.validate = true;
                 this.setState({ ...stateObj }, () => { console.log(this.state.states.validate) });
@@ -117,7 +116,7 @@ class Form extends React.Component {
                 //All Validation done, all validations should false, validate should false
                 // this.props.innerRef.current = this.state.states;
                 this.saveDatas();
-                // console.log("Second");
+                console.log("Second");
             }
         }
     }
@@ -186,7 +185,7 @@ class Form extends React.Component {
                     <StatusBar status={this.state.states.status} onStatusClose={this.onStatusClose} />
                     {/* <Preloader /> */}
                     <form className="row g-3 brown">
-                        <h4>Customers</h4>
+                        <h4>{this.state.states.title}</h4>
                         {
                             this.state.entities.map((element, i) => {
                                 let new_element = { ...element }

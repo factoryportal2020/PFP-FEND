@@ -242,10 +242,7 @@ export const formStates = {
 
 export const listStates = {
     title: "Customers",
-    params: {
-        search_word: "",
-        city: "",
-    }
+    status: { show: false, type: 'success', msg: '' },
 }
 
 
@@ -266,29 +263,9 @@ export const listDatas = {
             city: "",
             notes: "",
             profile_image: [],
-            email: "",
-            status: 1,
+            email:"",
             password: "",
+            status: 1,
         },
     ]
 }
-
-
-export const filterEntities = [
-    {
-        name: "search_word", type: "text", colClass: 'col-sm', className: "fs-12", htmlFor: "", value: "",
-        label: "", placeholder: "Search",
-        validate: false,
-    },
-    {
-        name: "city", type: "select", colClass: 'col-sm',
-        className: "fs-12", htmlFor: "", value: "", label: "", placeholder: "Select City",
-        validate: false,
-        options: [
-            { value: '', label: 'Select City' },
-            { value: '1', label: 'Coimbatore' },
-            { value: '2', label: 'Ooty' }
-        ]
-    }
-    
-]

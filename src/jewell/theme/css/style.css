@@ -70,8 +70,16 @@ body {
     position: relative;
 }
 
+.border-1-brown {
+    border: 1px solid brown;
+}
+
 .border-radius-25 {
     border-radius: 25px;
+}
+
+.border-radius-50 {
+    border-radius: 50px;
 }
 
 .content-div {
@@ -88,6 +96,9 @@ body {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+
+
+/* Colors */
 
 .alert-success,
 .jewell-bg-color {
@@ -130,6 +141,14 @@ body {
     background-color: #fff;
 }
 
+.bg-red {
+    background-color: red;
+}
+
+.bg-orange {
+    background-color: orange;
+}
+
 .black {
     color: black;
 }
@@ -148,6 +167,19 @@ body {
 
 .light-green {
     color: #00ff7f;
+}
+
+.silver {
+    color: #c0c0c0;
+}
+
+.red,
+.error {
+    color: red;
+}
+
+.light-red {
+    color: #FFCCCB;
 }
 
 @media only screen and (max-width: 1300px) {
@@ -244,6 +276,81 @@ body {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
 }
+
+
+/* Pagination */
+/* Editable */
+#pagination {}
+
+.pg-three-bounce {
+    text-align: center;
+}
+
+.pg-three-bounce>i {
+    cursor: pointer;
+}
+
+.pg-three-bounce .pg-child {
+    padding: 0px;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: yellow;
+    border-radius: 100%;
+    display: inline-block;
+    cursor:pointer;  
+}
+
+.pg-three-bounce a.pg-child {
+    text-decoration: none;
+    color: brown;
+}
+
+.pg-three-bounce .pg-child.bg-white {
+    cursor: unset;
+}
+
+.pg-three-bounce .pg-child.bg-clicked {
+    background-color: orange;
+    cursor: unset;
+}
+
+.pg-three-bounce .pg-child:hover {
+    background-color: goldenrod;
+}
+
+.pg-three-bounce .pg-child>span {
+    line-height: 30px;
+}
+
+.pg-three-bounce button.pg-child {
+    border: none;
+    background-color: white;
+}
+
+.pg-three-bounce button.pg-child:disabled {
+    background-color: white;
+    cursor:unset; 
+}
+
+.pg-three-bounce .pg-child>i {
+    line-height: 30px;
+    text-align: center;
+    border: none;
+    padding-left: 10px;
+}
+
+
+/* .pg-three-bounce .pg-bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.pg-three-bounce .pg-bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+} */
 
 @-webkit-keyframes sk-three-bounce {
 
@@ -367,20 +474,111 @@ input[type=radio] {
     background-color: black;
 }
 
+.created_at {
+    color: silver;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+/* ribbon */
+.ribbon-wrapper {
+    width: 85px;
+    height: 88px;
+    overflow: hidden;
+    position: absolute;
+    bottom: -3px;
+    left: -3px;
+}
+
+.ribbon-green {
+    font-weight: 400;
+    font-size: 10px;
+    color: #fff;
+    text-align: center;
+    /* text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; */
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    position: relative;
+    padding: 7px 7px;
+    left: 3px;
+    top: 56px;
+    width: 55px;
+    border-radius: 5px;
+    background-color: #8dc735;
+    /* background-image: -webkit-gradient(linear, left top, left bottom, from(#8dc735), to(#649a12));
+    background-image: -webkit-linear-gradient(top, #8dc735, #649a12);
+    background-image: -moz-linear-gradient(top, #BFDC7A, #8EBF45);
+    background-image: -ms-linear-gradient(top, #BFDC7A, #8EBF45);
+    background-image: -o-linear-gradient(top, #BFDC7A, #8EBF45); */
+    color: #fff;
+    /* -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3); */
+}
+
+
 
 /* Font size Custom */
-.fs-7 {
+.fs-20 {
+    font-size: 20px;
+}
+
+.fs-18 {
+    font-size: 18px;
+}
+
+.fs-16 {
+    font-size: 16px;
+}
+
+.fs-14 {
     font-size: 14px;
 }
 
-.fs-8 {
+.fs-12 {
     font-size: 12px;
 }
 
-.fs-9 {
+.fs-10 {
     font-size: 10px;
 }
 
-.fs-10 {
+.fs-8 {
     font-size: 8px;
+}
+
+.fs-6 {
+    font-size: 6px;
+}
+
+
+
+/* Card */
+.card {
+    width: 25rem;
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    color: brown;
+    font-weight: 600;
+}
+
+.card .card-body {
+    padding: 5px;
+}
+
+.card .card-body .card-image {
+    padding: 10px;
+}
+
+.card .card-body .card-content {
+    margin: 8px;
+    width: 100%;
+}
+
+.card .card-body .card-content a i:hover {
+    color: blue;
 }

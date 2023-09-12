@@ -66,6 +66,10 @@ const toCapitalize = (v: string) => {
   return v.charAt(0).toUpperCase() + v.slice(1);
 };
 
+const replaceUnderscore = (v: string) => {
+  return v.replace("_"," ");
+};
+
 const hasErrorNaming = (v: string, v1: string) => {
   let str = "has" + toCapitalize(v) + toCapitalize(v1)
   return str;
@@ -82,6 +86,7 @@ const validator: Validator = {
   email,
   number,
   toCapitalize,
+  replaceUnderscore,
   hasErrorNaming,
   indianPhoneNo,
   requiredArray,

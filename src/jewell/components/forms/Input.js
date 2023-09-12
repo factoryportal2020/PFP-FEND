@@ -14,8 +14,10 @@ const isFile = input => 'File' in window && input instanceof File;
 export const TextInput = (props) => {
     return (
         <>
-            <label htmlFor={props.htmlFor} className="form-label">{props.label}</label>
-            <input type={props.type} className="form-control" id={props.htmlFor} value={props.value} placeholder={props.placeholder}
+            {(props.label != "") ?
+                <label htmlFor={props.htmlFor} className="form-label">{props.label}</label> : ""
+            }
+            <input type={props.type} className={`form-control ${props.className}`} id={props.htmlFor} value={props.value} placeholder={props.placeholder}
                 onChange={(e) => { props.onChange(e.target.value) }}
                 onBlur={(e) => { props.onChange(e.target.value) }} />
         </>
@@ -34,14 +36,20 @@ export const SelectInput = (props) => {
         return "";
     }
     let defaultValue = findDefaultValue(props.value, props.options);
+    // console.log("defaultValue");
+    // console.log(defaultValue);
     return (
         <>
-            <label htmlFor={props.htmlFor} className="form-label">{props.label}</label>
+            {(props.label != "") ?
+                <label htmlFor={props.htmlFor} className="form-label">{props.label}</label> : ""
+            }
             <Select
                 name={props.name}
-                defaultValue={defaultValue}
+                // defaultValue={defaultValue}
+                value={defaultValue}
                 options={props.options}
                 onChange={(e) => { props.onChange(e.value) }}
+                className={`${props.className}`}
             />
         </>
     )

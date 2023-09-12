@@ -1,5 +1,5 @@
 import React from 'react';
-import { formEntities, formStates, filterEntities, listStates } from './Entity';
+import { formEntities, formStates } from './Entity';
 import { customerDatas, listDatas } from '../../testing/customers';
 import Form from '../../components/forms/Form';
 import List from '../../components/forms/List';
@@ -10,15 +10,9 @@ class Index extends React.Component {
         console.log(props);
         this.inputDatas = React.createRef();
         this.state = {
-            // form
             // states: formStates,
             states: customerDatas.current,
-            
-            // list 
-            listStates: listStates,
-            listDatas: listDatas.current,
-            filterEntities: filterEntities,
-            
+            listDatas: listDatas.current.datas,
             action: props.action,
         }
     }
@@ -33,9 +27,7 @@ class Index extends React.Component {
                             states={this.state.states}
                             ref={this.inputDatas} /> :
                         < List
-                            filterEntities={filterEntities}
                             datas={this.state.listDatas}
-                            states={this.state.listStates}
                             ref={this.inputDatas} />
                 }
             </React.Fragment>
