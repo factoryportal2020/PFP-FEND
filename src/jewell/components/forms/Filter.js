@@ -36,6 +36,7 @@ class Filter extends React.Component {
         this.applyFilter = this.applyFilter.bind(this);
         this.clearFilter = this.clearFilter.bind(this);
         this.handleChangePerPage = this.handleChangePerPage.bind(this);
+        this.handleChangeSearch = this.handleChangeSearch.bind(this);
         this.pgChildClick = this.pgChildClick.bind(this);
     }
 
@@ -72,6 +73,14 @@ class Filter extends React.Component {
         (async () => {
             this.setState({ ...stateObj }, () => { console.log(this.state) });
         })();
+    }
+
+    handleChangeSearch(newValue, fieldName, new_element) {
+        let stateObj = { ...this.state };
+        console.log(stateObj)
+        stateObj.states.params.search_word = newValue;
+        console.log(stateObj)
+        this.setState({ ...stateObj }, () => { console.log("search word"); console.log(this.state.states.params) });
     }
 
     pagination(currentPage, limit, totalItems) {
@@ -201,6 +210,7 @@ class Filter extends React.Component {
         let startBtnDisabled = (currentPage == 1) ? "disabled" : "";
         let lastBtnDisabled = ((totalPage == currentPage) || this.state.totalCount == 0) ? "disabled" : "";
         let pages = this.pagination(currentPage, this.state.itemPerPage, this.state.totalCount);
+        let FilterCap = (this.state.appliedFilter) ? "Filter Applied" : "Filter";
 
 
         return (
@@ -272,42 +282,32 @@ class Filter extends React.Component {
                         <div className="col-sm">
                             <div className="d-flex float-end">
 
-                                {
-                                    (this.state.appliedFilter) ?
-                                        <div>
-                                            <div className='d-flex fw-normal p-1'>
-                                                <div className='me-1 p-1 fs-14'>Filters:</div>
-                                                {this.state.entities.map((element, i) => {
-                                                    var elementVal = this.state.states.params[`${element.name}`];
-                                                    if (elementVal == "") {
-                                                        return;
-                                                    }
-                                                    if (element.type == "select") {
-                                                        var elementValArr = element.options.filter(obj => {
-                                                            return obj.value == elementVal
-                                                        })
-                                                        elementVal = elementValArr[0].label;
-                                                    }
-                                                    var label = validator.replaceUnderscore(element.name)
-                                                    label = validator.toCapitalize(label);
-                                                    return (
-                                                        <>
-                                                            <div className='border-1-brown fs-14 p-1 black ms-1'>
-                                                                <span className="silver fs-12">{label}</span> : {elementVal}
-                                                            </div>
-                                                        </>
-                                                    )
-                                                })}
-                                            </div>
-                                        </div>
-                                        : ""
-                                }
+
+                                <div>
+                                    <div className='d-flex fw-normal p-1'>
+                                        {this.state.entities.map((element, i) => {
+                                            let new_element = { ...element }
+                                            let fieldName = `${element.name}`
+                                            new_element.value = this.state.states.params[fieldName]
+                                            if (element.name != "search_word") {
+                                                return;
+                                            }
+                                            return (
+                                                <>
+                                                    <Input key={i} element={new_element}
+                                                        onChange={(newValue) => { this.handleChangeSearch(newValue, fieldName, new_element) }}
+                                                        onClick={() => { }}></Input>
+                                                </>
+                                            )
+
+                                        })}
+                                    </div>
+                                </div>
 
                                 <div className='ms-2 p-0'>
                                     <button type="button"
                                         onClick={this.filterClick}
-                                        className="btn btn-light jewell-bg-color brown">Filter
-                                    </button>
+                                        className="btn btn-light jewell-bg-color brown">{FilterCap}</button>
                                 </div>
 
                             </div>

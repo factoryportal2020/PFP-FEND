@@ -70,8 +70,14 @@ body {
     position: relative;
 }
 
+/* borders */
+
 .border-1-brown {
     border: 1px solid brown;
+}
+
+.border-2-brown {
+    border: 2px solid brown;
 }
 
 .border-radius-25 {
@@ -81,6 +87,7 @@ body {
 .border-radius-50 {
     border-radius: 50px;
 }
+
 
 .content-div {
     border-radius: 25px;
@@ -299,7 +306,7 @@ body {
     background-color: yellow;
     border-radius: 100%;
     display: inline-block;
-    cursor:pointer;  
+    cursor: pointer;
 }
 
 .pg-three-bounce a.pg-child {
@@ -331,7 +338,7 @@ body {
 
 .pg-three-bounce button.pg-child:disabled {
     background-color: white;
-    cursor:unset; 
+    cursor: unset;
 }
 
 .pg-three-bounce .pg-child>i {
@@ -412,6 +419,23 @@ body {
 /* End StatusBar */
 
 
+.tabDiv {
+    /* margin-left: 10px;
+    margin-top: 10px; */
+}
+
+.tabLink:hover {
+    border: 2px solid brown;
+    background-color: #FFF200;
+    font-size: 14px;
+}
+
+
+
+.hide {
+    display: none;
+}
+
 /* React Validate style */
 .react-inputs-validation__error,
 .error {
@@ -429,6 +453,21 @@ input[type=radio] {
 .noborder,
 .react-datetime-picker__wrapper {
     border: none !important;
+}
+
+
+.numberCircle {
+    border-radius: 50%;
+    width: 10px;
+    height: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 2px;
+    position: relative;
+
+    background: #fff;
+    border: 1px solid #666;
+    text-align: center;
 }
 
 

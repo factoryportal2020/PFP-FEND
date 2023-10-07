@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input } from '../components/forms/Input';
+import validator from '../components/forms/validate';
 
 class Filter extends React.Component {
     constructor(props) {
@@ -89,6 +90,9 @@ class Filter extends React.Component {
                                     {/* <form className="row g-3 brown border-1-brown border-radius-25"> */}
                                     <form className="row g-3 brown">
                                         {this.state.entities.map((element, i) => {
+                                            if (element.name == "search_word") {
+                                                return;
+                                            }
                                             let new_element = { ...element }
                                             let fieldName = `${element.name}`
                                             // console.log(this.state.states.params);
@@ -104,6 +108,38 @@ class Filter extends React.Component {
                                             )
                                         })}
                                     </form >
+
+                                    {
+                                        (this.state.applyFilterBtn) ?
+                                            <div className='d-flex fw-normal p-1 mt-2'>
+                                                <div className='me-1 p-1 fs-14'>Applied:</div>
+                                                {this.state.entities.map((element, i) => {
+                                                    if (element.name == "search_word") {
+                                                        return;
+                                                    }
+                                                    var elementVal = this.state.states.params[`${element.name}`];
+                                                    if (elementVal == "") {
+                                                        return;
+                                                    }
+                                                    if (element.type == "select") {
+                                                        var elementValArr = element.options.filter(obj => {
+                                                            return obj.value == elementVal
+                                                        })
+                                                        elementVal = elementValArr[0].label;
+                                                    }
+                                                    var label = validator.replaceUnderscore(element.name)
+                                                    label = validator.toCapitalize(label);
+                                                    return (
+                                                        <>
+                                                            <div className='border-1-brown fs-14 p-2 black ms-1'>
+                                                                <span className="silver fs-12">{label}</span> : {elementVal}
+                                                            </div>
+                                                        </>
+                                                    )
+                                                })}
+                                            </div>
+                                            : ""
+                                    }
                                 </div >
                             </div>
                             <div className="modal-footer">

@@ -11,8 +11,8 @@ class Index extends React.Component {
         this.inputDatas = React.createRef();
         this.state = {
             // form
-            // states: formStates,
-            states: customerDatas.current,
+            states: formStates,
+            // states: customerDatas.current,
             
             // list 
             listStates: listStates,

@@ -2,6 +2,7 @@ export const customerDatas = {
     "current": {
         "title": "Customer",
         "status": { "show": false, "type": 'success', "msg": '' },
+        "tabs": [{ id: "details", tab: "Details" }, { id: "images", tab: "Images" }, { id: "login_detail", tab: "Login Detail" }],
         "params": {
             "encrypt_id": null,
             "name": "test",

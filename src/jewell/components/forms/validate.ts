@@ -32,9 +32,9 @@ const requiredArray = (v: any) => {
 };
 
 const isFiles = (v: any, rule: string) => {
-  if (requiredArray(v)) {
-    return [{ result: true }, { value: [] }];
-  }
+  // if (requiredArray(v)) {
+  //   return [{ result: true }, { value: [] }];
+  // }
   const result: boolean[] = [];
   const onlyimages: object[] = [];
 
@@ -51,14 +51,13 @@ const isFiles = (v: any, rule: string) => {
     allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
   }
   var rw = v.map((val: any) => {
-    let chk = (allowedExtensions.exec(val.file.name) != null) ? true : false;
-    val.file.is_image = chk;
+    let chk = (allowedExtensions.exec(val.name) != null) ? true : false;  
+    result.push(chk);
     if (chk) {
-      result.push(chk);
       onlyimages.push(val);
     }
   });
-  return [{ result: result.indexOf(false) !== -1 }, { value: onlyimages }]
+  return [{ result: result.indexOf(true) === -1 }, { value: onlyimages }] // result having true, then it equal to -1
 };
 
 

@@ -89,7 +89,7 @@ class Header extends React.Component {
               </li> */}
 
               <li className="nav-item mx-3">
-                <a role="button" href="#/"><span className="btn btn-light jewell-bg-color bg-color1 border-radius-25 mx-1">Customer</span></a>
+                <a role="button" href="#/" className="btn btn-light jewell-bg-color bg-color1 border-radius-25 mx-1">Customer</a>
                 <a role="button" href="#/" className="btn btn-light jewell-bg-color brown border-radius-25 mx-1">Category</a>
                 <a role="button" href="#/" className="btn btn-light jewell-bg-color brown border-radius-25 mx-1">Workers</a>
                 <a role="button" href="#/" className="btn btn-light jewell-bg-color brown border-radius-25 mx-1">Orders</a>

@@ -1,19 +1,33 @@
 import React from 'react';
 import { Input } from './Input';
+import { Tab } from './Tab';
 import validator from './validate';
 import StatusBar from '../layouts/StatusBar';
 import Preloader from '../layouts/Preloader';
 import customerService from '../../services/customer.service';
+import { Field } from './Field';
+import ErrorModal from '../../modals/ErrorModal';
 
 class Form extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { states: { ...props.states }, entities: [...props.entities] }
+        this.state = {
+            states: { ...props.states },
+            entities: [...props.entities],
+            clickedTabId: 0,
+            errorsModalTrigger: "fade",
+            errors: [],
+        }
         this.onStatusClose = this.onStatusClose.bind(this);
         this.handleChangeTextValue = this.handleChangeTextValue.bind(this);
         this.handleDeleteImage = this.handleDeleteImage.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.clickTab = this.clickTab.bind(this);
         this.fileImage = React.createRef();
+
+        // errors model
+        this.clickErrorModalClose = this.clickErrorModalClose.bind(this);
+
     }
 
     emptyStatusMsg() {
@@ -40,6 +54,33 @@ class Form extends React.Component {
         }, 5000);
     }
 
+    showErrorMsg(message) {
+        let stateObj = { ...this.state };
+        var msg = message;
+        console.log(msg);
+        if (!Array.isArray(msg)) {
+            msg = { "msg": ["Server Error"] };
+            // this.setStatusMsg("danger", "Server Error");return;
+        }
+        if (!Array.isArray(Object.values(msg))) {
+            msg = { "msg": ["Server Error"] };
+            // msg = { "msg": [msg] };
+            // this.setStatusMsg("danger", msg)return;
+        }
+        stateObj.errors = msg;
+        stateObj.errorsModalTrigger = "d-block";
+        this.setState({ ...stateObj });
+    }
+
+    clickTab(e) {
+        var clickedTabId = e.currentTarget.id;
+        this.setState({ clickedTabId: clickedTabId })
+    }
+
+    clickErrorModalClose() {
+        this.setState({ errorsModalTrigger: "fade" })
+    }
+
     handleChangeTextValue(event, fieldName, new_element) {
         let value = event;
         let stateObj = { ...this.state };
@@ -54,15 +95,7 @@ class Form extends React.Component {
         }
 
         if (new_element.type == "file") {
-            let curArray = stateObj.states.params[fieldName];
-            let files = Object.entries(event.target.files);
-            if (files.length > 0) {
-                files.map((file, j) => {
-                    let obj = { file: file[1], name: file[1].name }
-                    curArray.push(obj);
-                })
-            }
-            value = curArray;
+            value = this.handleChangeFile(event, stateObj, fieldName, new_element.multiple);
         }
 
         (async () => {
@@ -77,6 +110,26 @@ class Form extends React.Component {
         })();
     }
 
+
+    handleChangeFile(event, stateObj, fieldName, multiple) {
+        console.log(event.target.files[0]);
+        let curArray = stateObj.states.params[fieldName];
+        if (multiple == "") {
+            curArray = [];
+        }
+        // let files = Object.entries(event.target.files);
+        let files = Array.prototype.slice.call(event.target.files);
+        // let files = Array.prototype.slice.call(event.target.files);
+        console.log(files);
+        if (files.length > 0) {
+            files.map((file, j) => {
+                console.log(file);
+                // let obj = { file: file, name: file.name }
+                curArray.push(file);
+            })
+        }
+        return curArray;
+    }
 
     handleDeleteImage(e, fieldName, new_element) {
         let keyIndex = e.target.id
@@ -97,28 +150,37 @@ class Form extends React.Component {
     }
 
     handleSubmit(e) {
-        var validationsArr = [];
-        var validations = this.state.states.validations;
-        var validate = this.state.states.validate;
-        if (validations) {
-            Object.values(validations).forEach(val => {
-                validationsArr.push(val);
-            })
-            // console.log(validationsArr);
-            // console.log(validate);
-            console.log(validationsArr.indexOf(true));
-            if (validationsArr.indexOf(true) !== -1) {
-                console.log("First");
-                let stateObj = { ...this.state };
-                stateObj.states.validate = true;
-                this.setState({ ...stateObj }, () => { console.log(this.state.states.validate) });
-            } else {
-                //All Validation done, all validations should false, validate should false
-                // this.props.innerRef.current = this.state.states;
-                this.saveDatas();
-                console.log("Second");
+        (async () => {
+            await this.requiredValidInly();
+            var validationsArr = [];
+            var validations = this.state.states.validations;
+            if (validations) {
+                Object.values(validations).forEach(val => {
+                    validationsArr.push(val);
+                })
+                if (validationsArr.indexOf(true) === -1) { //If true in array
+                    console.log("Validation Error");
+                    let stateObj = { ...this.state };
+                    stateObj.states.validate = true;
+                    this.setState({ ...stateObj }, () => { });
+                } else { //All Validation done, all validations should false, validate should false
+                    // this.props.innerRef.current = this.state.states;
+                    console.log("Validation Pass");
+                    this.saveDatas();
+                }
             }
-        }
+        })();
+    }
+
+    async requiredValidInly() { //to remove other validation option rather than required
+        var validations = this.state.states.validations;
+        let stateObj = { ...this.state };
+        Object.keys(validations).forEach(str => {
+            if (str.indexOf("Required") == -1) {
+                stateObj.states.validations[`${str}`] = false;
+            }
+        })
+        this.setState({ ...stateObj });
     }
 
     async validation(value, fieldName, new_element) {
@@ -137,6 +199,7 @@ class Form extends React.Component {
                 hasErr = (validator.requiredArray(value)) ? true : false;
             } else if (rule == "image" || rule == "pdf" || rule == "csv" || rule == "excel" || rule == "doc") {
                 let outresult = (validator.isFiles(value, rule));
+                //If true means this rule having error
                 hasErr = outresult[0].result ? true : false;
                 value = outresult[1].value;
             }
@@ -149,34 +212,33 @@ class Form extends React.Component {
 
 
     saveDatas() {
-        var data = this.state.states;
+        var params = this.state.states.params;
         // var deletedIds = (this.FieldItemcomponent.current.deletedIds != null) ? this.FieldItemcomponent.current.deletedIds : [];
         // console.log(products);
         // console.log(deletedIds);
         // data['products'] = products;
         // data['deletedIds'] = deletedIds;
+        console.log(params);
 
-        let callApi = (this.state.states.params.encrypt_id != null) ?
-            customerService.update(this.state.states.params.encrypt_id, data) :
-            customerService.create(data);
+        let callApi = (params.encrypt_id != null) ?
+            customerService.update(params.encrypt_id, params) :
+            customerService.create(params);
 
         callApi.then(response => {
             let data = response.data;
             console.log(data);
-            if (data.errors) {
-                data.errors.forEach(element => {
-                    this.setStatusMsg("danger", element.msg)
-                    return;
-                });
-            } else {
-                this.setStatusMsg("success", response.data.msg)
+            if (!data.status) { // errors
+                this.showErrorMsg(data.message);
+            } else { // success
+                this.setStatusMsg("success", data.message)
             }
-        })
-            .catch(e => {
-                this.setStatusMsg("danger", "Something went wrong")
-            });
-
+        }).catch(e => {
+            this.setStatusMsg("danger", "Something went wrong")
+        });
     }
+
+
+
 
     render() {
         return (
@@ -184,48 +246,45 @@ class Form extends React.Component {
                 <div className='content-div'>
                     <StatusBar status={this.state.states.status} onStatusClose={this.onStatusClose} />
                     {/* <Preloader /> */}
-                    <form className="row g-3 brown">
-                        <h4>{this.state.states.title}</h4>
+
+                    <div className='d-flex justify-content-between'>
+                        <div><h4 className='brown'>{this.state.states.title}</h4></div>
+                        <Tab state={this.state} onClick={(e) => this.clickTab(e)} />
+
+                    </div>
+
+
+                    <form>
                         {
-                            this.state.entities.map((element, i) => {
-                                let new_element = { ...element }
-                                let fieldName = `${element.name}`
-                                new_element.value = this.state.states.params[fieldName]
-                                if (element.type == "file") {
-                                    if (element.fileType == "image") {
-                                        new_element.images = this.state.states.params[fieldName]
-                                    } else {
-                                        new_element.files = this.state.states.params[fieldName]
-                                    }
-                                }
+                            this.state.states.tabs.map((tab, j) => {
+                                var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
                                 return (
                                     <>
-                                        <div className={new_element.colClass}>
-                                            <Input key={i} element={new_element} ref={this.fileImage}
-                                                onChange={(newValue) => { this.handleChangeTextValue(newValue, fieldName, new_element) }}
-                                                onClick={(e) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                            ></Input>
-                                            {
-                                                (new_element.validate) ?
-                                                    new_element.validateOptions.map((option, j) => {
-                                                        let hasErrName = validator.hasErrorNaming(fieldName, option.rule);
-                                                        return (
-                                                            (this.state.states.validations[hasErrName] && (this.state.states.validate)) ? <><span key={j} className="error" >{option.msg}</span> <br /></> : ""
-                                                        )
-                                                    })
-                                                    : ""
-                                            }
+                                        <ErrorModal
+                                            errors={this.state.errors}
+                                            title={this.state.states.title}
+                                            errorsModalTrigger={this.state.errorsModalTrigger}
+                                            clickErrorModalClose={() => this.clickErrorModalClose()} />
+                                        <div key={j} className={`row g-3 mt-2 brown ${tabShow}`}>
+                                            <Field
+                                                state={this.state}
+                                                tab={tab}
+                                                onChange={(newValue, fieldName, new_element) => { this.handleChangeTextValue(newValue, fieldName, new_element) }}
+                                                onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                            // ref={this.fileImage}
+                                            />
                                         </div>
                                     </>
                                 )
-                            })}
-
-                        <div className="col-12">
-                            <button type="button"
-                                onClick={(e) => { this.handleSubmit(e) }}
-                                className="btn btn-light jewell-bg-color brown float-end">Submit</button>
-                        </div>
+                            })
+                        }
                     </form >
+
+                    <div className="col-12">
+                        <button type="button"
+                            onClick={(e) => { this.handleSubmit(e) }}
+                            className="btn btn-light jewell-bg-color brown float-end">Submit</button>
+                    </div>
 
                 </div >
             </>

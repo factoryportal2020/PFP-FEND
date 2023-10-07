@@ -18,6 +18,7 @@ export const TextInput = (props) => {
                 <label htmlFor={props.htmlFor} className="form-label">{props.label}</label> : ""
             }
             <input type={props.type} className={`form-control ${props.className}`} id={props.htmlFor} value={props.value} placeholder={props.placeholder}
+                readonly={props.readonly}
                 onChange={(e) => { props.onChange(e.target.value) }}
                 onBlur={(e) => { props.onChange(e.target.value) }} />
         </>
@@ -195,25 +196,25 @@ export const FileInput = React.forwardRef((props, ref) => {
 
             {(datas.length > 0) ?
                 <div className="row">
-                    {datas.map((data, j) => {
-                        if (isFile(data.file)) {
-                            iconimage = (fileType == "image") ? URL.createObjectURL(data.file) : iconimage;
+                    {datas.map((file, j) => {
+                        if (isFile(file)) {
+                            iconimage = (fileType == "image") ? URL.createObjectURL(file) : iconimage;
                             return (
                                 <>
                                     <div className="col-lg-3 col-6 mt-3 mb-3 img-container">
                                         <img
                                             src={iconimage}
                                             className="img-file shadow-1-strong rounded"
-                                            alt={data.name}
+                                            alt={file.name}
                                         />
-                                        <a href={URL.createObjectURL(data.file)} target='_blank'>
+                                        <a href={URL.createObjectURL(file)} target='_blank'>
                                             <i className="preview-btn fa-solid fa-eye" /></a>
                                         <button type="button"
                                             id={j}
                                             className="delete-btn"
                                             onClick={(e) => { props.onClick(e) }}>Delete</button>
                                         <br></br>
-                                        <span className='fs-8 text-left grey'>{data.name}</span>
+                                        <span className='fs-8 text-left grey'>{file.name}</span>
                                     </div>
                                 </>
                             )

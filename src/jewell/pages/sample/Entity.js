@@ -242,7 +242,16 @@ export const formStates = {
 
 export const listStates = {
     title: "Customers",
-    status: { show: false, type: 'success', msg: '' },
+    params: {
+        search_word: "",
+        city: "",
+        city: "",
+        city: "",
+        city: "",
+        city: "",
+        city: "",
+        city: "",
+    }
 }
 
 
@@ -263,9 +272,89 @@ export const listDatas = {
             city: "",
             notes: "",
             profile_image: [],
-            email:"",
-            password: "",
+            email: "",
             status: 1,
+            password: "",
         },
     ]
 }
+
+
+export const filterEntities = [
+    {
+        name: "search_word", type: "text", colClass: 'col-sm', className: "fs-12", htmlFor: "", value: "",
+        label: "", placeholder: "Search",
+        validate: false,
+    },
+    {
+        name: "city", type: "select", colClass: 'col-sm',
+        className: "fs-12", htmlFor: "", value: "", label: "City", placeholder: "Select City",
+        validate: false,
+        options: [
+            { value: '', label: 'Select City' },
+            { value: '1', label: 'Coimbatore' },
+            { value: '2', label: 'Ooty' }
+        ]
+    },
+    {
+        name: "city", type: "select", colClass: 'col-sm',
+        className: "fs-12", htmlFor: "", value: "", label: "City", placeholder: "Select City",
+        validate: false,
+        options: [
+            { value: '', label: 'Select City' },
+            { value: '1', label: 'Coimbatore' },
+            { value: '2', label: 'Ooty' }
+        ]
+    },
+    {
+        name: "city", type: "select", colClass: 'col-sm',
+        className: "fs-12", htmlFor: "", value: "", label: "City", placeholder: "Select City",
+        validate: false,
+        options: [
+            { value: '', label: 'Select City' },
+            { value: '1', label: 'Coimbatore' },
+            { value: '2', label: 'Ooty' }
+        ]
+    },
+    {
+        name: "city", type: "select", colClass: 'col-sm',
+        className: "fs-12", htmlFor: "", value: "", label: "City", placeholder: "Select City",
+        validate: false,
+        options: [
+            { value: '', label: 'Select City' },
+            { value: '1', label: 'Coimbatore' },
+            { value: '2', label: 'Ooty' }
+        ]
+    },
+    {
+        name: "city", type: "select", colClass: 'col-sm',
+        className: "fs-12", htmlFor: "", value: "", label: "City", placeholder: "Select City",
+        validate: false,
+        options: [
+            { value: '', label: 'Select City' },
+            { value: '1', label: 'Coimbatore' },
+            { value: '2', label: 'Ooty' }
+        ]
+    },
+    {
+        name: "city", type: "select", colClass: 'col-sm',
+        className: "fs-12", htmlFor: "", value: "", label: "City", placeholder: "Select City",
+        validate: false,
+        options: [
+            { value: '', label: 'Select City' },
+            { value: '1', label: 'Coimbatore' },
+            { value: '2', label: 'Ooty' }
+        ]
+    },
+    {
+        name: "city", type: "select", colClass: 'col-sm',
+        className: "fs-12", htmlFor: "", value: "", label: "City", placeholder: "Select City",
+        validate: false,
+        options: [
+            { value: '', label: 'Select City' },
+            { value: '1', label: 'Coimbatore' },
+            { value: '2', label: 'Ooty' }
+        ]
+    }
+
+]

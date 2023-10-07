@@ -1,11 +1,13 @@
 import axios from "axios";
 
-let baseURL = (process.env.REACT_APP_API_URL) 
+let baseURL = (process.env.REACT_APP_API_URL)
 
 export default axios.create({
     baseURL: baseURL,
     headers: {
-        "Content-type": "application/json",
+        // 'Accept': 'application/json',
+        "Content-type": "multipart/form-data",
+        // "Content-type": "application/json",
         "Access-Control-Allow-Origin": baseURL,
         // 'Authorization': 'Bearer ' + window.localStorage.getItem("token"),
     }
