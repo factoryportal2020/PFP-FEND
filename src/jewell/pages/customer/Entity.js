@@ -49,15 +49,15 @@ export const formEntities = [
         name: "profile_image",
         type: "file",
         fileType: "image",
-        colClass: 'col-md-4',
+        colClass: 'col-md',
         className: "",
         htmlFor: "Image",
         value: "",
         label: "Profile Image",
-        multiple: "multiple",
+        multiple: "",
         placeholder: "",
-        validate: false,
-        tab: "images",
+        validate: true,
+        tab: "details",
         validateOptions: [
             {
                 rule: "image",
@@ -166,12 +166,7 @@ export const formEntities = [
         name: "notes", type: "textarea", colClass: 'col-md-3', className: "", htmlFor: "Notes", value: "",
         tab: "details",
         label: "Notes", placeholder: "notes",
-        validate: true,
-        validateOptions: [
-            {
-                rule: "required",
-                msg: "Notes is Required"
-            }]
+        validate: false,
     },
     {
         name: "status", type: "radio", colClass: 'col-md-3', className: "", htmlFor: "Status", value: 1, label: "Status", placeholder: "",
@@ -185,61 +180,133 @@ export const formEntities = [
     {
         name: "username", type: "text", colClass: 'col-md-3', className: "", htmlFor: "username", value: "",
         label: "User Name", placeholder: "Ram",
-        validate: true,
+        validate: true, readonly: "",
         tab: "login_detail",
         validateOptions: [
             {
-                rule: "required",
-                msg: "User name is Required"
-            }]
+                rule: "have",
+                have: "password",
+                msg: "Username is Required"
+            },
+            {
+                rule: "have_to",
+                have_to: "password",
+                msg: "password is Required" //msg actually not working
+            }
+        ]
     },
     {
         name: "password", type: "password", colClass: 'col-md-3', className: "", htmlFor: "Password", value: "",
-        label: "Password", placeholder: "*****",
+        label: "Password", placeholder: "*****", readonly: "",
         validate: true,
         tab: "login_detail",
         validateOptions: [
             {
-                rule: "required",
+                rule: "have", //if username have value this password should get value 
+                have: "username",
                 msg: "Password is Required"
-            }]
+            },
+            {
+                rule: "have_to",
+                have_to: "username",
+                msg: "username is Required" //actually not working
+            },
+            // {
+            //     rule: "have_to",
+            //     have_to: "confirm_password",
+            //     msg: "confirm_password is Required" //actually not working
+            // }
+        ]
     },
     {
         name: "confirm_password", type: "confirm_password", colClass: 'col-md-3', className: "", htmlFor: "Confirm_password", value: "",
-        label: "Confirm Password", placeholder: "*****",
+        label: "Confirm Password", placeholder: "*****", readonly: "",
         validate: true,
         tab: "login_detail",
         validateOptions: [
             {
-                rule: "required",
-                msg: "Confirm password is Required"
-            }]
+                rule: "equal",
+                equal: "password",
+                msg: "Confirm password equal to Password"
+            }
+        ]
+    },
+    {
+        name: "change_password", type: "button", colClass: 'hide',
+        className: "btn btn-light jewell-bg-color brown", htmlFor: "Change Password",
+        value: "",
+        disabled: "",
+        toggle: "hide",
+        label: "Change Password", placeholder: "",
+        validate: false,
+        tab: "login_detail"
     }
     // { type: "div", colClass: 'col-md-6' },
 ];
 
+export const buttonStates = [
+    {
+        name: "change_password", type: "button", colClass: 'col-md-3',
+        className: "btn btn-light jewell-bg-color brown", htmlFor: "Change Password",
+        value: "",
+        label: "Change Password", placeholder: "",
+        validate: false,
+        tab: "login_detail"
+    },
+];
+
 export const formStates = {
     title: "Customer",
+    listLink: "customer",
+    submitted: false,
+    submitDisabled: "",
     status: { show: false, type: 'success', msg: '' },
-    tabs: [{ id: "details", tab: "Details" }, { id: "images", tab: "Images" }, { id: "login_detail", tab: "Login Detail" }],
+    clickedTabId: 0,
+    errorsModalTrigger: "fade",
+    errors: [],
+    tabs: [{ id: "details", tab: "Details" }, { id: "login_detail", tab: "Login Detail" }],
+    // params: {
+    //     encrypt_id: null,
+    //     first_name: "leo",
+    //     last_name: "ram",
+    //     code: "",
+    //     email: "leo@gmail.com",
+    //     phone_no: "9629188839",
+    //     whatsapp_no: "9629188839",
+    //     instagram_id: "9629188839",
+    //     gender: "male",
+    //     address: "122",
+    //     state: "Tamilnadu",
+    //     city: "Coimbatore",
+    //     notes: "",
+    //     username: "",
+    //     password: "",
+    //     profile_image: [],
+    //     status: 1,
+    // },
     params: {
         encrypt_id: null,
-        first_name: "leo",
-        last_name: "ram",
+        deleteImages: [], // Edit purpose
+        isPasswordChange: false,
+        first_name: "",
+        last_name: "",
         code: "",
-        email: "leo@gmail.com",
-        phone_no: "9629188839",
-        whatsapp_no: "9629188839",
-        instagram_id: "9629188839",
-        gender: "male",
-        address: "122",
-        state: "Tamilnadu",
-        city: "Coimbatore",
+        email: "",
+        phone_no: "",
+        whatsapp_no: "",
+        instagram_id: "",
+        gender: "",
+        address: "",
+        state: "",
+        city: "",
         notes: "",
         username: "",
         password: "",
         profile_image: [],
         status: 1,
+
+        old_username: "",
+
     },
     validations: {
         hasFirst_nameRequired: true,
@@ -247,27 +314,63 @@ export const formStates = {
         hasEmailRequired: true,
         hasEmailEmail: true,
         hasPhone_noRequired: true,
-        hasPhone_noPhone_no: true,
+        hasPhone_noPhone_no: false,
         hasGenderRequired: true,
         hasCityRequired: true,
         hasStateRequired: true,
+
+        //Inital false
         hasProfile_imageImage: false,
+
+        hasUsernameHave_to: false,
+        hasUsernameHave: false,
+
+        hasPasswordHave_to: false,
+        hasPasswordHave: false,
+
+        hasConfirm_passwordHave_to: false,
+        hasConfirm_passwordEqual: false,
     },
     validate: false,
 }
 
 export const listStates = {
     title: "Customers",
+    addLink: "customer",
+    status: { show: false, type: 'success', msg: '' },
     params: {
         search_word: "",
         city: "",
+        itemPerPage: 10,
+        currentPage: 1,
+    },
+    datas: {
+        totalCount: 0,
+        data: [
+            {
+                encrypt_id: "",
+                code: "",
+                first_name: "",
+                last_name: "",
+                phone_no: "",
+                gender: "",
+                address: "",
+                whatsapp_no: "",
+                state: "",
+                city: "",
+                notes: "",
+                profile_image: [{ "name": "dbc9a21512bf6a7b9988f41fe5c6d403.jpg" }],
+                email: "",
+                password: "",
+                status: 1,
+                created_at: "2023-08-09 02:20:00"
+            },
+        ]
     }
 }
 
 
 export const listDatas = {
-    title: "Customers",
-    status: { show: false, type: 'success', msg: '' },
     datas: [
         {
             encrypt_id: "",
@@ -305,8 +408,8 @@ export const filterEntities = [
         validate: false,
         options: [
             { value: '', label: 'Select City' },
-            { value: '1', label: 'Coimbatore' },
-            { value: '2', label: 'Ooty' }
+            { value: 'Coimbatore', label: 'Coimbatore' },
+            { value: 'Ooty', label: 'Ooty' }
         ]
     }
 ]

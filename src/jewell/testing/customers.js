@@ -75,10 +75,11 @@ export const customerDatas = {
 
 
 export const listDatas = {
-    "current": {
-        "title": "Customer",
-        "status": { "show": false, "type": 'success', "msg": '' },
-        "datas": [
+    "title": "Customer",
+    "status": { "show": false, "type": 'success', "msg": '' },
+    "datas": {
+        "totalCount": 100,
+        "data": [
             {
                 encrypt_id: "EN2568933",
                 code: "CUS020563",

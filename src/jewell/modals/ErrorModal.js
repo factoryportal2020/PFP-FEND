@@ -27,7 +27,7 @@ class ErrorModal extends React.Component {
         var errors = Object.values(this.state.errors);
         return (
             <>
-                <div className={`modal ${this.state.modalTrigger}`} tabindex="-1" role="dialog">
+                <div className={`modal ${this.state.modalTrigger}`} tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -42,7 +42,7 @@ class ErrorModal extends React.Component {
                                     errors.map((error, i) => {
                                         return (
                                             error.map((msg, j) => {
-                                                return <h6 className='fs-12 red'>{msg}</h6>
+                                                return <h6 key={`msg${j}`} className='fs-12 red'>{msg}</h6>
                                             })
                                         )
                                     })

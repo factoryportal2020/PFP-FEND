@@ -2,7 +2,7 @@ import React from 'react';
 import { formEntities, formStates } from './Entity';
 import { customerDatas, listDatas } from '../../testing/customers';
 import Form from '../../components/forms/Form';
-import List from '../../components/forms/List';
+import List from '../../components/forms/ListComponent';
 
 class Index extends React.Component {
     constructor(props) {

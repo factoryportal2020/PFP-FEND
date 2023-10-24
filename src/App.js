@@ -6,6 +6,7 @@ import './App.css';
 // Component
 import Header from './jewell/components/layouts/Header';
 import CustomerForm from './jewell/pages/customer/Index';
+import CustomerList from './jewell/pages/customer/List';
 import SampleForm from './jewell/pages/sample/Index';
 import Preloader from './jewell/components/layouts/Preloader';
 import StatusBar from './jewell/components/layouts/StatusBar';
@@ -44,7 +45,8 @@ const Mainwrapper = () => {
       <Routes>
         {/* <StatusBar /> */}
         <Route path="customer/add" element={<CustomerForm action="form" />} />
-        <Route path="customer/list" element={<CustomerForm action="list" />} />
+        <Route path="customer/edit/:encrypt_id" element={<CustomerForm action="form" />} />
+        <Route path="customer/list" element={<CustomerList action="list" />} />
         <Route path="sample/add" element={<SampleForm action="form" />} />
         <Route path="sample/list" element={<SampleForm action="list" />} />
       </Routes>

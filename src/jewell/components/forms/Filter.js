@@ -1,9 +1,7 @@
 import React from 'react';
 import { Input } from './Input';
 import Preloader from '../layouts/Preloader';
-import customerService from '../../services/customer.service';
 import FilterModal from '../../modals/FilterModal';
-import validator from './validate';
 
 class Filter extends React.Component {
     constructor(props) {
@@ -24,10 +22,9 @@ class Filter extends React.Component {
                     { value: "100", label: "100" }
                 ]
             },
-            itemPerStartPage: 1,
-            itemPerPage: 10,
-            totalCount: 100,
-            currentPage: 1,
+            totalCount: props.totalCount,
+            itemPerPage: props.states.params.itemPerPage,
+            currentPage: props.states.params.currentPage,
             // prevPage: this.state.currentPage - 1,
             // nextPage: parseInt(this.state.currentPage) + 1,
         }
@@ -40,8 +37,23 @@ class Filter extends React.Component {
         this.pgChildClick = this.pgChildClick.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.totalCount != nextProps.totalCount) {
+            let stateObj = { ...this.state };
+            stateObj.totalCount = nextProps.totalCount;
+            if (this.state.states.params != nextProps.states.params) {
+                stateObj.states.params = nextProps.states.params;
+            }
+            this.setState({ ...stateObj }, () => { console.log(stateObj) });
+        }
+    }
+
     filterClick() {
         this.setState({ "modalTrigger": "d-block" })
+    }
+
+    viewModalTriggerClick() {
+        this.setState({ "viewModalTrigger": "d-block" })
     }
 
     applyFilter(newValue) {
@@ -56,7 +68,7 @@ class Filter extends React.Component {
         let stateObj = { ...this.state };
         stateObj.states.params = { ...newValue }
         stateObj.appliedFilter = appliedFilter;
-        this.setState({ ...stateObj }, () => { console.log(this.state.states.params) });
+        this.setState({ ...stateObj }, () => { this.props.onChangeSearch(); });
         this.setState({ "modalTrigger": "fade" })
     }
 
@@ -68,10 +80,12 @@ class Filter extends React.Component {
         let val = event;
         let stateObj = { ...this.state };
         stateObj.perPageSelectEntity.value = val;
-        stateObj.itemPerPage = val;
-        stateObj.currentPage = 1;
+        stateObj.states.params.itemPerPage = val;
+        stateObj.states.params.currentPage = 1;
         (async () => {
-            this.setState({ ...stateObj }, () => { console.log(this.state) });
+            this.setState({ ...stateObj }, () => {
+                this.props.onChangeSearch();
+            });
         })();
     }
 
@@ -80,7 +94,11 @@ class Filter extends React.Component {
         console.log(stateObj)
         stateObj.states.params.search_word = newValue;
         console.log(stateObj)
-        this.setState({ ...stateObj }, () => { console.log("search word"); console.log(this.state.states.params) });
+
+        this.setState({ ...stateObj }, () => {
+            console.log("search word"); console.log(this.state.states.params);
+            this.props.onChangeSearch();
+        });
     }
 
     pagination(currentPage, limit, totalItems) {
@@ -193,23 +211,28 @@ class Filter extends React.Component {
 
     pgChildClick(e) {
         var clickedPgId = e.currentTarget.id;
-        if (clickedPgId == "..." || clickedPgId == this.state.currentPage) {
+        if (clickedPgId == "..." || clickedPgId == this.state.states.params.currentPage) {
             console.log("not received");
             return;
         }
         console.log(clickedPgId);
-        this.setState({ currentPage: clickedPgId })
+        let stateObj = { ...this.state };
+        stateObj.states.params.currentPage = clickedPgId
+        this.setState({ ...stateObj }, () => {
+            console.log(this.state.states.params);
+            this.props.onChangeSearch()
+        })
     }
 
     render() {
 
-        let currentPage = this.state.currentPage;
-        let prevPage = this.state.currentPage - 1;
+        let currentPage = this.state.states.params.currentPage;
+        let prevPage = this.state.states.params.currentPage - 1;
         let nextPage = parseInt(currentPage) + 1;
-        let totalPage = Math.ceil(this.state.totalCount / this.state.itemPerPage);
+        let totalPage = Math.ceil(this.state.totalCount / this.state.states.params.itemPerPage);
         let startBtnDisabled = (currentPage == 1) ? "disabled" : "";
         let lastBtnDisabled = ((totalPage == currentPage) || this.state.totalCount == 0) ? "disabled" : "";
-        let pages = this.pagination(currentPage, this.state.itemPerPage, this.state.totalCount);
+        let pages = this.pagination(currentPage, this.state.states.params.itemPerPage, this.state.totalCount);
         let FilterCap = (this.state.appliedFilter) ? "Filter Applied" : "Filter";
 
 
@@ -231,8 +254,8 @@ class Filter extends React.Component {
                                 // onClick={(e) => { this.handleDeleteImage(e, fieldName, new_element) }}
                                 ></Input>
                                 <div className='ms-2 p-1 fs-14'>
-                                    {this.state.itemPerStartPage}&nbsp;-&nbsp;{this.state.itemPerPage}
-                                    &nbsp;of&nbsp;{this.state.totalCount}&nbsp;{this.state.states.title}
+                                    {this.state.states.params.currentPage}&nbsp;-&nbsp;{this.state.states.params.itemPerPage}
+                                    &nbsp;of&nbsp;<span className='fs-16 green'>{this.state.totalCount}</span>&nbsp;{this.state.states.title}
                                 </div>
                             </div>
                         </div>
@@ -310,6 +333,11 @@ class Filter extends React.Component {
                                         className="btn btn-light jewell-bg-color brown">{FilterCap}</button>
                                 </div>
 
+                                <div className='ms-2 p-0'>
+                                    <a href={`/${this.state.states.addLink}/add`}
+                                        className="btn btn-light jewell-bg-color brown">Add {this.state.states.addLink}</a>
+                                </div>
+
                             </div>
                         </div>
                     </div >
@@ -322,6 +350,7 @@ class Filter extends React.Component {
                     clickClose={this.clickClose}
                     applyFilter={(newValue) => { this.applyFilter(newValue) }}
                     clearFilter={(newValue) => { this.clearFilter(newValue) }} />
+
             </>
         )
     }

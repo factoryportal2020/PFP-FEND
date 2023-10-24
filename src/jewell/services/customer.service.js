@@ -1,20 +1,20 @@
 import http from "./http.common";
 
 class CustomerDataService {
-  getAll(data) {
-    return http.get(`/customers/${data}`);
+  list(data) {
+    return http.post(`/customer/list`, data);
   }
 
-  get(id) {
-    return http.get(`/customers/edit/${id}`);
+  get(encrypt_id) {
+    return http.get(`/customer/get/${encrypt_id}`);
   }
 
   create(data) {
     return http.post("/customer/create", data);
   }
 
-  update(id, data) {
-    return http.put(`/customers/${id}`, data);
+  update(data) {
+    return http.post(`/customer/update/`, data);
   }
 
   delete(id) {

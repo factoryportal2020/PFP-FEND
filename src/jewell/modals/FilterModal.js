@@ -53,7 +53,11 @@ class Filter extends React.Component {
         let stateObj = { ...this.state };
         var params = { ...stateObj.states.params };
         Object.keys(params).forEach(function (key) {
-            params[key] = "";
+            console.log(params[key]);
+            console.log(key);
+            if (key != "itemPerPage" && key != "currentPage" && key != "offset") {
+                params[key] = "";
+            }
         });
         stateObj.states.params = params;
         this.setState({ ...stateObj }, () => {

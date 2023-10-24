@@ -7,6 +7,7 @@ import 'react-clock/dist/Clock.css';
 import excelImage from "../../theme/images/file-images/excel.png";
 import pdfImage from "../../theme/images/file-images/pdf.png";
 import fileImage from "../../theme/images/file-images/file.png";
+import imgImage from "../../theme/images/file-images/img.png";
 import docImage from "../../theme/images/file-images/doc.png";
 import csvImage from "../../theme/images/file-images/csv.png";
 const isFile = input => 'File' in window && input instanceof File;
@@ -17,8 +18,9 @@ export const TextInput = (props) => {
             {(props.label != "") ?
                 <label htmlFor={props.htmlFor} className="form-label">{props.label}</label> : ""
             }
-            <input type={props.type} className={`form-control ${props.className}`} id={props.htmlFor} value={props.value} placeholder={props.placeholder}
-                readonly={props.readonly}
+            <input type={props.type}
+                className={`form-control ${props.className}`} id={props.htmlFor} value={props.value} placeholder={props.placeholder}
+                readOnly={props.readonly}
                 onChange={(e) => { props.onChange(e.target.value) }}
                 onBlur={(e) => { props.onChange(e.target.value) }} />
         </>
@@ -134,6 +136,22 @@ export const TextAreaInput = (props) => {
 
 }
 
+export const ButtonInput = (props) => {
+    return (
+        <>
+            <label htmlFor={props.htmlFor} className="form-label">&nbsp;</label>
+            <button type="button"
+                id={props.htmlFor}
+                disabled={props.disabled}
+                className={`form-control ${props.className}`}
+                onChange={(e) => { props.onChange(e.target.value) }}
+                onClick={(e) => { props.onClick(e.target.value) }}
+                onBlur={(e) => { props.onChange(e.target.value) }} >{props.label}</button>
+        </>
+    )
+
+}
+
 export const DateTimeInput = (props) => {
     return (
         <>
@@ -150,6 +168,14 @@ export const DateTimeInput = (props) => {
 
 }
 
+export const RequiredSpan = (props) => {
+    return (
+        <>
+            {props.label}&nbsp;<span className='red'>*</span>
+        </>
+    )
+
+}
 
 
 export const FileInput = React.forwardRef((props, ref) => {
@@ -157,11 +183,15 @@ export const FileInput = React.forwardRef((props, ref) => {
     let images = props.images;
     let files = props.files;
     let datas = (images.length > 0) ? images : files;
+    // console.log(datas);
+
     let accept = ".gif,.jpg,.jpeg,.png";
     let iconimage = fileImage;
     let fileType = props.fileType;
 
     if (fileType == "image") {
+        // accept = ".csv";
+        iconimage = imgImage;
     }
     else if (fileType == "csv") {
         accept = ".csv";
@@ -185,7 +215,50 @@ export const FileInput = React.forwardRef((props, ref) => {
                 <span className='fs-6 light-green ps-1'>{(datas.length > 0) ? datas.length + " uploaded" : ""} </span>
             </label>
             <br />
-            <div className="input-group mb-0">
+
+
+            {(datas.length > 0) ?
+                <div className="row">
+                    {datas.map((file, j) => {
+                        let ahref = "";
+                        if (isFile(file)) {
+                            iconimage = (fileType == "image") ? URL.createObjectURL(file) : iconimage;
+                            ahref = URL.createObjectURL(file);
+                        } else {
+                            iconimage = ahref = (fileType == "image") ? file.url : iconimage;
+                            j = file.id;
+                        }
+                        return (
+                            <>
+                                {/* <div className="col-lg-3 col-6 mt-3 mb-3 img-container"> */}
+                                <div key={`image${j}`} className="col-sm mt-2 mb-2 img-container">
+                                    <img
+                                        src={iconimage}
+                                        className="img-file shadow-1-strong rounded"
+                                        alt={file.name}
+                                    />
+                                    <a href={ahref} target='_blank'>
+                                        <i className="preview-btn fa-solid fa-eye" /></a>
+                                    <button type="button"
+                                        id={j}
+                                        className="delete-btn"
+                                        onClick={(e) => { props.onClick(e) }}>Delete</button>
+                                    <br></br>
+                                    <span className='fs-8 text-left grey'>{file.name}</span>
+                                </div>
+                            </>
+                        )
+                    })
+                    }
+                </div>
+                : (props.multiple == "") ?
+                    <div className="col-sm mt-2 mb-2 img-container">
+                        <img src={iconimage} className="img-file shadow-1-strong rounded" />
+                    </div> : ""
+            }
+            <br />
+
+            <div className="input-group mb-2">
                 <input type="file" className="form-control" id={props.htmlFor}
                     multiple={props.multiple}
                     value=""
@@ -193,37 +266,6 @@ export const FileInput = React.forwardRef((props, ref) => {
                     onChange={(e) => { props.onChange(e) }}
                 />
             </div>
-
-            {(datas.length > 0) ?
-                <div className="row">
-                    {datas.map((file, j) => {
-                        if (isFile(file)) {
-                            iconimage = (fileType == "image") ? URL.createObjectURL(file) : iconimage;
-                            return (
-                                <>
-                                    <div className="col-lg-3 col-6 mt-3 mb-3 img-container">
-                                        <img
-                                            src={iconimage}
-                                            className="img-file shadow-1-strong rounded"
-                                            alt={file.name}
-                                        />
-                                        <a href={URL.createObjectURL(file)} target='_blank'>
-                                            <i className="preview-btn fa-solid fa-eye" /></a>
-                                        <button type="button"
-                                            id={j}
-                                            className="delete-btn"
-                                            onClick={(e) => { props.onClick(e) }}>Delete</button>
-                                        <br></br>
-                                        <span className='fs-8 text-left grey'>{file.name}</span>
-                                    </div>
-                                </>
-                            )
-                        }
-                    })
-                    }
-                </div>
-                : ""
-            }
         </>
     )
 })
@@ -235,6 +277,7 @@ export const Input = React.forwardRef((props, ref) => {
     let colClass = (props.element.colClass) ? props.element.colClass : "col-md-6";
     let className = props.element.className;
     let label = props.element.label;
+
     let htmlFor = props.element.htmlFor;
     let value = (props.element.value) ? props.element.value : "";
     let placeholder = (props.element.placeholder) ? props.element.placeholder : "";
@@ -246,6 +289,11 @@ export const Input = React.forwardRef((props, ref) => {
     let email = (props.element.email) ? props.element.email : false;
     let fileType = (props.element.fileType) ? props.element.fileType : "image";
 
+    let validateOptions = props.element.validateOptions;
+    if (validate) {
+        label = (validateOptions[0].rule === "required") ? <RequiredSpan label={label} /> : label;
+    }
+
     let element = { type, name, colClass, className, label, htmlFor, value, placeholder, readonly, validate, required, email, options, fileType };
     switch (type) {
         case "select": return <SelectInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
@@ -253,6 +301,7 @@ export const Input = React.forwardRef((props, ref) => {
         case "radio": return <RadioInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "textarea": return <TextAreaInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "datetime": return <DateTimeInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
+        case "button": return <ButtonInput {...element} onClick={(e) => { props.onClick(e) }} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />
         case "file":
             let images = (props.element.images) ? props.element.images : [];
             let files = (props.element.files) ? props.element.files : [];

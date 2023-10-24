@@ -120,14 +120,17 @@ body {
 .bg-pink,
 .alert-danger,
 .bg-color1 {
-    background-color: pink;
+    /* background-color: pink;
+     */
+    background-color: orange
 }
 
 .bg-color2 {
     background-color: #ffd700;
 }
 
-.bg-color3 {
+.bg-color3,
+.active {
     background-color: #00ff7f;
 }
 
@@ -148,12 +151,40 @@ body {
     background-color: #fff;
 }
 
+.bg-crimson-red {
+    background-color: #990000;
+}
+
+.bg-cherry-red,
+.deactive {
+    background-color: #c24641;
+}
+
+.bg-blood-red {
+    background-color: #660000;
+}
+
+.bg-deep-red {
+    background-color: #800517;
+}
+
 .bg-red {
     background-color: red;
 }
 
 .bg-orange {
     background-color: orange;
+}
+
+/* color */
+
+.light-coral {
+    color: lightcoral;
+}
+
+.light-orange {
+    color: #FFD580;
+
 }
 
 .black {
@@ -176,8 +207,16 @@ body {
     color: #00ff7f;
 }
 
+.green {
+    color: green;
+}
+
 .silver {
     color: #c0c0c0;
+}
+
+.color4 {
+    color: #00ffff;
 }
 
 .red,
@@ -188,6 +227,11 @@ body {
 .light-red {
     color: #FFCCCB;
 }
+
+input:read-only {
+    background-color: lightgray;
+}
+
 
 @media only screen and (max-width: 1300px) {
     body {
@@ -521,8 +565,8 @@ input[type=radio] {
 
 /* ribbon */
 .ribbon-wrapper {
-    width: 85px;
-    height: 88px;
+    width: 80px;
+    height: 35px;
     overflow: hidden;
     position: absolute;
     bottom: -3px;
@@ -531,7 +575,7 @@ input[type=radio] {
 
 .ribbon-green {
     font-weight: 400;
-    font-size: 10px;
+    font-size: 14px;
     color: #fff;
     text-align: center;
     /* text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; */
@@ -539,13 +583,13 @@ input[type=radio] {
     -moz-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
     -o-transform: rotate(0deg);
-    position: relative;
+    /* position: relative; */
     padding: 7px 7px;
     left: 3px;
     top: 56px;
-    width: 55px;
+    width: 75px;
     border-radius: 5px;
-    background-color: #8dc735;
+    /* background-color: #8dc735; */
     /* background-image: -webkit-gradient(linear, left top, left bottom, from(#8dc735), to(#649a12));
     background-image: -webkit-linear-gradient(top, #8dc735, #649a12);
     background-image: -moz-linear-gradient(top, #BFDC7A, #8EBF45);
@@ -592,6 +636,22 @@ input[type=radio] {
     font-size: 6px;
 }
 
+.wd-25 {
+    width: 25px;
+}
+
+.wd-30 {
+    width: 30px;
+}
+
+.maxw-60 {
+    max-width: 60%;
+}
+
+.maxw-40 {
+    max-width: 40%;
+}
+
 
 
 /* Card */
@@ -613,6 +673,11 @@ input[type=radio] {
     padding: 10px;
 }
 
+.card .card-body .card-image .card-profile-image {
+    width: 100px;
+    height: 100px;
+}
+
 .card .card-body .card-content {
     margin: 8px;
     width: 100%;
@@ -620,4 +685,12 @@ input[type=radio] {
 
 .card .card-body .card-content a i:hover {
     color: blue;
+}
+
+
+.fa-class {
+    width: 25px;
+    text-align: center;
+    font-size: 16px;
+    padding-left: 5px;
 }

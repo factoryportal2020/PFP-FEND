@@ -31,6 +31,11 @@ const requiredArray = (v: any) => {
   return (v.length != 0) ? false : true;
 };
 
+
+const equal = (v: any, e: any) => {
+  return (v == e) ? false : true;
+};
+
 const isFiles = (v: any, rule: string) => {
   // if (requiredArray(v)) {
   //   return [{ result: true }, { value: [] }];
@@ -51,7 +56,7 @@ const isFiles = (v: any, rule: string) => {
     allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
   }
   var rw = v.map((val: any) => {
-    let chk = (allowedExtensions.exec(val.name) != null) ? true : false;  
+    let chk = (allowedExtensions.exec(val.name) != null) ? true : false;
     result.push(chk);
     if (chk) {
       onlyimages.push(val);
@@ -66,7 +71,7 @@ const toCapitalize = (v: string) => {
 };
 
 const replaceUnderscore = (v: string) => {
-  return v.replace("_"," ");
+  return v.replace("_", " ");
 };
 
 const hasErrorNaming = (v: string, v1: string) => {
@@ -74,6 +79,11 @@ const hasErrorNaming = (v: string, v1: string) => {
   return str;
   // return str.replace("_", "");
 }
+
+const makeArrayUnique = (v: any, index: any, array: any) => {
+  return array.indexOf(v) === index;
+}
+
 
 interface Validator {
   [key: string]: Function;
@@ -89,6 +99,8 @@ const validator: Validator = {
   hasErrorNaming,
   indianPhoneNo,
   requiredArray,
-  isFiles
+  equal,
+  isFiles,
+  makeArrayUnique
 };
 export default validator;
