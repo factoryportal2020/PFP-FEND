@@ -1,44 +1,100 @@
-import React from 'react';
-import { formEntities, formStates } from './Entity';
+import React, { Suspense } from 'react';
+import { formEntities } from './Entity';
 import FormImage from '../../components/forms/FormImage';
 import customerService from '../../services/customer.service';
 import { Navigate } from 'react-router-dom';
+// const FormImage = React.lazy(() => import('../../components/forms/FormImage'));
+
 
 class Index extends React.Component {
     constructor(props) {
         super(props);
-        // console.log(props);
         this.child = React.createRef();
-
+        const stateEntities = formEntities
         this.state = {
             // form
-            states: formStates,
-            entities: formEntities,
-            // states: customerDatas.current,
+            states: {
+                title: "Customer",
+                listLink: "customer",
+                submitted: false,
+                submitDisabled: "",
+                status: { show: false, type: 'success', msg: '' },
+                clickedTabId: 0,
+                errorsModalTrigger: "fade",
+                errors: [],
+                tabs: [{ id: "details", tab: "Details" }, { id: "login_detail", tab: "Login Detail" }],
+                validate: false,
+                params: {
+                    encrypt_id: null,
+                    deleteImages: [], // Edit purpose
+                    isPasswordChange: false,
+                    first_name: "",
+                    last_name: "",
+                    code: "",
+                    email: "",
+                    phone_no: "",
+                    whatsapp_no: "",
+                    instagram_id: "",
+                    gender: "",
+                    address: "",
+                    state: "",
+                    city: "",
+                    notes: "",
+                    username: "",
+                    password: "",
+                    profile_image: [],
+                    status: 1,
+                    old_username: "",
+                },
+                validations: {
+                    hasFirst_nameRequired: true,
+                    hasLast_nameRequired: true,
+                    hasEmailRequired: true,
+                    hasEmailEmail: true,
+                    hasPhone_noRequired: true,
+                    hasPhone_noPhone_no: false,
+                    hasGenderRequired: true,
+                    hasCityRequired: true,
+                    hasStateRequired: true,
+
+                    //Inital false
+                    hasProfile_imageImage: false,
+
+                    hasUsernameHave_to: false,
+                    hasUsernameHave: false,
+
+                    hasPasswordHave_to: false,
+                    hasPasswordHave: false,
+
+                    hasConfirm_passwordHave_to: false,
+                    hasConfirm_passwordEqual: false,
+                }
+            },
+            entities: stateEntities,
             action: props.action,
-            viewEncryptId: props.viewEncryptId,
-            preLoading: false,
+            viewEncryptId: (props.viewEncryptId) ? props.viewEncryptId : null,
+            preLoading: true,
         }
         this.changePasswordButton = this.changePasswordButton.bind(this);
         this.specialValidationforUpdate = this.specialValidationforUpdate.bind(this);
     }
 
     componentDidMount() {
-        // console.log(window.location.pathname);
+        //Edit
         let encrypt_id = (window.location.pathname.split('/')[3]) ? window.location.pathname.split('/')[3] : null;
-        // console.log(encrypt_id);
         if ((encrypt_id != null && this.state.action == "form")) {
-            if (this.dataInit(encrypt_id)) {
-                return;
-            }
+            this.dataInit(encrypt_id);
         }
-
-        //View
+        //add
+        if ((encrypt_id == null && this.state.action == "form")) { this.setState({ preLoading: false }) }
+        // View
         if ((this.state.viewEncryptId != null && this.state.action == "view")) {
-            if (this.dataInit(this.state.viewEncryptId)) {
-                return;
-            }
+            this.dataInit(this.state.viewEncryptId);
         }
+    }
+
+    componentWillUnmount() {
+        this.disabledAllInputs(false); //
     }
 
     dataInit(encrypt_id) {
@@ -52,7 +108,6 @@ class Index extends React.Component {
                     this.child.current.showServerErrorMsg(responseData.message);
                     return;
                 }
-                console.log(updateData);
 
                 let customerData = updateData.customer;
                 let userData = updateData.user;
@@ -61,22 +116,20 @@ class Index extends React.Component {
                 let params = { ...this.state.states.params };
 
                 let updatedData = { ...params, ...customerData, ...userData, ...profile_imageData };
-
                 let stateObj = { ...this.state };
 
                 let entitiesObjects = stateObj.entities;
                 if (this.state.viewEncryptId != null && this.state.action == "view") {
                     entitiesObjects = this.disabledAllInputs();
                 } else {
-                    entitiesObjects = this.getupdatedEntities("change_password", "show");
+                    entitiesObjects = this.updatedChangePasswordEntities("change_password", "show");
                 }
                 stateObj.entities = entitiesObjects;
-
-                console.log(updatedData);
 
                 stateObj.states.params = updatedData;
                 stateObj.states.params.encrypt_id = encrypt_id;
                 stateObj.states.params.old_username = (userData.username) ? userData.username : "";
+                stateObj.preLoading = false;
                 this.updateStates(stateObj);
 
             })
@@ -87,13 +140,13 @@ class Index extends React.Component {
 
     changePasswordButton(fieldName, trigger) {
         let stateObj = { ...this.state };
-        let entitiesObjects = this.getupdatedEntities(fieldName, trigger);
+        let entitiesObjects = this.updatedChangePasswordEntities(fieldName, trigger);
         stateObj.entities = entitiesObjects;
         this.updateStates(stateObj);
     }
 
 
-    getupdatedEntities(fieldName, changePasswordtrigger) {
+    updatedChangePasswordEntities(fieldName, changePasswordtrigger) {
         let stateObj = { ...this.state };
         let entitiesObjects = stateObj.entities;
         let readOnly = "readonly";
@@ -138,26 +191,30 @@ class Index extends React.Component {
     }
 
 
-    disabledAllInputs() {
+    disabledAllInputs(disableTrigger = true) {
         let stateObj = { ...this.state };
         let entitiesObjects = stateObj.entities;
-        let readOnly = "readonly";
 
         stateObj.entities.map((element, i) => {
             if (element.name == "change_password") {
-                entitiesObjects[i].disabled = "disabled";
+                entitiesObjects[i].disabled = (disableTrigger == true) ? "disabled" : "";
                 entitiesObjects[i].toggle = "hide";
                 entitiesObjects[i].colClass = "hide";
-            } else {
-                entitiesObjects[i].readonly = readOnly;
-
+            }
+            else if (element.name == "code") {
+                entitiesObjects[i].readonly = "readonly";
+            }
+            else {
+                entitiesObjects[i].readonly = (disableTrigger == true) ? "readonly" : "";
             }
         })
         return entitiesObjects;
     }
 
     updateStates(stateObj) {
-        this.setState({ ...stateObj }, () => { console.log(stateObj); })
+        this.setState({ ...stateObj }, () => { 
+            // console.log(stateObj) 
+        })
     }
 
     specialValidationforUpdate(fieldName, hasErr) {
@@ -180,12 +237,11 @@ class Index extends React.Component {
 
         callApi.then(response => {
             let data = response.data;
-            console.log(data);
             if (!data.status) { // errors
-                this.child.current.showServerErrorMsg(data.message);
-                this.child.current.disableSubmitButton(false);
-                // this.setState({ preLoading: false });
-
+                (async () => {
+                    await this.child.current.showServerErrorMsg(data.message);
+                    this.setState({ preLoading: false });
+                })();
             } else { // success
                 // this.setState({ action: "list" });
                 this.child.current.setStatusMsg("success", data.message)
@@ -196,7 +252,6 @@ class Index extends React.Component {
         }).catch(e => {
             this.child.current.setStatusMsg("danger", "Something went wrong")
             this.setState({ preLoading: false });
-
         });
     }
 
@@ -209,6 +264,8 @@ class Index extends React.Component {
                 </div>
                 {
                     <>
+                        {/* <Suspense fallback={<div>Loading...</div>}> */}
+
                         < FormImage
                             entities={this.state.entities}
                             states={this.state.states}
@@ -219,10 +276,29 @@ class Index extends React.Component {
                             saveDataApiCall={(params) => this.saveDataApiCall(params)}
                             ref={this.child}
                             preLoading={this.state.preLoading} />
+                        {/* </Suspense> */}
+
                     </>
                 }
             </React.Fragment>
         )
     }
 }
+
+// const statesDatas = () => {
+//     fetch('jewell/pages/customer/Entity.json', {
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json'
+//         }
+//     }
+//     )
+//         .then(response => {
+//             console.log(response);
+//             return response;
+//         }).catch(Error => {
+//             console.log(Error);
+//         });
+// }
+
 export default Index;

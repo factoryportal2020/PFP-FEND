@@ -60,9 +60,4 @@ class ErrorModal extends React.Component {
 }
 
 
-const MsgComponent = (props) => {
-
-}
-
-
 export default ErrorModal;

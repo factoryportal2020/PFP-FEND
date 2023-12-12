@@ -1,6 +1,6 @@
 import React from "react";
 import validator from "./validate";
-import { Input } from "./Input";
+import { InputElement } from "./InputElement";
 import { ValidateDisplay } from "./ValidateDisplay";
 
 export const Field = React.forwardRef((props, ref) => {
@@ -10,9 +10,14 @@ export const Field = React.forwardRef((props, ref) => {
     return (
         state.entities.map((element, i) => {
             var tabShow = "hide";
-            if (element.tab && tab.id == element.tab) {
-                tabShow = "";
+            if (tab.length != 0) {
+                if (element.tab && tab.id == element.tab) {
+                    tabShow = "";
+                }
+            } else {
+                tabShow = "show";
             }
+
             if (tabShow == "hide") {
                 return;
             }
@@ -34,8 +39,7 @@ export const Field = React.forwardRef((props, ref) => {
             return (
                 <>
                     <div className={`${new_element.colClass} ${tabShow}`}>
-                        <Input key={i} element={new_element}
-                            // ref={ref}
+                        <InputElement key={i} element={new_element}
                             onChange={(newValue) => { props.onChange(newValue, fieldName, new_element) }}
                             onClick={(e) => { props.onClick(e, fieldName, new_element) }}
                         />

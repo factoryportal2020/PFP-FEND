@@ -18,7 +18,7 @@ export const ValidateDisplay = React.forwardRef((props, ref) => {
                 return (
                     // <><div>{hasErrName}</div></>
                     (state.states.validations[hasErrName] && (state.states.validate)) ?
-                        <><span key={j} className="error" >{option.msg}</span> <br /></>
+                        <><span key={j} className="error fs-12" >{option.msg}</span> <br /></>
                         : ""
                 )
             })}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from './Input';
+import { InputElement } from './InputElement';
 import Preloader from '../layouts/Preloader';
 import customerService from '../../services/customer.service';
 import FilterModal from '../../modals/FilterModal';

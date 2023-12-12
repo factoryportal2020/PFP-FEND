@@ -1,15 +1,17 @@
 import React from 'react';
 import { Card } from './Card';
+import {TaskCard} from '../../pages/task/Card';
 import Filter from './Filter';
 import StatusBar from '../layouts/StatusBar';
 import Preloader from '../layouts/Preloader';
 import ViewModal from '../../modals/ViewModal';
 import DeleteConfirm from '../../modals/DeleteConfirm';
+import { connect } from 'react-redux';
+import { startPreloading } from '../../features/auth/authSlice';
 
 class ListComponent extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = {
             states: props.states,
             filterEntities: props.filterEntities,
@@ -18,6 +20,7 @@ class ListComponent extends React.Component {
             deleteModalTrigger: "fade",
             deleteEncryptId: "",
             deleteTitle: "",
+            preLoading: props.preLoading
         }
         this.props.innerRef.current = this;
         this.onChangeSearch = this.onChangeSearch.bind(this);
@@ -28,22 +31,25 @@ class ListComponent extends React.Component {
 
         this.onStatusClose = this.onStatusClose.bind(this);
         this.emptyStatusMsg = this.emptyStatusMsg.bind(this);
+        this.startPreload = this.startPreload.bind(this);
 
     }
 
 
     componentWillReceiveProps(nextProps) {
+        let stateObj = { ...this.state };
         if (this.state.states != nextProps.states) {
-            let stateObj = { ...this.state };
             stateObj.states = nextProps.states;
-            if (this.state.preLoading != nextProps.preLoading) {
-                stateObj.preLoading = nextProps.preLoading;
-            }
+
             // if (this.state.viewEncryptId != nextProps.viewEncryptId) {
             //     stateObj.viewEncryptId = nextProps.viewEncryptId;
             // }
-            this.setState({ ...stateObj }, () => { console.log(stateObj) });
         }
+
+        if (this.state.preLoading != nextProps.preLoading) {
+            stateObj.preLoading = nextProps.preLoading;
+        }
+        this.setState({ ...stateObj }, () => { console.log(stateObj) });
 
 
     }
@@ -58,6 +64,10 @@ class ListComponent extends React.Component {
 
     onStatusClose() {
         this.emptyStatusMsg();
+    }
+
+    startPreload(loading) {
+        this.props.startPreload(loading);
     }
 
     setStatusMsg(type, msg) {
@@ -83,11 +93,8 @@ class ListComponent extends React.Component {
 
 
     deleteModalTriggerClick(event) {
-        console.log(event)
         let deleteEncryptId = event.target.id;
         let deleteTitle = event.target.dataset.title;
-        console.log(deleteEncryptId)
-        console.log(deleteTitle)
 
         let stateObj = { ...this.state };
         stateObj.deleteModalTrigger = "d-block";
@@ -132,6 +139,7 @@ class ListComponent extends React.Component {
                         states={this.state.states}
                         totalCount={this.state.states.datas.totalCount}
                         onChangeSearch={() => this.onChangeSearch()}
+                        startPreload={(loading) => this.startPreload(loading)}
                     />
 
                     <div className='row'>
@@ -143,12 +151,20 @@ class ListComponent extends React.Component {
                                 this.state.states.datas.data.map((element, i) => {
                                     return (
                                         <div className='col-xl-4 mb-4'>
-                                            <Card key={i} element={element}
-                                                title={this.state.states.title}
-                                                addLink={this.state.states.addLink}
-                                                viewModalTriggerClick={(event) => this.viewModalTriggerClick(event)}
-                                                deleteModalTriggerClick={(event) => this.deleteModalTriggerClick(event)}
-                                            />
+                                            {(this.state.states.addLink == "task") ?
+                                                <TaskCard key={i} element={element}
+                                                    title={this.state.states.title}
+                                                    addLink={this.state.states.addLink}
+                                                    viewModalTriggerClick={(event) => this.viewModalTriggerClick(event)}
+                                                    deleteModalTriggerClick={(event) => this.deleteModalTriggerClick(event)}
+                                                /> :
+                                                <Card key={i} element={element}
+                                                    title={this.state.states.title}
+                                                    addLink={this.state.states.addLink}
+                                                    viewModalTriggerClick={(event) => this.viewModalTriggerClick(event)}
+                                                    deleteModalTriggerClick={(event) => this.deleteModalTriggerClick(event)}
+                                                />
+                                            }
                                         </div>
                                     )
                                 })
@@ -166,6 +182,7 @@ class ListComponent extends React.Component {
         )
     }
 }
+
 
 export default React.forwardRef((props, ref) => <ListComponent
     innerRef={ref} {...props}
