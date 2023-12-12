@@ -56,8 +56,9 @@ const isFiles = (v: any, rule: string) => {
     allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
   }
   var rw = v.map((val: any) => {
-    let chk = (allowedExtensions.exec(val.name) != null) ? true : false;
-    result.push(chk);
+    let chk = (allowedExtensions.exec(val.name) != null) ? true : false; //if false having error
+    chk = (val.name.length>100) ? false : chk; //if false having error
+    result.push(chk); //chk should true
     if (chk) {
       onlyimages.push(val);
     }

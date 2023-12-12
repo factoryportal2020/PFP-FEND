@@ -20,10 +20,11 @@ export default class StatusBar extends React.Component {
         return (
             (show) ?
                 <div id="statusloader">
-                    <div className={classnames("alert ", `alert-${classType}`, "noborder")
+                {/* <div id=""> */}
+                    <div className={classnames("alert alertCustom ", `alert-${classType}`, "noborder")
                     }>
                         {msg}
-                        <i className="fa-solid fa-close ps-5 pt-1 fs-5" onClick={this.onStatusClose}></i>
+                        <i className="fa-solid fa-times-circle ps-5 pt-1 fs-5 floatRight" onClick={this.onStatusClose}></i>
                     </div>
                 </div> : ""
         )

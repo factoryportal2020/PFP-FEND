@@ -10,9 +10,11 @@ import fileImage from "../../theme/images/file-images/file.png";
 import imgImage from "../../theme/images/file-images/img.png";
 import docImage from "../../theme/images/file-images/doc.png";
 import csvImage from "../../theme/images/file-images/csv.png";
+import multipleImage from "../../theme/images/file-images/muliple_image.png";
 const isFile = input => 'File' in window && input instanceof File;
 
 export const TextInput = (props) => {
+    // let cursor = "";
     return (
         <>
             {(props.label != "") ?
@@ -21,8 +23,12 @@ export const TextInput = (props) => {
             <input type={props.type}
                 className={`form-control ${props.className}`} id={props.htmlFor} value={props.value} placeholder={props.placeholder}
                 readOnly={props.readonly}
-                onChange={(e) => { props.onChange(e.target.value) }}
-                onBlur={(e) => { props.onChange(e.target.value) }} />
+                onChange={(e) => {
+
+                    props.onChange(e.target.value)
+                }}
+                onBlur={(e) => { }}
+            />
         </>
     )
 }
@@ -251,14 +257,18 @@ export const FileInput = React.forwardRef((props, ref) => {
                     })
                     }
                 </div>
-                : (props.multiple == "") ?
+                :
+                (props.multiple == "") ?
                     <div className="col-sm mt-2 mb-2 img-container">
                         <img src={iconimage} className="img-file shadow-1-strong rounded" />
-                    </div> : ""
+                    </div> :
+                    <div className="col-sm mt-2 mb-2 img-container">
+                        <img src={multipleImage} className="img-file shadow-1-strong rounded" />
+                    </div>
             }
             <br />
 
-            <div className="input-group mb-2">
+            <div className="input-group mb-1">
                 <input type="file" className="form-control" id={props.htmlFor}
                     multiple={props.multiple}
                     value=""
@@ -271,7 +281,7 @@ export const FileInput = React.forwardRef((props, ref) => {
 })
 
 
-export const Input = React.forwardRef((props, ref) => {
+export const InputElement = React.forwardRef((props, ref) => {
     let name = props.element.name;
     let type = props.element.type;
     let colClass = (props.element.colClass) ? props.element.colClass : "col-md-6";
@@ -290,7 +300,7 @@ export const Input = React.forwardRef((props, ref) => {
     let fileType = (props.element.fileType) ? props.element.fileType : "image";
 
     let validateOptions = props.element.validateOptions;
-    if (validate) {
+    if (validate && label != "") {
         label = (validateOptions[0].rule === "required") ? <RequiredSpan label={label} /> : label;
     }
 

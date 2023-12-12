@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input } from '../components/forms/Input';
+import { InputElement } from '../components/forms/InputElement';
 import validator from '../components/forms/validate';
+import datetime from '../components/forms/datetime';
 
 class Filter extends React.Component {
     constructor(props) {
@@ -22,7 +23,6 @@ class Filter extends React.Component {
     handleChangeTextValue(event, fieldName, new_element) {
         let value = event;
         let stateObj = { ...this.state };
-
         (async () => {
             stateObj.states.params[`${fieldName}`] = value;
             this.setState({ ...stateObj }, () => { this.checkNotEmptyValues() });
@@ -104,9 +104,9 @@ class Filter extends React.Component {
                                             return (
                                                 <>
                                                     <div className={`fw-normal ${new_element.colClass}`}>
-                                                        <Input key={i} element={new_element}
+                                                        <InputElement key={i} element={new_element}
                                                             onChange={(newValue) => { this.handleChangeTextValue(newValue, fieldName, new_element) }}
-                                                            onClick={(e) => { }}></Input>
+                                                            onClick={(e) => { }}></InputElement>
                                                     </div>
                                                 </>
                                             )
@@ -131,6 +131,11 @@ class Filter extends React.Component {
                                                         })
                                                         elementVal = elementValArr[0].label;
                                                     }
+
+                                                    if (element.type == "datetime") {
+                                                        elementVal = datetime.getDateTimeFromObject(this.state.states.params[`${element.name}`]);
+                                                    }
+                                                    
                                                     var label = validator.replaceUnderscore(element.name)
                                                     label = validator.toCapitalize(label);
                                                     return (

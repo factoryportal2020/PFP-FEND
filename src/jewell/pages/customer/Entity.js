@@ -255,6 +255,8 @@ export const buttonStates = [
     },
 ];
 
+
+/* declared in index file
 export const formStates = {
     title: "Customer",
     listLink: "customer",
@@ -265,25 +267,7 @@ export const formStates = {
     errorsModalTrigger: "fade",
     errors: [],
     tabs: [{ id: "details", tab: "Details" }, { id: "login_detail", tab: "Login Detail" }],
-    // params: {
-    //     encrypt_id: null,
-    //     first_name: "leo",
-    //     last_name: "ram",
-    //     code: "",
-    //     email: "leo@gmail.com",
-    //     phone_no: "9629188839",
-    //     whatsapp_no: "9629188839",
-    //     instagram_id: "9629188839",
-    //     gender: "male",
-    //     address: "122",
-    //     state: "Tamilnadu",
-    //     city: "Coimbatore",
-    //     notes: "",
-    //     username: "",
-    //     password: "",
-    //     profile_image: [],
-    //     status: 1,
-    // },
+    validate: false,
     params: {
         encrypt_id: null,
         deleteImages: [], // Edit purpose
@@ -304,9 +288,7 @@ export const formStates = {
         password: "",
         profile_image: [],
         status: 1,
-
-        old_username: "",
-
+        old_username: ""
     },
     validations: {
         hasFirst_nameRequired: true,
@@ -329,10 +311,11 @@ export const formStates = {
         hasPasswordHave: false,
 
         hasConfirm_passwordHave_to: false,
-        hasConfirm_passwordEqual: false,
-    },
-    validate: false,
-}
+        hasConfirm_passwordEqual: false
+    }
+};
+*/
+/* end declared in index file */
 
 export const listStates = {
     title: "Customers",

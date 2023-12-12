@@ -1,11 +1,12 @@
 import React from 'react';
-import { Input } from './Input';
-import Preloader from '../layouts/Preloader';
+import { InputElement } from './InputElement';
 import FilterModal from '../../modals/FilterModal';
+import { Link } from 'react-router-dom';
 
 class Filter extends React.Component {
     constructor(props) {
         super(props);
+        let itemPerPage = props.states.params.itemPerPage;
         this.state = {
             states: props.states,
             entities: props.filterEntities,
@@ -13,7 +14,7 @@ class Filter extends React.Component {
             appliedFilter: false,
             perPageSelectEntity: {
                 name: "perpage", type: "select", colClass: '',
-                className: "fs-12 p-0 h-0", htmlFor: "", value: "10", label: "", placeholder: "10",
+                className: "fs-12 p-0 h-0", htmlFor: "", value: itemPerPage, label: "", placeholder: "10",
                 validate: false,
                 options: [
                     { value: "10", label: "10" },
@@ -23,7 +24,7 @@ class Filter extends React.Component {
                 ]
             },
             totalCount: props.totalCount,
-            itemPerPage: props.states.params.itemPerPage,
+            itemPerPage: itemPerPage,
             currentPage: props.states.params.currentPage,
             // prevPage: this.state.currentPage - 1,
             // nextPage: parseInt(this.state.currentPage) + 1,
@@ -57,10 +58,12 @@ class Filter extends React.Component {
     }
 
     applyFilter(newValue) {
+        this.props.startPreload(true);
         this.statesUpdate(newValue, true);
     }
 
     clearFilter(newValue) {
+        this.props.startPreload(true);
         this.statesUpdate(newValue, false);
     }
 
@@ -77,6 +80,8 @@ class Filter extends React.Component {
     }
 
     handleChangePerPage(event, fieldName, new_element) {
+        this.props.startPreload(true);
+
         let val = event;
         let stateObj = { ...this.state };
         stateObj.perPageSelectEntity.value = val;
@@ -90,13 +95,10 @@ class Filter extends React.Component {
     }
 
     handleChangeSearch(newValue, fieldName, new_element) {
+        this.props.startPreload(true);
         let stateObj = { ...this.state };
-        console.log(stateObj)
         stateObj.states.params.search_word = newValue;
-        console.log(stateObj)
-
         this.setState({ ...stateObj }, () => {
-            console.log("search word"); console.log(this.state.states.params);
             this.props.onChangeSearch();
         });
     }
@@ -210,16 +212,16 @@ class Filter extends React.Component {
     }
 
     pgChildClick(e) {
+        this.props.startPreload(true);
+
         var clickedPgId = e.currentTarget.id;
         if (clickedPgId == "..." || clickedPgId == this.state.states.params.currentPage) {
-            console.log("not received");
             return;
         }
-        console.log(clickedPgId);
+
         let stateObj = { ...this.state };
         stateObj.states.params.currentPage = clickedPgId
         this.setState({ ...stateObj }, () => {
-            console.log(this.state.states.params);
             this.props.onChangeSearch()
         })
     }
@@ -238,7 +240,7 @@ class Filter extends React.Component {
 
         return (
             <>
-                <div className='content-div pt-0'>
+                <div className='pt-0 pb-3'>
                     {/* <form className="row g-3 brown border-1-brown border-radius-25"> */}
                     <div className="row g-3 brown">
 
@@ -247,12 +249,12 @@ class Filter extends React.Component {
                         <div className="col-sm">
                             <div className='d-flex fs-10 brown fw-normal'>
                                 <div className='me-1 p-1 fs-14'>{this.state.states.title} per page:</div>
-                                <Input element={this.state.perPageSelectEntity}
+                                <InputElement element={this.state.perPageSelectEntity}
                                     // onChange={() => {}}
                                     onChange={(newValue) => { this.handleChangePerPage(newValue, "perPageSelectEntity", this.state.perPageSelectEntity) }}
                                     onClick={() => { }}
                                 // onClick={(e) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                ></Input>
+                                ></InputElement>
                                 <div className='ms-2 p-1 fs-14'>
                                     {this.state.states.params.currentPage}&nbsp;-&nbsp;{this.state.states.params.itemPerPage}
                                     &nbsp;of&nbsp;<span className='fs-16 green'>{this.state.totalCount}</span>&nbsp;{this.state.states.title}
@@ -270,6 +272,7 @@ class Filter extends React.Component {
                                         onClick={(e) => this.pgChildClick(e)}>
                                         <i title="left" className="fa-solid fa-angle-left grey me-2"></i>
                                     </button>
+
                                     {pages.map((val, i) => {
                                         var currentPageClass = (currentPage == val) ? "bg-clicked" : "";
                                         var dotClass = (val == "...") ? "bg-white" : "";
@@ -317,9 +320,9 @@ class Filter extends React.Component {
                                             }
                                             return (
                                                 <>
-                                                    <Input key={i} element={new_element}
+                                                    <InputElement key={i} element={new_element}
                                                         onChange={(newValue) => { this.handleChangeSearch(newValue, fieldName, new_element) }}
-                                                        onClick={() => { }}></Input>
+                                                        onClick={() => { }}></InputElement>
                                                 </>
                                             )
 
@@ -334,8 +337,8 @@ class Filter extends React.Component {
                                 </div>
 
                                 <div className='ms-2 p-0'>
-                                    <a href={`/${this.state.states.addLink}/add`}
-                                        className="btn btn-light jewell-bg-color brown">Add {this.state.states.addLink}</a>
+                                    <Link to={`/${this.state.states.addLink}/add`}
+                                        className="btn btn-light jewell-bg-color brown">Add {this.state.states.addLink}</Link>
                                 </div>
 
                             </div>

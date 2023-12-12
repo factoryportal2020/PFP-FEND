@@ -1,14 +1,13 @@
 import React from 'react';
-import { Input } from './Input';
 import { Tab } from './Tab';
 import validator from './validate';
 import StatusBar from '../layouts/StatusBar';
 import Preloader from '../layouts/Preloader';
-import customerService from '../../services/customer.service';
 import { Field } from './Field';
 import ErrorModal from '../../modals/ErrorModal';
+import { SpecificationComponent } from '../../pages/product/Specification';
 
-class Form extends React.Component {
+class FormImage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +35,10 @@ class Form extends React.Component {
         this.emptyStatusMsg = this.emptyStatusMsg.bind(this);
 
         this.props.innerRef.current = this;
+        // console.log(this.state.states.params.other_specifications);
 
+        this.OtherSpecificationsRef = React.createRef();
+        this.PricebreakdownsRef = React.createRef();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,12 +48,13 @@ class Form extends React.Component {
             if (this.state.entities != nextProps.entities) {
                 stateObj.entities = nextProps.entities;
             }
-            if (this.state.preLoading != nextProps.preLoading) {
-                stateObj.preLoading = nextProps.preLoading;
-            }
-            this.setState({ ...stateObj }, () => { console.log(stateObj) });
+            this.setState({ ...stateObj }, () => {
+            });
         }
 
+        if (this.state.preLoading != nextProps.preLoading) {
+            this.setState({ preLoading: nextProps.preLoading }, () => { });
+        }
 
     }
 
@@ -59,8 +62,7 @@ class Form extends React.Component {
         let stateObj = { ...this.state };
         stateObj.states.status = { show: false, type: 'success', msg: '' }
         stateObj.states.submitted = submitted;
-        this.setState({ ...stateObj }, () => {
-        });
+        this.setState({ ...stateObj }, () => { });
     }
 
     onStatusClose() {
@@ -70,14 +72,15 @@ class Form extends React.Component {
     setStatusMsg(type, msg) {
         let stateObj = { ...this.state };
         stateObj.states.status = { show: true, type: type, msg: msg };
-        this.setState({ ...stateObj }, () => {});
+        this.setState({ ...stateObj }, () => { });
         setInterval(() => {
+            this.disableSubmitButton();
             this.emptyStatusMsg();
         }, 3000);
 
     }
 
-    showServerErrorMsg(message) {
+    async showServerErrorMsg(message) {
         let stateObj = { ...this.state };
         var msg = message;
 
@@ -89,11 +92,12 @@ class Form extends React.Component {
         if (!Array.isArray(Object.values(msg))) {
             msg = { "msg": ["Server Error"] };
             // msg = { "msg": [msg] };
-        // this.setStatusMsg("danger", msg)return;
+            // this.setStatusMsg("danger", msg)return;
         }
         stateObj.errors = msg;
         stateObj.errorsModalTrigger = "d-block";
-        this.setState({ ...stateObj });
+        stateObj.preLoading = false;
+        this.setState({ ...stateObj }, () => { this.disableSubmitButton(); console.log(this.state) });
     }
 
     clickTab(e) {
@@ -107,6 +111,7 @@ class Form extends React.Component {
 
     handleChangeValue(event, fieldName, new_element) {
         let value = event;
+        // console.log(value);
         let stateObj = { ...this.state };
 
         if (new_element.type == "checkbox") {
@@ -116,6 +121,11 @@ class Form extends React.Component {
         if (new_element.type == "file") {
             value = this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
         }
+
+        // if (new_element.type == "datetime") {
+        //     value = this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
+        // }
+
         (async () => { await this.checkValidateSetState(value, fieldName, stateObj, new_element) })();
     }
 
@@ -151,8 +161,6 @@ class Form extends React.Component {
                 curArray.push(file);
             })
         }
-
-
         return curArray;
     }
 
@@ -163,36 +171,56 @@ class Form extends React.Component {
         }
 
         let keyIndex = e.target.id
+        let file_id = e.target.id
+        console.log(keyIndex);
         let curArray = [...this.state.states.params[fieldName]];
+
+        if (curArray.length > 0) {
+            curArray.map((element, i) => {
+                if (element.url && element.id) {
+                    if (element.id == keyIndex) {
+                        keyIndex = i;
+                        file_id = element.id
+                    }
+                } else {
+                    file_id = null
+                }
+            })
+        }
+        console.log("keyIndex");
+        console.log(keyIndex);
+
         if (keyIndex > -1) { curArray.splice(keyIndex, 1); }
         let stateObj = { ...this.state };
 
-        if (stateObj.states.params.encrypt_id && new_element.multiple == "") {
-            curArray.splice(0, 1);
-        }
 
-        // this.deleteExistImage(fieldName.keyIndex);
         console.log(curArray);
-        (async () => { await this.checkValidateSetState(curArray, fieldName, stateObj, new_element) })();
+        (async () => {
+            await this.deleteExistImage(fieldName, file_id);
+            await this.checkValidateSetState(curArray, fieldName, stateObj, new_element);
+        })();
     }
 
-    deleteExistImage(fieldName, id = null) {
+    async deleteExistImage(fieldName, id = null) {
         //Edit 
         if (this.state.states.params.encrypt_id) {
             let stateObj = { ...this.state };
-            let files = stateObj.states.params[`${fieldName}`];
+            // let files = stateObj.states.params[`${fieldName}`];
             let deleteImages = [...stateObj.states.params.deleteImages];
-
+            console.log(deleteImages);
             if (id != null) {
                 deleteImages.push(id);
-            } else {
-                if (files.length == 0) { return; }
-                files.map(val => {
-                    if (val.id && typeof val.id !== undefined) {
-                        deleteImages.push(val.id);
-                    }
-                })
             }
+            // else {
+            //     if (files.length == 0) { return; }
+            //     files.map(val => {
+            //         if (val.id && typeof val.id !== undefined) {
+            //             deleteImages.push(val.id);
+            //         }
+            //     })
+            // }
+            console.log(deleteImages);
+
             stateObj.states.params.deleteImages = deleteImages.filter(validator.makeArrayUnique);
             this.setState({ ...stateObj }, () => { });
         }
@@ -200,7 +228,7 @@ class Form extends React.Component {
 
     handleSubmit(e) {
         (async () => {
-            await this.disableSubmitButton(true);
+            // await this.disableSubmitButton(true);
             await this.allValidation();
             var validationsArr = [];
             var validations = this.state.states.validations;
@@ -210,6 +238,7 @@ class Form extends React.Component {
                     validationsArr.push(val);
                 })
                 if (validationsArr.indexOf(true) !== -1) { // Condition: true should not in validationsArr !==-1
+                    console.log(validations);
                     console.log("Validation Error");
                     let stateObj = { ...this.state };
                     stateObj.states.validate = true;
@@ -218,11 +247,25 @@ class Form extends React.Component {
                 } else { //All Validation done, all validations should false, validate should false
                     // this.props.innerRef.current = this.state.states;
                     console.log("Validation Pass");
-                    // this.setState({ preLoading: true })
 
+                    let stateObj = { ...this.state };
+
+                    //product
+                    if (this.OtherSpecificationsRef.current !== undefined && this.OtherSpecificationsRef.current != null) {
+                        stateObj.states.params.other_specifications = this.OtherSpecificationsRef.current;
+                        if (this.OtherSpecificationsRef.current.deletedIds !== undefined && this.OtherSpecificationsRef.current.deletedIds != null) {
+                            stateObj.states.params.delete_specifications_ids = this.OtherSpecificationsRef.current.deletedIds;
+                        }
+                    }
+                    if (this.PricebreakdownsRef.current !== undefined && this.PricebreakdownsRef.current != null) {
+                        stateObj.states.params.price_breakdowns = this.PricebreakdownsRef.current;
+                        if (this.PricebreakdownsRef.current.deletedIds !== undefined && this.PricebreakdownsRef.current.deletedIds != null) {
+                            stateObj.states.params.delete_pricebreakdowns_ids = this.PricebreakdownsRef.current.deletedIds;;
+                        }
+                    }
+
+                    this.setState({ ...stateObj }, () => { this.disableSubmitButton(false); });
                     await this.props.saveDataApiCall(this.state.states.params);
-                    // this.setState({ preLoading: false })
-
                 }
             }
         })();
@@ -240,7 +283,6 @@ class Form extends React.Component {
         entities.map((Element, i) => {
             let value = this.state.states.params[`${Element.name}`];
             this.checkValidateSetState(value, Element.name, stateObj, Element, true)
-
         })
     }
 
@@ -248,7 +290,7 @@ class Form extends React.Component {
         let hasErr = false;
         let hasHaveToErr = false;
         let stateObj = { ...this.state };
-        await new_element.validateOptions.map((option, j) => {
+        new_element.validateOptions.map((option, j) => {
             let rule = option.rule
             let hasErrName = validator.hasErrorNaming(fieldName, rule);
             if (rule == "required") {
@@ -287,25 +329,15 @@ class Form extends React.Component {
                     hasErr = (validator.equal(value, equal_value)) ? true : false;
                 }
                 hasErr = this.props.specialValidationforUpdate(fieldName, hasErr);
-                console.log(hasErr);
             }
 
             else if (rule == "image" || rule == "pdf" || rule == "csv" || rule == "excel" || rule == "doc") {
                 let outresult = (validator.isFiles(value, rule));
-                //If true means this rule having error
-                hasErr = outresult[0].result ? true : false;
+                hasErr = outresult[0].result ? true : false; //If true means this rule having error
                 if (this.state.states.params.encrypt_id) { submitCheck = true; }
+
                 hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, value.length == 0, hasErr);
                 value = outresult[1].value;
-
-                // Edit if file is not validate
-                if (this.state.states.params.encrypt_id) {
-                    if (hasErr) {
-                        value = this.state.states.params[`${fieldName}`];
-                    } else {
-                        this.deleteExistImage(fieldName);
-                    }
-                }
             }
             stateObj.states.validations[`${hasErrName}`] = hasErr;
 
@@ -319,19 +351,13 @@ class Form extends React.Component {
     checkRequiredInArray(submitCheck, array, emptyValue, hasErr) {
         var required = false;
         array.map((option, j) => {
-            if (option.rule == "required") {
-                required = true;
-            }
+            if (option.rule == "required") { required = true; }
         })
         if (submitCheck && !required && emptyValue) {
             hasErr = false;
         }
         return hasErr;
     }
-
-
-
-
 
     render() {
         return (
@@ -343,7 +369,8 @@ class Form extends React.Component {
 
                     <div className='d-flex justify-content-between'>
                         <div><h4 className='brown'>{this.state.states.title}</h4></div>
-                        <Tab state={this.state} onClick={(e) => this.clickTab(e)} />
+                        {(this.state.states.tabs.length > 1) ?
+                            <Tab state={this.state} onClick={(e) => this.clickTab(e)} /> : ""}
                     </div>
 
 
@@ -351,6 +378,7 @@ class Form extends React.Component {
                         {
                             this.state.states.tabs.map((tab, j) => {
                                 var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
+                                var forTask = (j > 0 && this.state.states.listLink == "task") ? true : false;
                                 return (
                                     <>
                                         <ErrorModal
@@ -362,7 +390,7 @@ class Form extends React.Component {
 
                                         <div key={j} className={`row mt-2 brown ${tabShow}`}>
 
-                                            <div className='col-md-9'>
+                                            <div className={"col-md-9" + (forTask ? "hide" : "")}>
                                                 <div className={`row g-3`}>
                                                     <Field
                                                         key={`fieldForm${j}`}
@@ -371,15 +399,45 @@ class Form extends React.Component {
                                                         isFile={false}
                                                         onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
                                                         onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                    // ref={this.fileImage}
                                                     />
+                                                    {/* Product */}
+                                                    {
+                                                        (this.state.states.params.other_specifications && j == 0) ?
+                                                            <>
+                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-4'>
+                                                                    <legend className='fs-18'>Other Specifications:</legend>
+                                                                    <SpecificationComponent
+                                                                        ref={this.OtherSpecificationsRef}
+                                                                        specifications={this.state.states.params.other_specifications}
+                                                                        deletedIds={this.state.states.params.delete_specifications_ids}
+                                                                    />
+                                                                </fieldset>
+                                                            </> : ""
+                                                    }
+                                                    {
+                                                        (this.state.states.params.price_breakdowns && j == 0) ?
+                                                            <>
+                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-5'>
+                                                                    <legend className='fs-18'>Price Breakdowns:</legend>
+                                                                    <SpecificationComponent
+                                                                        ref={this.PricebreakdownsRef}
+                                                                        specifications={this.state.states.params.price_breakdowns}
+                                                                        deletedIds={this.state.states.params.delete_pricebreakdowns_ids}
+                                                                    />
+                                                                </fieldset>
+                                                            </> : ""
+                                                    }
+                                                    {/* End Product */}
+
                                                 </div>
                                             </div>
 
-                                            <div className='col-md-3'>
-                                                <div className={`row g-3`}>
+
+
+                                            <div className={(forTask ? "mb-4" : "col-md-3")}>
+                                                <div className={(forTask ? "row" : "") + " g-3"}>
                                                     <Field
-                                                        key={`fieldImage${j}`}
+                                                        key={`fieldImages${j}`}
                                                         state={this.state}
                                                         tab={tab}
                                                         isFile={true}
@@ -389,6 +447,9 @@ class Form extends React.Component {
                                                     />
                                                 </div>
                                             </div>
+
+
+
 
                                         </div>
                                     </>
@@ -414,7 +475,7 @@ class Form extends React.Component {
 }
 
 export default React.forwardRef((props, ref) =>
-    <Form
+    <FormImage
         innerRef={ref} {...props}
     />);
 

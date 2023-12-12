@@ -1,8 +1,9 @@
 import http from "./http.common";
+// import { formStates } from "../pages/customer/Entity";
 
 class CustomerDataService {
-  list(data) {
-    return http.post(`/customer/list`, data);
+  async list(data) {
+    return await http.post(`/customer/list`, data);
   }
 
   get(encrypt_id) {
@@ -28,6 +29,10 @@ class CustomerDataService {
   findByTitle(login_id) {
     return http.get(`/customers?login_id=${login_id}`);
   }
+
+  // async getState() {
+  //   return { ...formStates };
+  // }
 }
 
 export default new CustomerDataService();
