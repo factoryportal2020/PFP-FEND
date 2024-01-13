@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from './Card';
-import {TaskCard} from '../../pages/task/Card';
+import { TaskCard } from '../../pages/task/Card';
 import Filter from './Filter';
 import StatusBar from '../layouts/StatusBar';
 import Preloader from '../layouts/Preloader';
@@ -8,6 +8,8 @@ import ViewModal from '../../modals/ViewModal';
 import DeleteConfirm from '../../modals/DeleteConfirm';
 import { connect } from 'react-redux';
 import { startPreloading } from '../../features/auth/authSlice';
+import ChangeStatusModal from '../../modals/ChangeStatusModal';
+import customerService from '../../services/customer.service';
 
 class ListComponent extends React.Component {
     constructor(props) {
@@ -17,16 +19,28 @@ class ListComponent extends React.Component {
             filterEntities: props.filterEntities,
             viewModalTrigger: "fade",
             viewEncryptId: "",
+
+            changeStatusModalTrigger: "fade",
+            changeStatusModalEncryptId: "",
+
             deleteModalTrigger: "fade",
             deleteEncryptId: "",
             deleteTitle: "",
-            preLoading: props.preLoading
+            preLoading: props.preLoading,
+            encrypt_ids: []
         }
+
         this.props.innerRef.current = this;
         this.onChangeSearch = this.onChangeSearch.bind(this);
         this.viewModalTriggerClick = this.viewModalTriggerClick.bind(this);
         this.deleteModalTriggerClick = this.deleteModalTriggerClick.bind(this);
+        this.changeStatusModalTriggerClick = this.changeStatusModalTriggerClick.bind(this);
+        this.closeChangeStatusModal = this.closeChangeStatusModal.bind(this);
+        this.afterChangedStatusTrigger = this.afterChangedStatusTrigger.bind(this);
+
+
         this.deleteRecord = this.deleteRecord.bind(this);
+        this.closeDeleteModal = this.closeDeleteModal.bind(this);
 
 
         this.onStatusClose = this.onStatusClose.bind(this);
@@ -40,7 +54,7 @@ class ListComponent extends React.Component {
         let stateObj = { ...this.state };
         if (this.state.states != nextProps.states) {
             stateObj.states = nextProps.states;
-
+            // this.formEncrypts();
             // if (this.state.viewEncryptId != nextProps.viewEncryptId) {
             //     stateObj.viewEncryptId = nextProps.viewEncryptId;
             // }
@@ -49,8 +63,22 @@ class ListComponent extends React.Component {
         if (this.state.preLoading != nextProps.preLoading) {
             stateObj.preLoading = nextProps.preLoading;
         }
-        this.setState({ ...stateObj }, () => { console.log(stateObj) });
 
+        if (this.state.viewEncryptId != nextProps.viewEncryptId) {
+            stateObj.viewEncryptId = nextProps.viewEncryptId;
+        }
+        this.setState({ ...stateObj }, () => { console.log(stateObj) });
+    }
+
+    getEncryptIds() {
+        let encrypt_ids = [];
+        this.state.states.datas.data.map((e, i) => {
+            encrypt_ids.push(e.encrypt_id);
+        })
+        return encrypt_ids;
+        // let stateObj = { ...this.state };
+        // stateObj.encrypt_ids = encrypt_ids;
+        // this.setState({ ...stateObj }, () => { console.log(stateObj) });
 
     }
 
@@ -81,21 +109,42 @@ class ListComponent extends React.Component {
     }
 
     viewModalTriggerClick(event) {
-        console.log(event)
         let viewEncryptId = event.target.id;
-        console.log(viewEncryptId)
 
         let stateObj = { ...this.state };
         stateObj.viewModalTrigger = "d-block";
         stateObj.viewEncryptId = viewEncryptId;
-        this.setState({ ...stateObj }, () => { console.log(stateObj) });
+        stateObj.encrypt_ids = this.getEncryptIds();
+        this.setState({ ...stateObj }, () => {
+            // console.log(stateObj) 
+        });
     }
 
+    changeStatusModalTriggerClick(event) {
+        let changeStatusModalEncryptId = event.target.id;
+
+        let stateObj = { ...this.state };
+        stateObj.changeStatusModalTrigger = "d-block";
+        stateObj.changeStatusModalEncryptId = changeStatusModalEncryptId;
+        this.setState({ ...stateObj }, () => {
+            // console.log(stateObj) 
+        });
+    }
+
+    deleteRecord() {
+        let deleteEncryptId = this.state.deleteEncryptId;
+        let deleteTitle = this.state.deleteTitle;
+
+        let stateObj = { ...this.state };
+        stateObj.deleteModalTrigger = "";
+        stateObj.deleteEncryptId = "";
+        stateObj.deleteTitle = "";
+        this.setState({ ...stateObj }, () => { this.props.deleteRecord(deleteEncryptId, deleteTitle); });
+    }
 
     deleteModalTriggerClick(event) {
         let deleteEncryptId = event.target.id;
         let deleteTitle = event.target.dataset.title;
-
         let stateObj = { ...this.state };
         stateObj.deleteModalTrigger = "d-block";
         stateObj.deleteEncryptId = deleteEncryptId;
@@ -103,11 +152,12 @@ class ListComponent extends React.Component {
         this.setState({ ...stateObj }, () => { console.log(stateObj) });
     }
 
-    deleteRecord() {
-        console.log(this.state.deleteEncryptId);
-        let msg = this.state.deleteTitle + " Successfully Deleted!";
-        this.setStatusMsg("success", msg)
-        this.closeDeleteModal();
+    async closeDeleteModal() {
+        let stateObj = { ...this.state };
+        stateObj.deleteModalTrigger = "";
+        stateObj.deleteEncryptId = "";
+        stateObj.deleteTitle = "";
+        this.setState({ ...stateObj }, () => { console.log(stateObj) });
     }
 
     onChangeSearch() {
@@ -121,11 +171,20 @@ class ListComponent extends React.Component {
         this.setState({ ...stateObj }, () => { console.log(stateObj) });
     }
 
-    closeDeleteModal() {
+    closeChangeStatusModal() {
         let stateObj = { ...this.state };
-        stateObj.deleteModalTrigger = "";
-        stateObj.deleteEncryptId = "";
+        stateObj.changeStatusModalTrigger = "";
+        stateObj.changeStatusModalEncryptId = "";
         this.setState({ ...stateObj }, () => { console.log(stateObj) });
+    }
+
+    afterChangedStatusTrigger() {
+        let stateObj = { ...this.state };
+        stateObj.changeStatusModalTrigger = "fade";
+        stateObj.changeStatusModalEncryptId = "";
+        this.setState({ ...stateObj }, () => {
+            this.props.afterChangedStatusTrigger()
+        });
     }
 
     render() {
@@ -157,6 +216,7 @@ class ListComponent extends React.Component {
                                                     addLink={this.state.states.addLink}
                                                     viewModalTriggerClick={(event) => this.viewModalTriggerClick(event)}
                                                     deleteModalTriggerClick={(event) => this.deleteModalTriggerClick(event)}
+                                                    changeStatusModalTriggerClick={(event) => this.changeStatusModalTriggerClick(event)}
                                                 /> :
                                                 <Card key={i} element={element}
                                                     title={this.state.states.title}
@@ -169,8 +229,20 @@ class ListComponent extends React.Component {
                                     )
                                 })
                         }
-                        <ViewModal viewModalTrigger={this.state.viewModalTrigger} viewEncryptId={this.state.viewEncryptId}
+                        <ViewModal
+                            title={this.state.states.addLink}
+                            viewModalTrigger={this.state.viewModalTrigger}
+                            viewEncryptId={this.state.viewEncryptId}
+                            encrypt_ids={this.state.encrypt_ids}
+                            viewModalTriggerClick={(event) => this.viewModalTriggerClick(event)}
                             closeViewModal={() => this.closeViewModal()}
+                        />
+                        <ChangeStatusModal
+                            title={this.state.states.addLink}
+                            changeStatusModalTrigger={this.state.changeStatusModalTrigger}
+                            changeStatusModalEncryptId={this.state.changeStatusModalEncryptId}
+                            closeChangeStatusModal={() => this.closeChangeStatusModal()}
+                            afterChangedStatusTrigger={() => this.afterChangedStatusTrigger()}
                         />
                         <DeleteConfirm deleteModalTrigger={this.state.deleteModalTrigger} deleteEncryptId={this.state.deleteEncryptId}
                             closeDeleteModal={() => this.closeDeleteModal()} title={this.state.deleteTitle}
@@ -182,6 +254,7 @@ class ListComponent extends React.Component {
         )
     }
 }
+
 
 
 export default React.forwardRef((props, ref) => <ListComponent

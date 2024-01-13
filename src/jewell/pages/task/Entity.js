@@ -384,6 +384,38 @@ export const filterEntities = [
     }
 ]
 
+export const changeStatusEntities = [
+
+    {
+        name: "status", type: "select", colClass: 'col-md-12',
+        className: "fs-12", htmlFor: "status", value: "", label: "Status", placeholder: "All",
+        validate: false,
+        tab: "details",
+        options: [
+            { value: "Unassigned", label: "Unassigned" },
+            { value: "Assigned", label: "Assigned" },
+            { value: "Inprogress", label: "Inprogress" },
+            { value: "Holding", label: "Holding" },
+            { value: "Restarted", label: "Restarted" },
+            { value: "Cancelled", label: "Cancelled" },
+            { value: "Pending", label: "Pending" },
+            { value: "Completed", label: "Completed" },
+            { value: "Delivered", label: "Delivered" }
+        ],
+        validateOptions: [
+            {
+                rule: "required",
+                msg: "Status is Required"
+            },
+        ]
+    },
+    {
+        name: "comment", type: "text", colClass: 'col-md-12', className: "fs-12", htmlFor: "Comment", value: "",
+        label: "Comment", placeholder: "", tab: "details",
+        validate: false,
+    },
+]
+
 
 export const specificationEntities = [
     {

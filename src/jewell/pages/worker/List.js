@@ -55,6 +55,29 @@ class List extends React.Component {
             });
     }
 
+    deleteRecord(deleteEncryptId, deleteEncryptTitle) {
+        this.startPreload(true)
+
+        let callApi = workerService.delete(deleteEncryptId);
+
+        callApi.then(response => {
+            let data = response.data;
+            if (!data.status) { // errors
+                let msg = "Something went wrong";
+                this.child.current.setStatusMsg("danger", msg)
+                this.startPreload(false)
+            } else { // success
+                let msg = deleteEncryptTitle + " Successfully Deleted!";
+                this.child.current.setStatusMsg("success", msg)
+                this.startPreload(false)
+                this.listInit();
+            }
+        }).catch(e => {
+            let msg = "Something went wrong";
+            this.child.current.setStatusMsg("danger", msg)
+            this.startPreload()
+        });
+    }
 
     updateStates(stateObj) {
         this.setState({ ...stateObj }, () => { console.log(stateObj); })
@@ -71,7 +94,9 @@ class List extends React.Component {
                         onChangeSearch={() => this.onChangeSearch()}
                         startPreload={(loading) => this.startPreload(loading)}
                         ref={this.child}
-                        preLoading={this.state.preLoading} />
+                        preLoading={this.state.preLoading}
+                        deleteRecord={(encrypt_id, title) => this.deleteRecord(encrypt_id, title)}
+                    />
                 }
             </React.Fragment>
         )

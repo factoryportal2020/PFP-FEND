@@ -1,14 +1,15 @@
 // Authenticate.js
 import { useSelector, useDispatch } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-import LoginIndex from './jewell/pages/login/LoginIndex'
+import { Outlet } from 'react-router-dom'
+
 
 const Unauthenticate = () => {
     const { userInfo, userToken } = useSelector((state) => state.auth)
 
     if (!userInfo && !userToken) {
         return (
-            <LoginIndex />
+            <Outlet />
         )
     }
     else {

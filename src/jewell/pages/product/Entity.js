@@ -32,7 +32,7 @@ export const formEntities = [
     },
     {
         name: "note", type: "text", colClass: 'col-md-3', className: "", htmlFor: "note", value: "",
-        label: "Note", placeholder: "",
+        label: "Sub-title", placeholder: "",
         validate: false,
         tab: "details",
     },

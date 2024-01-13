@@ -1,5 +1,6 @@
 import http from "./http.common";
-// import { formStates } from "../pages/customer/Entity";
+const role = localStorage.getItem('role');
+
 
 class CustomerDataService {
   async list(data) {
@@ -11,15 +12,15 @@ class CustomerDataService {
   }
 
   create(data) {
-    return http.post("/customer/create", data);
+    return http.post(`/customer/create`, data);
   }
 
   update(data) {
     return http.post(`/customer/update/`, data);
   }
 
-  delete(id) {
-    return http.delete(`/customers/${id}`);
+  delete(encrypt_id) {
+    return http.get(`/customer/delete/${encrypt_id}`);
   }
 
   deleteAll() {

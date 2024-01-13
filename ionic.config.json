@@ -1,7 +1,0 @@
-{
-    "name": "pocketpocheadminapp",
-    "integrations": {
-        "capacitor": {}
-    },
-    "type": "react"
-}

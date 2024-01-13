@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom'
 import { useGetUserDetailsQuery } from '../../app/services/auth/authService.js';
 import HeaderComponent from './HeaderComponent.js';
 import { logout, setCredentials } from '../../features/auth/authSlice';
-import LoginIndex from '../../pages/login/LoginIndex.js';
+import LoginIndex from '../../pages/login/Login.js';
 import Delayed from './Delayed.js';
 
 const Header = () => {
-  const { userInfo } = useSelector((state) => state.auth)
+  const { userInfo} = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   // automatically authenticate user if token is found
@@ -20,8 +20,9 @@ const Header = () => {
   // console.log(userInfo) // user object
   useEffect(() => {
     if (data) {
+      console.log(data);
       // setInterval(() => {
-        dispatch(setCredentials(data))
+      dispatch(setCredentials(data.data))
       // }, 5000);
 
     }

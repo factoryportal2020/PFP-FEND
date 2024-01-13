@@ -55,9 +55,10 @@ const isFiles = (v: any, rule: string) => {
   } else if (rule == "image") {
     allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
   }
+  console.log(v);
   var rw = v.map((val: any) => {
     let chk = (allowedExtensions.exec(val.name) != null) ? true : false; //if false having error
-    chk = (val.name.length>100) ? false : chk; //if false having error
+    chk = (val.name.length > 100) ? false : chk; //if false having error
     result.push(chk); //chk should true
     if (chk) {
       onlyimages.push(val);
@@ -66,6 +67,26 @@ const isFiles = (v: any, rule: string) => {
   return [{ result: result.indexOf(true) === -1 }, { value: onlyimages }] // result having true, then it equal to -1
 };
 
+
+const isBanner = (v: any, rule: string) => {
+  // if (requiredArray(v)) {
+  //   return [{ result: true }, { value: [] }];
+  // }
+  const result: boolean[] = [];
+  const onlybanners: object[] = [];
+
+  var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+  var rw = v.map((val: any) => {
+    let chk = (allowedExtensions.exec(val.name) != null) ? true : false; //if false having error
+    chk = (val.name.length > 100) ? false : chk; //if false having error
+    result.push(chk); //chk should true
+    if (chk) {
+      onlybanners.push(val);
+    }
+  });
+  return [{ result: result.indexOf(true) === -1 }, { value: onlybanners }] // result having true, then it equal to -1
+};
 
 const toCapitalize = (v: string) => {
   return v.charAt(0).toUpperCase() + v.slice(1);
@@ -102,6 +123,7 @@ const validator: Validator = {
   requiredArray,
   equal,
   isFiles,
-  makeArrayUnique
+  makeArrayUnique,
+  isBanner
 };
 export default validator;

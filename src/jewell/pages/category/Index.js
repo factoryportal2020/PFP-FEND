@@ -3,6 +3,10 @@ import { formEntities } from './Entity';
 import FormImage from '../../components/forms/FormImage';
 import categoryService from '../../services/category.service';
 import { Navigate } from 'react-router-dom';
+import View from './View';
+import { changeNavMenu } from '../../features/auth/authSlice';
+import { categoryItemCategoryId, categoryTaskCategoryId } from '../../features/auth/viewSlice';
+import { connect } from 'react-redux';
 
 class Index extends React.Component {
     constructor(props) {
@@ -28,6 +32,8 @@ class Index extends React.Component {
                     code: "",
                     category_image: [],
                     status: 1,
+                    items_count: 0,
+                    tasks_count: 0,
                 },
                 validations: {
                     hasNameRequired: true,
@@ -59,8 +65,30 @@ class Index extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.viewEncryptId != nextProps.viewEncryptId) {
+            let stateObj = { ...this.state };
+            stateObj.preLoading = true;
+            stateObj.viewEncryptId = nextProps.viewEncryptId;
+            this.setState({ ...stateObj }, () => { })
+            this.dataInit(nextProps.viewEncryptId);
+        }
+    }
+
     componentWillUnmount() {
         this.disabledAllInputs(false);
+    }
+
+    categoryTaskCategoryId(category_id) {
+        let menuName = "Task";
+        this.props.categoryTaskCategoryId(category_id);
+        this.props.changeNavMenu(menuName)
+    }
+
+    categoryItemCategoryId(category_id) {
+        let menuName = "Product";
+        this.props.categoryItemCategoryId(category_id);
+        this.props.changeNavMenu(menuName)
     }
 
     dataInit(encrypt_id) {
@@ -163,6 +191,9 @@ class Index extends React.Component {
                 this.child.current.setStatusMsg("success", data.message)
                 setInterval(() => {
                     this.child.current.emptyStatusMsg(true);
+                    let stateObj = { ...this.state };
+                    stateObj.states.submitted = true
+                    this.setState({ ...stateObj }, () => { })
                 }, 3000);
             }
         }).catch(e => {
@@ -179,20 +210,45 @@ class Index extends React.Component {
                     {(this.state.states.submitted) ? <Navigate to={`/${this.state.states.listLink}/list`} /> : ""}
                 </div>
                 {
-                    <>
-                        < FormImage
-                            entities={this.state.entities}
-                            states={this.state.states}
-                            action={this.state.action}
-                            viewEncryptId={this.state.viewEncryptId}
-                            specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
-                            saveDataApiCall={(params) => this.saveDataApiCall(params)}
-                            ref={this.child}
-                            preLoading={this.state.preLoading} />
+                    <>{
+                        ((this.state.viewEncryptId != null && this.state.action == "view")) ?
+                            <View
+                                entities={this.state.entities}
+                                states={this.state.states}
+                                action={this.state.action}
+                                viewEncryptId={this.state.viewEncryptId}
+                                clickTaskDetail={(category_id) => this.categoryTaskCategoryId(category_id)}
+                                clickItemDetail={(category_id) => this.categoryItemCategoryId(category_id)}
+                                ref={this.child}
+                                preLoading={this.state.preLoading}
+                            />
+                            :
+                            < FormImage
+                                entities={this.state.entities}
+                                states={this.state.states}
+                                action={this.state.action}
+                                viewEncryptId={this.state.viewEncryptId}
+                                specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
+                                saveDataApiCall={(params) => this.saveDataApiCall(params)}
+                                ref={this.child}
+                                preLoading={this.state.preLoading} />
+                    }
                     </>
                 }
             </React.Fragment>
         )
     }
 }
-export default Index;
+
+const mapStateToProps = state => ({
+    ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+    categoryTaskCategoryId: (payload) => dispatch(categoryTaskCategoryId(payload)),
+    categoryItemCategoryId: (payload) => dispatch(categoryItemCategoryId(payload)),
+    changeNavMenu: (payload) => dispatch(changeNavMenu(payload))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

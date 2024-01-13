@@ -3,6 +3,7 @@ import { formEntities } from './Entity';
 import FormImage from '../../components/forms/FormImage';
 import productService from '../../services/product.service';
 import { Navigate } from 'react-router-dom';
+import View from './View';
 
 class Index extends React.Component {
     constructor(props) {
@@ -63,17 +64,34 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        this.getCategory();
+        let selectCondition = "all"; //all (edit, view) = with out trashed, wt (add)  = with trashed 
         //Edit
         let encrypt_id = (window.location.pathname.split('/')[3]) ? window.location.pathname.split('/')[3] : null;
         if ((encrypt_id != null && this.state.action == "form")) {
             this.dataInit(encrypt_id);
         }
         //add
-        if ((encrypt_id == null && this.state.action == "form")) { this.setState({ preLoading: false }) }
+        if ((encrypt_id == null && this.state.action == "form")) {
+            this.setState({ preLoading: false })
+            selectCondition = "wt";
+        }
         // View
         if ((this.state.viewEncryptId != null && this.state.action == "view")) {
             this.dataInit(this.state.viewEncryptId);
+        }
+
+        this.getCategory(selectCondition);
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.viewEncryptId != nextProps.viewEncryptId) {
+            console.log(nextProps.viewEncryptId);
+            let stateObj = { ...this.state };
+            stateObj.preLoading = true;
+            stateObj.viewEncryptId = nextProps.viewEncryptId;
+            this.setState({ ...stateObj }, () => { })
+            this.dataInit(nextProps.viewEncryptId);
         }
     }
 
@@ -82,11 +100,13 @@ class Index extends React.Component {
     }
 
     dataInit(encrypt_id) {
+        console.log("updateData");
+
         productService.get(encrypt_id)
             .then(async (response) => {
                 let responseData = response.data;
                 let updateData = responseData.data;
-
+                console.log(updateData);
 
                 if (updateData == null || updateData == [] || updateData == undefined) {
                     this.child.current.showServerErrorMsg(responseData.message);
@@ -124,11 +144,13 @@ class Index extends React.Component {
             })
             .catch(e => {
                 console.log(e);
+                this.setState({preLoading:false})
+
             });
     }
 
-    getCategory() {
-        productService.getCategory()
+    getCategory(selectCondition) {
+        productService.getCategory(selectCondition)
             .then(async (response) => {
                 let responseData = response.data;
                 let categoryData = responseData.data;
@@ -137,7 +159,7 @@ class Index extends React.Component {
                     let entitiesObjects = stateObj.entities;
                     stateObj.entities.map((element, i) => {
                         if (element.name == "category_id") {
-                            let selectArr = element.options;
+                            let selectArr = [{ value: '', label: 'Select Category' }];
                             let arr = selectArr.concat(categoryData);
                             entitiesObjects[i].options = arr;
                         }
@@ -228,15 +250,27 @@ class Index extends React.Component {
                 </div>
                 {
                     <>
-                        < FormImage
-                            entities={this.state.entities}
-                            states={this.state.states}
-                            action={this.state.action}
-                            viewEncryptId={this.state.viewEncryptId}
-                            specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
-                            saveDataApiCall={(params) => this.saveDataApiCall(params)}
-                            ref={this.child}
-                            preLoading={this.state.preLoading} />
+                        {
+                            ((this.state.viewEncryptId != null && this.state.action == "view")) ?
+                                <View
+                                    entities={this.state.entities}
+                                    states={this.state.states}
+                                    action={this.state.action}
+                                    viewEncryptId={this.state.viewEncryptId}
+                                    ref={this.child}
+                                    preLoading={this.state.preLoading}
+                                />
+                                :
+                                < FormImage
+                                    entities={this.state.entities}
+                                    states={this.state.states}
+                                    action={this.state.action}
+                                    viewEncryptId={this.state.viewEncryptId}
+                                    specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
+                                    saveDataApiCall={(params) => this.saveDataApiCall(params)}
+                                    ref={this.child}
+                                    preLoading={this.state.preLoading} />
+                        }
                     </>
                 }
             </React.Fragment>

@@ -27,7 +27,6 @@ class List extends React.Component {
         await this.listInit()
     }
 
-
     onChangeSearch() {
         this.listInit();
     }
@@ -44,18 +43,47 @@ class List extends React.Component {
         params.offset = offset;
         await customerService.list(params)
             .then(async (response) => {
-                let responseData = response.data.data
-                let stateObj = { ...this.state };
+                console.log(response.data);
+                if (response.data.status) {
+                    let responseData = response.data.data
+                    let stateObj = { ...this.state };
 
-                stateObj.states.datas = responseData;
-                stateObj.preLoading=false;
+                    stateObj.states.datas = responseData;
+                    stateObj.preLoading = false;
 
-                this.updateStates(stateObj);
-                this.startPreload()
+                    this.updateStates(stateObj);
+                    this.startPreload()
+                }else{
+                    this.startPreload(false)
+                }
             })
             .catch(e => {
                 console.log(e);
             });
+    }
+
+    deleteRecord(deleteEncryptId, deleteEncryptTitle) {
+        this.startPreload(true)
+
+        let callApi = customerService.delete(deleteEncryptId);
+
+        callApi.then(response => {
+            let data = response.data;
+            if (!data.status) { // errors
+                let msg = "Something went wrong";
+                this.child.current.setStatusMsg("danger", msg)
+                this.startPreload(false)
+            } else { // success
+                let msg = deleteEncryptTitle + " Successfully Deleted!";
+                this.child.current.setStatusMsg("success", msg)
+                this.startPreload(false)
+                this.listInit();
+            }
+        }).catch(e => {
+            let msg = "Something went wrong";
+            this.child.current.setStatusMsg("danger", msg)
+            this.startPreload()
+        });
     }
 
 
@@ -74,7 +102,9 @@ class List extends React.Component {
                         onChangeSearch={() => this.onChangeSearch()}
                         startPreload={(loading) => this.startPreload(loading)}
                         ref={this.child}
-                        preLoading={this.state.preLoading} />
+                        preLoading={this.state.preLoading}
+                        deleteRecord={(encrypt_id, title) => this.deleteRecord(encrypt_id, title)}
+                    />
                 }
             </React.Fragment>
         )

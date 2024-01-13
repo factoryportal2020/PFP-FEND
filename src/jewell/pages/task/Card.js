@@ -6,11 +6,12 @@ import datetime from '../../components/forms/datetime';
 
 
 export const TaskCard = React.forwardRef((props, ref) => {
+    console.log(props.element);
     var element = props.element;
     var addLink = props.addLink;
     var encrypt_id = element.encrypt_id;
 
-    let status = element.status
+    let status = (element.status) ? element.status : "Unassigned"
     let name = element.title
 
     let profileImage = (element.gender == "female") ? femaleLogo : maleLogo;
@@ -18,14 +19,19 @@ export const TaskCard = React.forwardRef((props, ref) => {
     let customerImage = (element.gender == "female") ? femaleLogo : maleLogo;
 
 
-    if (element.task_image.url != "") {
+    var count = 80;
+    var description = element.description;
+    description = (description) ? description.slice(0, count) + (description.length > count ? "..." : "") : "";
+
+
+    if (element.task_image && element.task_image.url != "") {
         profileImage = element.task_image.url;
     }
 
-    if (element.worker_image.url != "") {
+    if (element.worker_image && element.worker_image.url != "") {
         workerImage = element.worker_image.url;
     }
-    if (element.customer_image.url != "") {
+    if (element.customer_image && element.customer_image.url != "") {
         customerImage = element.customer_image.url;
     }
 
@@ -50,7 +56,12 @@ export const TaskCard = React.forwardRef((props, ref) => {
                             {datetime.showDateTime(element.end_date)}
                         </div>
                         <div className="ribbon-wrapper">
-                            <div className={`ribbon-green ${status.toLowerCase()}`}>{status}</div>
+                            <div className={`ribbon-green w-auto bg-color3 ${status}`}>{status}
+                                &nbsp;&nbsp;
+                                <a className="" href="#/" onClick={(event) => props.changeStatusModalTriggerClick(event)}>
+                                    <i id={encrypt_id}  title="Status Edit" className="fa-solid fa-pencil fs-16 jewell-color"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -61,7 +72,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
                             <div><h5 className="card-title fs-16">{name}</h5></div>
                             <div className="ms-2">
                                 <a href="#/" onClick={(event) => props.deleteModalTriggerClick(event)}>
-                                    <i id={encrypt_id} data-title={`${element.first_name} ${element.last_name}`} title="delete" className="fa-solid fa-trash fs-20 light-red"></i>
+                                    <i id={encrypt_id} data-title={`${name}`} title="delete" className="fa-solid fa-trash fs-20 light-red"></i>
                                 </a>
                                 <Link to={`/${addLink}/edit/${element.encrypt_id}`}>
                                     <i title="Edit" className="fa-solid fa-pencil fs-20 ps-2 jewell-color"></i>
@@ -97,7 +108,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
 
                         <div className="fs-12 pt-1 pb-3 d-flex">
                             <div className="grey fs-10 pt-1 ">Description:</div>
-                            <div className="ps-2">{element.description}</div>
+                            <div className="ps-2">{description}</div>
                         </div>
 
                         <div className='d-flex justify-content-around'>
@@ -118,22 +129,22 @@ export const TaskCard = React.forwardRef((props, ref) => {
                                 </div>
                             </div>
 
-                            {(element.customer_name)?
-                            <div className="customer_detail d-flex">
-                                <div className="img-container">
-                                    <div className="">
-                                        <img className="border-radius-50 worker-profile-image" src={customerImage} alt="Card image cap" />
-                                        <a href={customerImage} target='_blank'>
-                                            <i className="worker-preview-btn fa-solid fa-eye" /></a>
+                            {(element.customer_name) ?
+                                <div className="customer_detail d-flex">
+                                    <div className="img-container">
+                                        <div className="">
+                                            <img className="border-radius-50 worker-profile-image" src={customerImage} alt="Card image cap" />
+                                            <a href={customerImage} target='_blank'>
+                                                <i className="worker-preview-btn fa-solid fa-eye" /></a>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div className='ms-2'>
-                                    <h6 className='fs-12'>Customer</h6>
-                                    <h6 className='fs-10'>{element.customer_name}</h6>
-                                    <h6 className='fs-10'>{element.customer_phone_no}</h6>
-                                </div>
-                            </div>:""}
+                                    <div className='ms-2'>
+                                        <h6 className='fs-12'>Customer</h6>
+                                        <h6 className='fs-10'>{element.customer_name}</h6>
+                                        <h6 className='fs-10'>{element.customer_phone_no}</h6>
+                                    </div>
+                                </div> : ""}
 
                         </div>
 

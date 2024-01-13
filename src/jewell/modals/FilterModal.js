@@ -135,7 +135,7 @@ class Filter extends React.Component {
                                                     if (element.type == "datetime") {
                                                         elementVal = datetime.getDateTimeFromObject(this.state.states.params[`${element.name}`]);
                                                     }
-                                                    
+
                                                     var label = validator.replaceUnderscore(element.name)
                                                     label = validator.toCapitalize(label);
                                                     return (
@@ -152,14 +152,14 @@ class Filter extends React.Component {
                                 </div >
                             </div>
                             <div className="modal-footer">
-                                {
-                                    (this.state.applyFilterBtn) ?
-                                        <>< button type="button" className="btn btn-secondary" data-dismiss="modal"
-                                            onClick={this.clearFilter}>Clear Filter</button>
-                                            <button type="button" className="btn btn-light jewell-bg-color brown float-end"
-                                                onClick={this.applyFilter}>Apply filter</button></> : ""
-                                }
-                            </div>
+                                <>
+                                    < button type="button" className="btn btn-secondary" data-dismiss="modal"
+                                        onClick={this.clearFilter}>Clear Filter</button>
+                                    {(this.state.applyFilterBtn) ?
+
+                                        <button type="button" className="btn btn-light jewell-bg-color brown float-end"
+                                            onClick={this.applyFilter}>Apply filter</button> : ""}
+                                </>                            </div>
                         </div>
                     </div>
                 </div >

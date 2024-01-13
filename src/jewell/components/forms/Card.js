@@ -4,6 +4,7 @@ import femaleLogo from "../../theme/images/profile/female.jpg";
 import CustomerCard from '../../pages/customer/Card';
 import WorkerCard from '../../pages/worker/Card';
 import CategoryCard from '../../pages/category/Card';
+import AdminCard from '../../pages/admin/Card'; 
 import ItemCard from '../../pages/product/Card';
 import { Link } from 'react-router-dom';
 
@@ -22,7 +23,7 @@ export const Card = React.forwardRef((props, ref) => {
     }
 
     let card = <CustomerCard element={element} />;
-    let name = element.first_name + " " + element.last_name
+    let name = (element.first_name) ? element.first_name : "" + " " + (element.last_name) ? element.last_name : ""
 
     if (addLink == "customer") {
         if (element.profile_image.url != "") {
@@ -30,6 +31,12 @@ export const Card = React.forwardRef((props, ref) => {
         }
     }
 
+    if (addLink == "admin") {
+        if (element.profile_image.url != "") {
+            profileImage = element.profile_image.url;
+        }
+        card = <AdminCard element={element} />;
+    }
     if (addLink == "worker") {
         if (element.profile_image.url != "") {
             profileImage = element.profile_image.url;
@@ -52,7 +59,7 @@ export const Card = React.forwardRef((props, ref) => {
         name = element.name
     }
 
-   
+
     let username = (element.username != null) ? element.username.substring(0, 10) : ""
 
     if (element.username != null && element.username.length > 10) {
@@ -75,7 +82,7 @@ export const Card = React.forwardRef((props, ref) => {
                             <div><h5 className="card-title fs-16">{name}</h5></div>
                             <div className="ms-2">
                                 <a href="#/" onClick={(event) => props.deleteModalTriggerClick(event)}>
-                                    <i id={encrypt_id} data-title={`${element.first_name} ${element.last_name}`} title="delete" className="fa-solid fa-trash fs-20 light-red"></i>
+                                    <i id={encrypt_id} data-title={`${name}`} title="delete" className="fa-solid fa-trash fs-20 light-red"></i>
                                 </a>
                                 <Link to={`/${addLink}/edit/${element.encrypt_id}`}>
                                     <i title="Edit" className="fa-solid fa-pencil fs-20 ps-2 jewell-color"></i>
