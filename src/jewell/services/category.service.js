@@ -1,4 +1,5 @@
 import http from "./http.common";
+const role = localStorage.getItem('role');
 
 class CategoryDataService {
   async list(data) {
@@ -10,15 +11,15 @@ class CategoryDataService {
   }
 
   create(data) {
-    return http.post("/category/create", data);
+    return http.post(`/category/create`, data);
   }
 
   update(data) {
     return http.post(`/category/update/`, data);
   }
 
-  delete(id) {
-    return http.delete(`/categorys/${id}`);
+  delete(encrypt_id) {
+    return http.get(`/category/delete/${encrypt_id}`);
   }
 
   deleteAll() {

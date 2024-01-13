@@ -21,7 +21,10 @@ class List extends React.Component {
     }
 
     async componentDidMount() {
-        this.getCategory();
+        await this.updateFilterCategoryId(this.props.view.item_category_id);
+
+        let selectCondition = "all";
+        this.getCategory(selectCondition);
         await this.listInit()
     }
 
@@ -34,6 +37,12 @@ class List extends React.Component {
         let stateObj = { ...this.state };
         stateObj.preLoading = loading
         this.setState({ ...stateObj }, () => { });
+    }
+
+    async updateFilterCategoryId(category_id) {
+        let stateObj = { ...this.state };
+        stateObj.states.params.category_id = category_id
+        this.setState({ ...stateObj }, () => { console.log(this.state.states.params.category_id) });
     }
 
     async listInit() {
@@ -54,8 +63,32 @@ class List extends React.Component {
             });
     }
 
-    getCategory() {
-        productService.getCategory()
+    deleteRecord(deleteEncryptId, deleteEncryptTitle) {
+        this.startPreload(true)
+
+        let callApi = productService.delete(deleteEncryptId);
+
+        callApi.then(response => {
+            let data = response.data;
+            if (!data.status) { // errors
+                let msg = "Something went wrong";
+                this.child.current.setStatusMsg("danger", msg)
+                this.startPreload(false)
+            } else { // success
+                let msg = deleteEncryptTitle + " Successfully Deleted!";
+                this.child.current.setStatusMsg("success", msg)
+                this.startPreload(false)
+                this.listInit();
+            }
+        }).catch(e => {
+            let msg = "Something went wrong";
+            this.child.current.setStatusMsg("danger", msg)
+            this.startPreload()
+        });
+    }
+
+    getCategory(selectCondition) {
+        productService.getCategory(selectCondition)
             .then(async (response) => {
                 let responseData = response.data;
                 let categoryData = responseData.data;
@@ -64,7 +97,7 @@ class List extends React.Component {
                     let entitiesObjects = stateObj.filterEntities;
                     stateObj.filterEntities.map((element, i) => {
                         if (element.name == "category_id") {
-                            let selectArr = element.options;
+                            let selectArr = [{ value: '', label: 'Select Category' }];
                             let arr = selectArr.concat(categoryData);
                             entitiesObjects[i].options = arr;
                         }
@@ -93,7 +126,9 @@ class List extends React.Component {
                         onChangeSearch={() => this.onChangeSearch()}
                         startPreload={(loading) => this.startPreload(loading)}
                         ref={this.child}
-                        preLoading={this.state.preLoading} />
+                        preLoading={this.state.preLoading}
+                        deleteRecord={(encrypt_id, title) => this.deleteRecord(encrypt_id, title)}
+                    />
                 }
             </React.Fragment>
         )

@@ -56,7 +56,7 @@ export const formEntities = [
         ]
     },
     {
-        name: "confirm_password", type: "password", colClass: 'form-group mt-3', className: "", htmlFor: "confirm_password", value: "",
+        name: "password_confirmation", type: "password", colClass: 'form-group mt-3', className: "", htmlFor: "password_confirmation", value: "",
         label: "", placeholder: "Confirm Password", readonly: "",
         validate: true,
         tab: "login_detail",
@@ -96,8 +96,8 @@ export const formStates = {
         hasPhone_noPhone_no: false,
         hasUsernameRequired: true,
         hasPasswordRequired: true,
-        hasConfirm_passwordRequired: true,
-        hasConfirm_passwordEqual: false,
+        hasPassword_confirmationRequired: true,
+        hasPassword_confirmationEqual: false,
     },
     validate: false,
 }

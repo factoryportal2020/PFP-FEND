@@ -10,15 +10,15 @@ class WorkerDataService {
   }
 
   create(data) {
-    return http.post("/worker/create", data);
+    return http.post(`/worker/create`, data);
   }
 
   update(data) {
     return http.post(`/worker/update/`, data);
   }
 
-  delete(id) {
-    return http.delete(`/workers/${id}`);
+  delete(encrypt_id) {
+    return http.get(`/worker/delete/${encrypt_id}`);
   }
 
   deleteAll() {

@@ -2,17 +2,27 @@ import React from 'react';
 import { formEntities } from './Entity';
 import FormImage from '../../components/forms/FormImage';
 import workerService from '../../services/worker.service';
+import profileService from '../../services/profile.service';
 import { Navigate } from 'react-router-dom';
+import View from './View';
+import { workerTaskWorkerId } from '../../features/auth/viewSlice';
+import { changeNavMenu } from '../../features/auth/authSlice';
+import { connect } from 'react-redux';
 
 class Index extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props.auth);
         this.child = React.createRef();
+        const role = (props.auth.userInfo?.role) ? props.auth.userInfo.role : localStorage.getItem('role')
+
         this.state = {
             // form
+            apiService: (role == "worker") ? profileService : workerService,
             states: {
-                title: "Worker",
+                title: (role == "worker") ? "Profile" : "Worker",
                 listLink: "worker",
+                editLink: (role == "worker") ? "profile" : "worker",
                 submitted: false,
                 submitDisabled: "",
                 status: { show: false, type: 'success', msg: '' },
@@ -40,6 +50,7 @@ class Index extends React.Component {
                     username: "",
                     password: "",
                     profile_image: [],
+                    tasks_count: {},
                     status: 1,
 
                     old_username: "",
@@ -66,7 +77,7 @@ class Index extends React.Component {
                     hasPasswordHave: false,
 
                     hasConfirm_passwordHave_to: false,
-                    hasConfirm_passwordEqual: false,
+                    hasPassword_confirmationEqual: false,
                 },
                 validate: false,
 
@@ -94,12 +105,28 @@ class Index extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.viewEncryptId != nextProps.viewEncryptId) {
+            let stateObj = { ...this.state };
+            stateObj.preLoading = true;
+            stateObj.viewEncryptId = nextProps.viewEncryptId;
+            this.setState({ ...stateObj }, () => { })
+            this.dataInit(nextProps.viewEncryptId);
+        }
+    }
+
     componentWillUnmount() {
         this.disabledAllInputs(false);
     }
 
+    workerTaskWorkerId(worker_id) {
+        let menuName = "Task";
+        this.props.workerTaskWorkerId(worker_id);
+        this.props.changeNavMenu(menuName)
+    }
+
     dataInit(encrypt_id) {
-        workerService.get(encrypt_id)
+        this.state.apiService.get(encrypt_id)
             .then(async (response) => {
                 let responseData = response.data;
                 let updateData = responseData.data;
@@ -118,25 +145,27 @@ class Index extends React.Component {
 
                 let updatedData = { ...params, ...workerData, ...userData, ...profile_imageData };
 
+                console.log("worker datainit datas : ");
+                console.log(updatedData);
                 let stateObj = { ...this.state };
 
                 let entitiesObjects = stateObj.entities;
                 if (this.state.viewEncryptId != null && this.state.action == "view") {
                     entitiesObjects = this.disabledAllInputs();
                 } else {
-                    entitiesObjects = this.updatedChangePasswordEntities("change_password", "show");
+                    // entitiesObjects = this.updatedChangePasswordEntities("change_password", "show");
                 }
-                stateObj.entities = entitiesObjects;
+                // stateObj.entities = entitiesObjects;
 
                 stateObj.states.params = updatedData;
                 stateObj.states.params.encrypt_id = encrypt_id;
                 stateObj.states.params.old_username = (userData.username) ? userData.username : "";
                 stateObj.preLoading = false;
-                this.updateStates(stateObj);
-
+                this.setState({ ...stateObj }, () => { this.changePasswordButton("change_password", "show") })
             })
             .catch(e => {
                 console.log(e);
+                this.setState({ preLoading: false })
             });
     }
 
@@ -154,11 +183,11 @@ class Index extends React.Component {
         let readOnly = "readonly";
 
         stateObj.entities.map((element, i) => {
-            if (element.name == "username" || element.name == "password" || element.name == "confirm_password") {
+            if (element.name == "username" || element.name == "password" || element.name == "password_confirmation") {
                 if (changePasswordtrigger == "show") {
                     readOnly = "readonly";
                     stateObj.states.params.password = "";
-                    stateObj.states.params.confirm_password = "";
+                    stateObj.states.params.password_confirmation = "";
                 } else {
                     if (!stateObj.states.params.isPasswordChange) {
                         readOnly = "";
@@ -170,7 +199,9 @@ class Index extends React.Component {
             if (element.name == "change_password") {
                 let colClass = "col-md-3 show";
                 let username = stateObj.states.params.username;
-                let label = (username == null || username == "") ? "Change Username & Password" : "Change Username & Password";
+                console.log("username");
+                console.log(stateObj.states.params.username);
+                let label = (username == null || username == "") ? "Create Username & Password" : "Change Username & Password";
 
                 stateObj.states.params.isPasswordChange = false;
 
@@ -181,7 +212,7 @@ class Index extends React.Component {
                     } else {
                         stateObj.states.params.username = stateObj.states.params.old_username;
                         stateObj.states.params.password = "";
-                        stateObj.states.params.confirm_password = "";
+                        stateObj.states.params.password_confirmation = "";
                     }
                 }
                 entitiesObjects[i].colClass = colClass;
@@ -218,7 +249,7 @@ class Index extends React.Component {
     }
 
     specialValidationforUpdate(fieldName, hasErr) {
-        if (fieldName == "password" || fieldName == "confirm_password" || fieldName == "username") {
+        if (fieldName == "password" || fieldName == "password_confirmation" || fieldName == "username") {
             if (this.state.states.params.encrypt_id != null && !this.state.states.params.isPasswordChange) {
                 hasErr = false;
             }
@@ -230,10 +261,9 @@ class Index extends React.Component {
     async saveDataApiCall(params) {
 
         this.setState({ preLoading: true });
-
         let callApi = (params.encrypt_id != null) ?
-            workerService.update(params) :
-            workerService.create(params);
+            this.state.apiService.update(params) :
+            this.state.apiService.create(params);
 
         callApi.then(response => {
             let data = response.data;
@@ -244,8 +274,12 @@ class Index extends React.Component {
                 })();
             } else { // success
                 this.child.current.setStatusMsg("success", data.message)
+                console.log("gfggf");
                 setInterval(() => {
                     this.child.current.emptyStatusMsg(true);
+                    let stateObj = { ...this.state };
+                    stateObj.states.submitted = true
+                    this.setState({ ...stateObj }, () => { })
                 }, 3000);
             }
         }).catch(e => {
@@ -260,24 +294,54 @@ class Index extends React.Component {
         return (
             <React.Fragment>
                 <div>
-                    {(this.state.states.submitted) ? <Navigate to={`/${this.state.states.listLink}/list`} /> : ""}
+                    {(this.state.states.submitted) ?
+                        (this.state.states.editLink === "profile") ?
+                            <Navigate to={`/${this.state.states.editLink}`} />
+                            : <Navigate to={`/${this.state.states.editLink}/list`} />
+
+                        : ""}
                 </div>
                 {
                     <>
-                        < FormImage
-                            entities={this.state.entities}
-                            states={this.state.states}
-                            action={this.state.action}
-                            viewEncryptId={this.state.viewEncryptId}
-                            changePasswordButton={(fieldName, trigger) => this.changePasswordButton(fieldName, trigger)}
-                            specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
-                            saveDataApiCall={(params) => this.saveDataApiCall(params)}
-                            ref={this.child}
-                            preLoading={this.state.preLoading} />
+                        {
+                            ((this.state.viewEncryptId != null && this.state.action == "view")) ?
+                                <View
+                                    entities={this.state.entities}
+                                    states={this.state.states}
+                                    action={this.state.action}
+                                    viewEncryptId={this.state.viewEncryptId}
+                                    clickTaskDetail={(worker_id) => this.workerTaskWorkerId(worker_id)}
+                                    ref={this.child}
+                                    preLoading={this.state.preLoading}
+                                />
+                                :
+                                < FormImage
+                                    entities={this.state.entities}
+                                    states={this.state.states}
+                                    action={this.state.action}
+                                    viewEncryptId={this.state.viewEncryptId}
+                                    changePasswordButton={(fieldName, trigger) => this.changePasswordButton(fieldName, trigger)}
+                                    specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
+                                    saveDataApiCall={(params) => this.saveDataApiCall(params)}
+                                    ref={this.child}
+                                    preLoading={this.state.preLoading} />
+                        }
                     </>
                 }
             </React.Fragment>
         )
     }
 }
-export default Index;
+
+
+const mapStateToProps = state => ({
+    ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+    workerTaskWorkerId: (payload) => dispatch(workerTaskWorkerId(payload)),
+    changeNavMenu: (payload) => dispatch(changeNavMenu(payload))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

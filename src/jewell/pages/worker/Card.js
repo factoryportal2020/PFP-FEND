@@ -8,7 +8,7 @@ const Card = React.forwardRef((props, ref) => {
     return (
         <>
 
-            <h6 className="fs-12"><i title="Specialist" className="fa-solid fa-envelope fs-18 ps-2 light-orange wd-30"></i>Specialist: &nbsp;{element.specialist}</h6>
+            <h6 className="fs-12 green">{element.specialist}&nbsp;Specialist</h6>
             <h6 className="fs-12"><i title="Email" className="fa-solid fa-envelope fs-18 ps-2 light-orange wd-30"></i>&nbsp;{element.email}</h6>
             <h6 className="fs-12"><i title="Phone" className="fa-solid fa-mobile fs-18 ps-2 pink wd-30"></i>&nbsp;{element.phone_no}</h6>
             <h6 className="fs-12"><i title="Whatsapp" className="fa-solid fab fa-whatsapp fs-18 ps-2 light-green wd-30"></i>&nbsp;{whatsapp_no}</h6>

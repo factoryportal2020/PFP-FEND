@@ -3,20 +3,25 @@ import profileLogo from "../../theme/images/profile/6.jpg";
 import { useGetUserDetailsQuery } from '../../app/services/auth/authService';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeNavMenu } from '../../features/auth/authSlice';
+import validator from '../forms/validate';
+import { workerTaskWorkerId, categoryTaskCategoryId, categoryItemCategoryId } from '../../features/auth/viewSlice';
 
 //disptach
-import { logout } from '../../features/auth/authSlice';
+import { logout, changeNavMenu } from '../../features/auth/authSlice';
 
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props) // user object
 
-    this.state = { isNavCollapsed: true, isProfileDropdown: false, userInfo: props.userInfo, navMenu: "Dashboard" };
+    this.state = {
+      isNavCollapsed: true, isProfileDropdown: false, userInfo: props.userInfo,
+      navMenu: { ...props.auth.navMenu },
+      permissions: [...props.auth.permissions]
+    };
     this.handleIsNavCollapsed = this.handleIsNavCollapsed.bind(this);
     this.handleIsProfileDropdown = this.handleIsProfileDropdown.bind(this);
+    this.clickLink = this.clickLink.bind(this);
 
 
     // const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
@@ -26,35 +31,46 @@ class Header extends React.Component {
 
     // console.log(data) // user object
 
+    //Auth
 
   }
 
   componentDidMount() {
-
+    let urlMenuName = (window.location.pathname.split('/')[1]) ? window.location.pathname.split('/')[1] : "Dashboard";
+    urlMenuName = validator.toCapitalize(urlMenuName);
+    console.log(this.state.permissions);
+    this.setState({ navMenu: urlMenuName })
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ navMenu: nextProps.auth.navMenu, permissions: nextProps.auth.permissions });
+  }
 
   handleIsNavCollapsed() {
     this.setState({ isNavCollapsed: !this.state.isNavCollapsed });
   }
 
   handleIsProfileDropdown(value) {
-    console.log("value");
-    console.log(value);
     this.setState({ isProfileDropdown: value });
   }
 
-
-  // componentWillUnmount(){
-  //   this.setState({ isProfileDropdown: false });
-  // }
+  clickLink(e) {
+    let menuName = e.target.id;
+    console.log(menuName)
+    this.setState({ navMenu: menuName })
+    this.props.changeNavMenu(menuName)
+    this.props.workerTaskWorkerId("")
+    this.props.categoryTaskCategoryId("")
+    this.props.categoryItemCategoryId("")
+  }
 
   render() {
+    const navMenu = this.state.navMenu;
     return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           {/* <div className="corner-background"> */}
-          <a className="navbar-brand brown fw-normal" href="#/">Jewell<br />Pocket Factory<br />Poche</a>
+          <Link className="navbar-brand brown fw-normal" to="/">Jewell<br />Pocket Factory<br />Poche</Link>
           {/* </div> */}
           <button className="navbar-toggler" type="button"
             data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -117,18 +133,58 @@ class Header extends React.Component {
                   <span className='menu-text'>Items</span></a>
               </li> */}
 
-              <li className="nav-item mx-3 mt-3">
-                <Link role="button" to="/dashboard" className="navMenu">
+              {/* <li className="nav-item mx-3 mt-3">
+                <Link role="button" onClick={this.clickLink("Dashboard")} to="/dashboard"
+                  className={"navMenu " + (navMenu == "Dashboard" ? "navMenu-active" : "")}>
                   Dashboard
                 </Link>
-                <Link role="button" to="/customer/list" className="navMenu">
+                <Link role="button" onClick={this.clickLink("Customer")} to="/customer/list"
+                  className={"navMenu " + (navMenu == "Customer" ? "navMenu-active" : "")}>
                   Customer
                 </Link>
-                <Link role="button" to="/worker/list" className="navMenu">Workers</Link>
-                <Link role="button" to="/category/list" className="navMenu">Category</Link>
-                <Link role="button" to="/product/list" className="navMenu">Products</Link>
-                <Link role="button" to="/task/list" className="navMenu">Tasks</Link>
-                <Link role="button" to="#/" className="navMenu">Orders</Link>
+                <Link role="button" onClick={this.clickLink("Worker")} to="/worker/list"
+                  className={"navMenu " + (navMenu == "Worker" ? "navMenu-active" : "")}>Workers</Link>
+                <Link role="button" onClick={this.clickLink("Category")} to="/category/list"
+                  className={"navMenu " + (navMenu == "Category" ? "navMenu-active" : "")}>Category</Link>
+                <Link role="button" onClick={this.clickLink("Product")} to="/product/list"
+                  className={"navMenu " + (navMenu == "Product" ? "navMenu-active" : "")}>Products</Link>
+                <Link role="button" onClick={this.clickLink("Task")} to="/task/list"
+                  className={"navMenu " + (navMenu == "Task" ? "navMenu-active" : "")}>Tasks</Link>
+                <Link role="button" onClick={this.clickLink("Customer")} to="#/"
+                  className={"navMenu " + (navMenu == "Order" ? "navMenu-active" : "")}>Orders</Link>
+              </li> */}
+
+              <li className="nav-item mx-3 mt-3">
+                {(this.state.permissions.includes('dashboard')) ? <Link role="button" id="Dashboard" onClick={(e) => this.clickLink(e)} to="/dashboard"
+                  className={"navMenu " + (navMenu == "Dashboard" ? "navMenu-active" : "")}>
+                  Dashboard
+                </Link> : ""}
+                {(this.state.permissions.includes('website')) ? <Link role="button" id="Website" onClick={(e) => this.clickLink(e)} to="/website"
+                  className={"navMenu " + (navMenu == "Website" ? "navMenu-active" : "")}>
+                  Website
+                </Link> : ""}
+                {(this.state.permissions.includes('customer')) ? <Link role="button" id="Customer" onClick={(e) => this.clickLink(e)} to="/customer/list"
+                  className={"navMenu " + (navMenu == "Customer" ? "navMenu-active" : "")}>
+                  Customer
+                </Link> : ""}
+                {(this.state.permissions.includes('worker')) ? <Link role="button" id="Worker" onClick={(e) => this.clickLink(e)} to="/worker/list"
+                  className={"navMenu " + (navMenu == "Worker" ? "navMenu-active" : "")}>
+                  Workers</Link> : ""}
+                {(this.state.permissions.includes('category')) ? <Link role="button" id="Category" onClick={(e) => this.clickLink(e)} to="/category/list"
+                  className={"navMenu " + (navMenu == "Category" ? "navMenu-active" : "")}>
+                  Category</Link> : ""}
+                {(this.state.permissions.includes('product')) ? <Link role="button" id="Product" onClick={(e) => this.clickLink(e)} to="/product/list"
+                  className={"navMenu " + (navMenu == "Product" ? "navMenu-active" : "")}>
+                  Products</Link> : ""}
+                {(this.state.permissions.includes('task')) ? <Link role="button" id="Task" onClick={(e) => this.clickLink(e)} to="/task/list"
+                  className={"navMenu " + (navMenu == "Task" ? "navMenu-active" : "")}>
+                  Tasks</Link> : ""}
+                {(this.state.permissions.includes('order')) ? <Link role="button" id="Order" onClick={(e) => this.clickLink(e)} to="#/"
+                  className={"navMenu " + (navMenu == "Order" ? "navMenu-active" : "")}>
+                  Orders</Link> : ""}
+                {(this.state.permissions.includes('admin')) ? <Link role="button" id="Admin" onClick={(e) => this.clickLink(e)} to="/admin/list"
+                  className={"navMenu " + (navMenu == "Admin" ? "navMenu-active" : "")}>
+                  Admin</Link> : ""}
               </li>
             </ul>
 
@@ -146,8 +202,6 @@ class Header extends React.Component {
               {/* Logo  */}
               {/* <a className="profile-div" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded="false"
                   onBlur={(e) => {
-                    console.log(e.target.className);
-                    console.log(e.target.className);
                     if (e.target.className === "profile-div") {
                       //console.log('unfocused self');
                       this.handleIsProfileDropdown(!this.state.isProfileDropdown)
@@ -158,10 +212,11 @@ class Header extends React.Component {
 
 
 
-              <Link to="/profile" className='profile-div text-decoration-none'>
+              <Link role="button" id="profile" onClick={(e) => this.clickLink(e)} to="/profile"
+                className='profile-div text-decoration-none text-center'>
                 {/* <a href="#/"><i className="fa-solid fa-power-off ps-2 pe-2 fs-3 grey"></i></a> */}
                 <img className="profile-logo" alt={profileLogo} src={profileLogo}
-                  onClick={() => { this.handleIsProfileDropdown(!this.state.isProfileDropdown) }}
+                // onClick={() => { this.handleIsProfileDropdown(!this.state.isProfileDropdown) }}
                 ></img><br></br>
                 <div className='brown fw-normal fs-6 text-center'>Hi, {this.state.userInfo.username}</div>
 
@@ -205,9 +260,17 @@ class Header extends React.Component {
   }
 }
 
-
-const mapDispatchToProps = dispatch => ({
-  logout: (payload) => dispatch(logout(payload))
+const mapStateToProps = state => ({
+  ...state
 });
 
-export default connect("", mapDispatchToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+  logout: (payload) => dispatch(logout(payload)),
+  changeNavMenu: (payload) => dispatch(changeNavMenu(payload)),
+  workerTaskWorkerId: (payload) => dispatch(workerTaskWorkerId(payload)),
+  categoryTaskCategoryId: (payload) => dispatch(categoryTaskCategoryId(payload)),
+  categoryItemCategoryId: (payload) => dispatch(categoryItemCategoryId(payload))
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

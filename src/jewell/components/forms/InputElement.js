@@ -11,7 +11,11 @@ import imgImage from "../../theme/images/file-images/img.png";
 import docImage from "../../theme/images/file-images/doc.png";
 import csvImage from "../../theme/images/file-images/csv.png";
 import multipleImage from "../../theme/images/file-images/muliple_image.png";
+import { Editor } from '@tinymce/tinymce-react';
+
 const isFile = input => 'File' in window && input instanceof File;
+
+const TINYMCE_API_KEY = (process.env.REACT_APP_TINYMCE)
 
 export const TextInput = (props) => {
     // let cursor = "";
@@ -29,6 +33,68 @@ export const TextInput = (props) => {
                 }}
                 onBlur={(e) => { }}
             />
+        </>
+    )
+}
+
+export const TinyInput = (props) => {
+    // let cursor = "";
+    return (
+        <>
+            {(props.label != "") ?
+                <label htmlFor={props.htmlFor} className="form-label">{props.label}</label> : ""
+            }
+            <Editor
+                apiKey={TINYMCE_API_KEY}
+                // apiKey='rz0pw1oj4964nwqugfduv8zn0l345agbs3z36xcz8kvei4t4'
+                value={props.value}
+                init={{
+                    height: 500,
+                    menubar: false,
+                }}
+                onEditorChange={(e) => {
+
+                    props.onChange(e)
+                }}
+            />
+
+            {/* <Editor
+                apiKey="your-api-key"
+                initialValue="<p>This is the initial content of the editor.</p>"
+                init={{
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                        "advlist",
+                        "autolink",
+                        "lists",
+                        "link",
+                        "image",
+                        "charmap",
+                        "preview",
+                        "anchor",
+                        "searchreplace",
+                        "visualblocks",
+                        "code",
+                        "fullscreen",
+                        "insertdatetime",
+                        "media",
+                        "table",
+                        "code",
+                        "help",
+                        "wordcount",
+                    ],
+                    toolbar:
+                        "undo redo | blocks | " +
+                        "bold italic forecolor | alignleft aligncenter " +
+                        "alignright alignjustify | bullist numlist outdent indent | " +
+                        "removeformat | help",
+                    content_style:
+                        "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                }}
+            /> */}
+
+
         </>
     )
 }
@@ -191,6 +257,18 @@ export const FileInput = React.forwardRef((props, ref) => {
     let datas = (images.length > 0) ? images : files;
     // console.log(datas);
 
+    let imgClassName = "img-file shadow-1-strong rounded";
+
+    imgClassName = (props.className != "") ? props.className : imgClassName;
+
+    let eyeBtnClassname = "preview-btn"
+
+    eyeBtnClassname = (imgClassName == "medium-file" || imgClassName == "banner-file") ? "banner-btn" : "preview-btn";
+
+    let deleteBtnClassname = "delete-btn"
+
+    deleteBtnClassname = (imgClassName == "medium-file" || imgClassName == "banner-file") ? "banner-de" : "delete-btn";
+
     let accept = ".gif,.jpg,.jpeg,.png";
     let iconimage = fileImage;
     let fileType = props.fileType;
@@ -237,14 +315,14 @@ export const FileInput = React.forwardRef((props, ref) => {
                         return (
                             <>
                                 {/* <div className="col-lg-3 col-6 mt-3 mb-3 img-container"> */}
-                                <div key={`image${j}`} className="col-sm mt-2 mb-2 img-container">
+                                <div key={`image${j}`} className="col-sm mt-2 mb-4 img-container">
                                     <img
                                         src={iconimage}
-                                        className="img-file shadow-1-strong rounded"
+                                        className={imgClassName}
                                         alt={file.name}
                                     />
                                     <a href={ahref} target='_blank'>
-                                        <i className="preview-btn fa-solid fa-eye" /></a>
+                                        <i className={`${eyeBtnClassname} fa-solid fa-eye`} /></a>
                                     <button type="button"
                                         id={j}
                                         className="delete-btn"
@@ -259,23 +337,30 @@ export const FileInput = React.forwardRef((props, ref) => {
                 </div>
                 :
                 (props.multiple == "") ?
-                    <div className="col-sm mt-2 mb-2 img-container">
-                        <img src={iconimage} className="img-file shadow-1-strong rounded" />
-                    </div> :
-                    <div className="col-sm mt-2 mb-2 img-container">
-                        <img src={multipleImage} className="img-file shadow-1-strong rounded" />
-                    </div>
+                    <>
+                        <label className={`${imgClassName} col-sm mt-2 img-drop-container`} for={props.htmlFor}>
+                            <img src={iconimage} className="empty-img" />
+                        </label>
+                        <br />
+                        <span className='fs-8 text-left grey'>&nbsp;</span>
+                    </> :
+                    <>
+                        <label className={`${imgClassName} col-sm mt-2 img-drop-container`} for={props.htmlFor}>
+                            <img src={multipleImage} className="empty-img" />
+                        </label>
+                        <br />
+                        <span className='fs-8 text-left grey'>&nbsp;</span>
+                    </>
             }
-            <br />
 
-            <div className="input-group mb-1">
-                <input type="file" className="form-control" id={props.htmlFor}
-                    multiple={props.multiple}
-                    value=""
-                    accept={accept}
-                    onChange={(e) => { props.onChange(e) }}
-                />
-            </div>
+            <input type="file" className="form-control" id={props.htmlFor}
+                multiple={props.multiple}
+                value=""
+                accept={accept}
+                onChange={(e) => { props.onChange(e) }}
+            />
+
+{/* <hr></hr> */}
         </>
     )
 })
@@ -312,6 +397,7 @@ export const InputElement = React.forwardRef((props, ref) => {
         case "textarea": return <TextAreaInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "datetime": return <DateTimeInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "button": return <ButtonInput {...element} onClick={(e) => { props.onClick(e) }} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />
+        case "tinyMCE": return <TinyInput {...element} onClick={(e) => { props.onClick(e) }} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />
         case "file":
             let images = (props.element.images) ? props.element.images : [];
             let files = (props.element.files) ? props.element.files : [];

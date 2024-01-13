@@ -1,5 +1,5 @@
 // Authenticate.js
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, Outlet } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
@@ -8,10 +8,12 @@ import HeaderComponent from './jewell/components/layouts/Header'
 import { setCredentials } from './jewell/features/auth/authSlice'
 import { useGetUserDetailsQuery } from './jewell/app/services/auth/authService'
 import StatusBar from './jewell/components/layouts/StatusBar'
+import validator from './jewell/components/forms/validate'
+import Login from './jewell/pages/login/Login'
 
 const Authenticate = () => {
-    const { userInfo, userToken } = useSelector((state) => state.auth)
-    // let status = { show: success, type: "success", msg: message }
+    const { userInfo, userToken, permissions } = useSelector((state) => state.auth)
+    const [urlMenuName, setUrlMenuName] = useState("");
 
     // onStatusClose(){
 
@@ -25,18 +27,17 @@ const Authenticate = () => {
     // })
 
     // // console.log(userInfo) // user object
-    // useEffect(() => {
-    //     if (data) {
-    //         // setInterval(() => {
-    //         dispatch(setCredentials(data))
-    //         // }, 5000);
-
-    //     }
-    // }, [data, dispatch])
+    useEffect(() => {
+        let urlMenuName = (window.location.pathname.split('/')[1]) ? window.location.pathname.split('/')[1] : "";
+        // console.log(userInfo);
+        // console.log(permissions);
+        setUrlMenuName(urlMenuName);
+    })
     // show unauthorized screen if no user is found in redux store
     if (!userInfo && !userToken) {
         return (
             <Navigate to={'/login'} />
+            // <Login></Login>
             // <div className='row login-row'>
             //     <div className='col-sm login-half-round vertical right'>
             //         <div className='login-half-round-content'>
@@ -68,7 +69,17 @@ const Authenticate = () => {
         <>
             {/* <HeaderComponent userInfo={userInfo} /> */}
             <Header />
-            <Outlet />
+            {
+                (permissions.includes(urlMenuName)) ?
+                    <Outlet /> :
+                    <>
+                        <div className='content-div'>
+                            <div className='row'>
+                                <div className='fs-20 text-center mt-5'>Unauthorized! Page Not found</div> :
+                            </div>
+                        </div>
+                    </>
+            }
         </>
         // : ""
     )

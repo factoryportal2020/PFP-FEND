@@ -13,7 +13,8 @@ export const authApi = createApi({
         baseUrl: baseURL,
         // prepareHeaders is used to configure the header of every request and gives access to getState which we use to include the token from the store
         prepareHeaders: (headers, { getState }) => {
-            const token = getState().auth.userToken
+            const token = (getState().auth.userToken) ? getState().auth.userToken : localStorage.getItem('userToken');
+            console.log(token);
             headers.set('Access-Control-Allow-Origin', baseURL)
             if (token) {
                 // include token in req header
@@ -26,23 +27,10 @@ export const authApi = createApi({
     endpoints: (builder) => ({
         getUserDetails: builder.query({
             query: () => ({
-                url: '/admin/profile',
+                url: 'user/profile',
                 method: 'GET',
             }),
-        }),
-        getDetail: builder.query({
-            query: (encrypt_id) => ({
-                url: `/customer/get/${encrypt_id}`,
-                method: 'GET',
-            }),
-        }),  
-        listDetail: builder.mutation({
-            query: (body) => ({
-                url: `/customer/list/`,
-                method: 'POST',
-                body,
-            }),
-        }),
+        })
     }),
 })
 

@@ -5,7 +5,10 @@ import StatusBar from '../layouts/StatusBar';
 import Preloader from '../layouts/Preloader';
 import { Field } from './Field';
 import ErrorModal from '../../modals/ErrorModal';
+import ProgressModal from '../../modals/ProgressModal';
 import { SpecificationComponent } from '../../pages/product/Specification';
+import imageCompression from 'browser-image-compression';
+
 
 class FormImage extends React.Component {
     constructor(props) {
@@ -19,6 +22,11 @@ class FormImage extends React.Component {
             preLoading: props.preLoading,
             action: props.action,
             viewEncryptId: props.viewEncryptId,
+
+            progressModalTrigger: "fade",
+            progressMessage: [{className: "", msg: ""}],
+            progressTitle: [],
+            progress: [],
         }
         this.onStatusClose = this.onStatusClose.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
@@ -28,9 +36,11 @@ class FormImage extends React.Component {
         this.fileImage = React.createRef();
 
         this.showServerErrorMsg = this.showServerErrorMsg.bind(this);
+        this.showProgressMsg = this.showProgressMsg.bind(this);
 
         // errors model
         this.clickErrorModalClose = this.clickErrorModalClose.bind(this);
+        this.clickProgressModalClose = this.clickProgressModalClose.bind(this);
         this.disableSubmitButton = this.disableSubmitButton.bind(this);
         this.emptyStatusMsg = this.emptyStatusMsg.bind(this);
 
@@ -82,6 +92,7 @@ class FormImage extends React.Component {
 
     async showServerErrorMsg(message) {
         let stateObj = { ...this.state };
+        // console.log(message);
         var msg = message;
 
         if (typeof msg == "string") {
@@ -109,25 +120,11 @@ class FormImage extends React.Component {
         this.setState({ errorsModalTrigger: "fade" })
     }
 
-    handleChangeValue(event, fieldName, new_element) {
-        let value = event;
-        // console.log(value);
-        let stateObj = { ...this.state };
-
-        if (new_element.type == "checkbox") {
-            value = this.handleChangeCheckBox(event, stateObj.states.params[fieldName]);
-        }
-
-        if (new_element.type == "file") {
-            value = this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
-        }
-
-        // if (new_element.type == "datetime") {
-        //     value = this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
-        // }
-
-        (async () => { await this.checkValidateSetState(value, fieldName, stateObj, new_element) })();
+    async clickProgressModalClose() {
+        this.setState({ progressModalTrigger: "fade" })
     }
+
+
 
     async checkValidateSetState(value, fieldName, stateObj, new_element, submitCheck = false) {
         if (new_element.validate) {
@@ -150,79 +147,156 @@ class FormImage extends React.Component {
         return checkbox;
     }
 
-    handleChangeFile(event, curArray, multiple) {
-        if (multiple == "") {
-            curArray = [];
-        }
-
-        let files = Array.prototype.slice.call(event.target.files);
-        if (files.length > 0) {
-            files.map((file, j) => {
-                curArray.push(file);
-            })
-        }
-        return curArray;
+    async showProgressMsg(progress) {
+        let stateObj = { ...this.state };
+        // console.log(message);
+        stateObj.progress = progress;
+        stateObj.progressModalTrigger = "d-block";
+        stateObj.progressMessage = [{className: "", msg: ""}];
+        stateObj.progressTitle = [];
+        stateObj.preLoading = false;
+        this.setState({ ...stateObj }, () => { });
     }
 
-    handleDeleteImage(e, fieldName, new_element) {
-        if (new_element.type == "button") {
-            this.props.changePasswordButton(fieldName, 'hide'); // change_password
-            return;
-        }
-
-        let keyIndex = e.target.id
-        let file_id = e.target.id
-        console.log(keyIndex);
-        let curArray = [...this.state.states.params[fieldName]];
-
-        if (curArray.length > 0) {
-            curArray.map((element, i) => {
-                if (element.url && element.id) {
-                    if (element.id == keyIndex) {
-                        keyIndex = i;
-                        file_id = element.id
-                    }
-                } else {
-                    file_id = null
-                }
-            })
-        }
-        console.log("keyIndex");
-        console.log(keyIndex);
-
-        if (keyIndex > -1) { curArray.splice(keyIndex, 1); }
-        let stateObj = { ...this.state };
-
-
-        console.log(curArray);
+    handleChangeValue(event, fieldName, new_element) {
         (async () => {
-            await this.deleteExistImage(fieldName, file_id);
-            await this.checkValidateSetState(curArray, fieldName, stateObj, new_element);
+            let value = event;
+
+            let stateObj = { ...this.state };
+
+            if (new_element.type == "checkbox") {
+                value = this.handleChangeCheckBox(event, stateObj.states.params[fieldName]);
+                await this.checkValidateSetState(value, fieldName, stateObj, new_element)
+            }
+
+            if (new_element.type == "file") {
+                // value = (async () => { await this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple) })();
+                let fileValue = await this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
+                console.log(fileValue);
+                if (fileValue.length > 0) {
+                    await this.checkValidateSetState(fileValue, fieldName, stateObj, new_element)
+                }
+                // setInterval(() => this.clickProgressModalClose(), 3000);
+
+            }
+
+            if (new_element.type == "tinyMCE") {
+                value = value;
+                await this.checkValidateSetState(value, fieldName, stateObj, new_element)
+            }
+            // if (new_element.type == "datetime") {
+            //     value = this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
+            // }
+
         })();
     }
 
-    async deleteExistImage(fieldName, id = null) {
-        //Edit 
-        if (this.state.states.params.encrypt_id) {
-            let stateObj = { ...this.state };
-            // let files = stateObj.states.params[`${fieldName}`];
-            let deleteImages = [...stateObj.states.params.deleteImages];
-            console.log(deleteImages);
-            if (id != null) {
-                deleteImages.push(id);
-            }
-            // else {
-            //     if (files.length == 0) { return; }
-            //     files.map(val => {
-            //         if (val.id && typeof val.id !== undefined) {
-            //             deleteImages.push(val.id);
-            //         }
-            //     })
-            // }
-            console.log(deleteImages);
+    async handleChangeFile(event, curArray, multiple) {
+        // await Promise.all(
 
-            stateObj.states.params.deleteImages = deleteImages.filter(validator.makeArrayUnique);
-            this.setState({ ...stateObj }, () => { });
+        if (multiple == "") {
+            curArray = [];
+        }
+        console.log(event.target.files);
+        let files = Array.prototype.slice.call(event.target.files);
+        // let files = Array.prototype.slice.call(event.target.files);
+        // if (files.length > 0) {
+        //     files.map((file, j) => {
+        //         curArray.push(file);
+        //     })
+        // }
+        // return curArray;
+        // if (files.length > 0) {
+        //     files.map(async (file, j) => {
+        //         // (async () => {
+        //         let compressedFile = await this.handleImageUpload(file)
+        //         console.log("compressedFile");
+        //         console.log(compressedFile);
+        //         curArray.push(compressedFile);
+        //         // })();
+        //     })
+        // }
+
+        // var results = await files.map(async (file) => {
+        //     let compressedFile = await this.handleImageUpload(file)
+        //     console.log("compressedFile");
+        //     console.log(compressedFile);
+        //     return curArray.push(compressedFile);
+        // });
+        let progresArray = [];
+        progresArray[0] = 0
+        this.showProgressMsg(progresArray)
+        var results = await Promise.all(
+            files.map(async (item, i) => await this.handleImageUpload(item, i))
+        );
+        // await this.clickProgressModalClose();
+        console.log(results);
+        var resultFilter = curArray;
+        results.map(function (value) {
+            if (typeof value === 'object' &&
+                value !== null &&
+                !Array.isArray(value)
+            ) {
+                resultFilter.push(value)
+            }
+        });
+
+        console.log(resultFilter);
+
+        return resultFilter;
+        // )
+    }
+
+    async handleImageUpload(imageFile, index) {
+
+        // const imageFile = event.target.files[0];
+        const options = {
+            maxSizeMB: 0.2,
+            // maxWidthOrHeight: 1200,
+            useWebWorker: true,
+            // fileType: 'image/png',
+            alwaysKeepResolution: true,
+            // onProgress: Function, 
+            onProgress: (p) => {
+                let stateObj = { ...this.state };
+                let progress = stateObj.progress;
+                progress[index] = p
+                stateObj.progress = progress;
+                this.setState({ ...stateObj }, () => { console.log(this.state.progress) });
+            }
+
+        }
+        // let stateObj = { ...this.state };
+        try {
+            const blob = await imageCompression(imageFile, options);
+            const blobsize = blob.size / 1024 / 1024;
+            console.log(blob);
+            console.log(blobsize);
+            // console.log(blob.size / 1024 / 1024);
+            if (blobsize > 0.2) {
+                console.log(blobsize);
+                let stateObj = { ...this.state };
+                stateObj.progressMessage[index] = { className: "red", msg: "Image size should not exceed 200KB" };
+                stateObj.progressTitle[index] = blob.name;
+                this.setState({ ...stateObj }, () => { console.log("lkl"); });
+                return [];
+            }
+            else {
+                // console.log("blobsize");
+                let stateObj = { ...this.state };
+                stateObj.progressMessage[index] = { className: "green", msg: "Image uploaded Successfully" };
+                stateObj.progressTitle[index] = blob.name;
+                // stateObj.progressModalTrigger = "Image size should not exceed 200KB";
+                this.setState({ ...stateObj }, () => { });
+                return new File([blob], blob.name);
+            }
+            // stateObj.states.params[`${fieldName}`] = [new File([blob], blob.name)]; //set validation value for each param
+            // this.setState({ ...stateObj }, () => { console.log(stateObj); });
+
+        } catch (error) {
+            console.log(error);
+            // stateObj.states.params[`${fieldName}`] = []; //set validation value for each param
+            // this.setState({ ...stateObj }, () => { });
         }
     }
 
@@ -269,6 +343,67 @@ class FormImage extends React.Component {
                 }
             }
         })();
+    }
+
+
+
+    handleDeleteImage(e, fieldName, new_element) {
+        if (new_element.type == "button") {
+            this.props.changePasswordButton(fieldName, 'hide'); // change_password
+            return;
+        }
+
+        let keyIndex = e.target.id
+        let file_id = e.target.id
+        let curArray = [...this.state.states.params[fieldName]];
+
+        if (curArray.length > 0) {
+            curArray.map((element, i) => {
+                if (element.url && element.id) {
+                    if (element.id == keyIndex) {
+                        keyIndex = i;
+                        file_id = element.id
+                    }
+                } else {
+                    file_id = null
+                }
+            })
+        }
+
+        if (keyIndex > -1) { curArray.splice(keyIndex, 1); }
+        let stateObj = { ...this.state };
+
+
+        console.log(curArray);
+        (async () => {
+            await this.deleteExistImage(fieldName, file_id);
+            await this.checkValidateSetState(curArray, fieldName, stateObj, new_element);
+        })();
+    }
+
+    async deleteExistImage(fieldName, id = null) {
+        //Edit 
+        if (this.state.states.params.encrypt_id) {
+            let stateObj = { ...this.state };
+            // let files = stateObj.states.params[`${fieldName}`];
+            let deleteImages = [...stateObj.states.params.deleteImages];
+            console.log(deleteImages);
+            if (id != null) {
+                deleteImages.push(id);
+            }
+            // else {
+            //     if (files.length == 0) { return; }
+            //     files.map(val => {
+            //         if (val.id && typeof val.id !== undefined) {
+            //             deleteImages.push(val.id);
+            //         }
+            //     })
+            // }
+            console.log(deleteImages);
+
+            stateObj.states.params.deleteImages = deleteImages.filter(validator.makeArrayUnique);
+            this.setState({ ...stateObj }, () => { });
+        }
     }
 
     async disableSubmitButton(trigger = false) {
@@ -338,6 +473,19 @@ class FormImage extends React.Component {
 
                 hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, value.length == 0, hasErr);
                 value = outresult[1].value;
+                // if (outresult[1].value.length > 0) {
+                //     (async () => {
+                //         // console.log("valuefile");
+                //         // console.log(value[0]);
+                //         let compressedFile = await this.handleImageUpload(value[0], fieldName)
+                //         // console.log("compressedFile");
+                //         // console.log(compressedFile);
+                //         // value = compressedFile;
+                //         // console.log("valuedcd");
+                //         // console.log(outresult[1].value); //file instance
+                //     })();
+                // }
+
             }
             stateObj.states.validations[`${hasErrName}`] = hasErr;
 
@@ -346,6 +494,9 @@ class FormImage extends React.Component {
         stateObj.states.params[`${fieldName}`] = value; //set validation value for each param
         this.setState({ ...stateObj }, () => { });
     }
+
+
+
 
 
     checkRequiredInArray(submitCheck, array, emptyValue, hasErr) {
@@ -379,6 +530,7 @@ class FormImage extends React.Component {
                             this.state.states.tabs.map((tab, j) => {
                                 var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
                                 var forTask = (j > 0 && this.state.states.listLink == "task") ? true : false;
+                                var forWebsite = (j > 0 && this.state.states.listLink == "website") ? true : false;
                                 return (
                                     <>
                                         <ErrorModal
@@ -388,9 +540,18 @@ class FormImage extends React.Component {
                                             errorsModalTrigger={this.state.errorsModalTrigger}
                                             clickErrorModalClose={() => this.clickErrorModalClose()} />
 
+                                        <ProgressModal
+                                            key={`progressModal${j}`}
+                                            progress={this.state.progress}
+                                            progressMessage={this.state.progressMessage}
+                                            progressTitle={this.state.progressTitle}
+                                            title={this.state.states.title}
+                                            progressModalTrigger={this.state.progressModalTrigger}
+                                            clickProgressModalClose={() => this.clickProgressModalClose()} />
+
                                         <div key={j} className={`row mt-2 brown ${tabShow}`}>
 
-                                            <div className={"col-md-9" + (forTask ? "hide" : "")}>
+                                            <div className={"" + ((forTask || (forWebsite && tab.id == "banner")) ? "col-md-3" : "col-md-9")}>
                                                 <div className={`row g-3`}>
                                                     <Field
                                                         key={`fieldForm${j}`}
@@ -434,8 +595,8 @@ class FormImage extends React.Component {
 
 
 
-                                            <div className={(forTask ? "mb-4" : "col-md-3")}>
-                                                <div className={(forTask ? "row" : "") + " g-3"}>
+                                            <div className={((forTask) ? "mb-4" : ((forWebsite && tab.id == "banner")) ? "col-md-9" : "col-md-3")}>
+                                                <div className={((forTask) ? "row" : "") + " g-3"}>
                                                     <Field
                                                         key={`fieldImages${j}`}
                                                         state={this.state}

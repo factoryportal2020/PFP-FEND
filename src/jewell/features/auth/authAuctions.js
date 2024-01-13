@@ -32,6 +32,61 @@ export const registerUser = createAsyncThunk(
 )
 
 
+export const saveResetPassword = createAsyncThunk(
+  'reset/password',
+  async (params, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      const { data } = await axios.post(
+        `${backendURL}/reset/password`,
+        params,
+        config
+      )
+      return data
+    } catch (error) {
+      // return custom error message from backend if present
+      console.log(error);
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
+    }
+  }
+)
+
+export const sendPasswordResetLink = createAsyncThunk(
+  'forgot/password',
+  async (params, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      const { data } = await axios.post(
+        `${backendURL}/forgot/password`,
+        params,
+        config
+      )
+      return data
+    } catch (error) {
+      // return custom error message from backend if present
+      console.log(error);
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
+    }
+  }
+)
+
+
 export const userLogin = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
@@ -48,9 +103,14 @@ export const userLogin = createAsyncThunk(
         config
       )
       // store user's token in local storage
-      console.log(data);
       if (data.status) {
-        localStorage.setItem('userToken', data.data.access_token)
+        if (data.data) {
+          localStorage.setItem('userToken', data.data.access_token)
+          localStorage.setItem('permissions', JSON.stringify(data.data.permissions))
+          if (data.data.userInfo) {
+            localStorage.setItem('role', data.data.userInfo.role)
+          }
+        }
       }
       return data
     } catch (error) {

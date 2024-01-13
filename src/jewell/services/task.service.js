@@ -10,27 +10,31 @@ class TaskDataService {
   }
 
   create(data) {
-    return http.post("/task/create", data);
+    return http.post(`/task/create`, data);
   }
 
   update(data) {
     return http.post(`/task/update/`, data);
   }
 
-  getCategory() {
-    return http.get(`/task/category`);
+  updateStatus(data) {
+    return http.post(`/task/update/status`, data);
   }
 
-  getCustomer() {
-    return http.get(`/task/customer`);
+  getCategory(selectCondition) {
+    return http.get(`/task/category/${selectCondition}`);
   }
 
-  getWorker() {
-    return http.get(`/task/worker`);
+  getCustomer(selectCondition) {
+    return http.get(`/task/customer/${selectCondition}`);
   }
 
-  delete(id) {
-    return http.delete(`/tasks/${id}`);
+  getWorker(selectCondition) {
+    return http.get(`/task/worker/${selectCondition}`);
+  }
+
+  delete(encrypt_id) {
+    return http.get(`/task/delete/${encrypt_id}`);
   }
 
   deleteAll() {

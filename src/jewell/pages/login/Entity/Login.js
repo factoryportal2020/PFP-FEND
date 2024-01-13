@@ -1,16 +1,12 @@
 export const formEntities = [
     {
-        name: "email", type: "email", colClass: 'form-group mt-3', className: "", htmlFor: "email", value: "", label: "", placeholder: "Email",
+        name: "email", type: "text", colClass: 'form-group mt-3', className: "", htmlFor: "email", value: "", label: "", placeholder: "Email",
         validate: true,
         tab: "details",
         validateOptions: [
             {
                 rule: "required",
                 msg: "Email is Required"
-            },
-            {
-                rule: "email",
-                msg: "Email format is wrong",
             }]
     },
 
@@ -38,12 +34,11 @@ export const formStates = {
     tabs: [],
     params: {
         encrypt_id: null,
-        email: "logu@gmail.com",
-        password: "98659",
+        email: "",
+        password: "",
     },
     validations: {
         hasEmailRequired: true,
-        hasEmailEmail: true,
         hasPasswordRequired: true,
     },
     validate: false,

@@ -189,7 +189,7 @@ export const formEntities = [
     },
     {
         name: "username", type: "text", colClass: 'col-md-3', className: "", htmlFor: "username", value: "",
-        label: "User Name", placeholder: "Ram",
+        label: "User Name", placeholder: "",
         validate: true, readonly: "",
         tab: "login_detail",
         validateOptions: [
@@ -223,13 +223,13 @@ export const formEntities = [
             },
             // {
             //     rule: "have_to",
-            //     have_to: "confirm_password",
-            //     msg: "confirm_password is Required" //actually not working
+            //     have_to: "password_confirmation",
+            //     msg: "password_confirmation is Required" //actually not working
             // }
         ]
     },
     {
-        name: "confirm_password", type: "confirm_password", colClass: 'col-md-3', className: "", htmlFor: "Confirm_password", value: "",
+        name: "password_confirmation", type: "password_confirmation", colClass: 'col-md-3', className: "", htmlFor: "Confirm_password", value: "",
         label: "Confirm Password", placeholder: "*****", readonly: "",
         validate: true,
         tab: "login_detail",
@@ -341,7 +341,7 @@ export const buttonStates = [
 //         hasPasswordHave: false,
 
 //         hasConfirm_passwordHave_to: false,
-//         hasConfirm_passwordEqual: false,
+//         hasPassword_confirmationEqual: false,
 //     },
 //     validate: false,
 // }

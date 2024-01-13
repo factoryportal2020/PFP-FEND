@@ -26,13 +26,13 @@ export const customerApi = createApi({
     endpoints: (builder) => ({
         getDetail: builder.query({
             query: (encrypt_id) => ({
-                url: `/customer/get/${encrypt_id}`,
+                url: `admin/customer/get/${encrypt_id}`,
                 method: 'GET',
             }),
         }),
         listDetail: builder.mutation({
             query: (body) => ({
-                url: `/customer/list/`,
+                url: `admin/customer/list/`,
                 method: 'POST',
                 body,
             }),
