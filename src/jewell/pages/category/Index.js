@@ -28,10 +28,12 @@ class Index extends React.Component {
                     encrypt_id: null,
                     deleteImages: [], // Edit purpose
                     name: "",
+                    sub_title: "",
                     description: "",
                     code: "",
                     category_image: [],
                     status: 1,
+                    is_show: 1,
                     items_count: 0,
                     tasks_count: 0,
                 },

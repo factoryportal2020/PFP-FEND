@@ -12,7 +12,6 @@ class ErrorModal extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        // console.log(newProps);
         this.setState({
             modalTrigger: newProps.errorsModalTrigger,
             errors: newProps.errors
@@ -24,7 +23,7 @@ class ErrorModal extends React.Component {
     }
 
     render() {
-        var errors = Object.values(this.state.errors);
+        var errors = (typeof this.state.errors !== 'undefined' && this.state.errors !== null) ? Object.values(this.state.errors) : [];
         return (
             <>
                 <div className={`modal ${this.state.modalTrigger}`} tabIndex="-1" role="dialog">

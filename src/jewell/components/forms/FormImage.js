@@ -8,6 +8,7 @@ import ErrorModal from '../../modals/ErrorModal';
 import ProgressModal from '../../modals/ProgressModal';
 import { SpecificationComponent } from '../../pages/product/Specification';
 import imageCompression from 'browser-image-compression';
+import { Link } from 'react-router-dom';
 
 
 class FormImage extends React.Component {
@@ -24,13 +25,14 @@ class FormImage extends React.Component {
             viewEncryptId: props.viewEncryptId,
 
             progressModalTrigger: "fade",
-            progressMessage: [{className: "", msg: ""}],
+            progressMessage: [{ className: "", msg: "" }],
             progressTitle: [],
             progress: [],
         }
         this.onStatusClose = this.onStatusClose.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
         this.handleDeleteImage = this.handleDeleteImage.bind(this);
+        this.handleSelectImage = this.handleSelectImage.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.clickTab = this.clickTab.bind(this);
         this.fileImage = React.createRef();
@@ -63,6 +65,7 @@ class FormImage extends React.Component {
         }
 
         if (this.state.preLoading != nextProps.preLoading) {
+            console.log(nextProps.preLoading);
             this.setState({ preLoading: nextProps.preLoading }, () => { });
         }
 
@@ -80,6 +83,7 @@ class FormImage extends React.Component {
     }
 
     setStatusMsg(type, msg) {
+        console.log(msg)
         let stateObj = { ...this.state };
         stateObj.states.status = { show: true, type: type, msg: msg };
         this.setState({ ...stateObj }, () => { });
@@ -92,7 +96,7 @@ class FormImage extends React.Component {
 
     async showServerErrorMsg(message) {
         let stateObj = { ...this.state };
-        // console.log(message);
+        console.log(message);
         var msg = message;
 
         if (typeof msg == "string") {
@@ -108,7 +112,7 @@ class FormImage extends React.Component {
         stateObj.errors = msg;
         stateObj.errorsModalTrigger = "d-block";
         stateObj.preLoading = false;
-        this.setState({ ...stateObj }, () => { this.disableSubmitButton(); console.log(this.state) });
+        this.setState({ ...stateObj }, () => { this.disableSubmitButton(); });
     }
 
     clickTab(e) {
@@ -120,20 +124,20 @@ class FormImage extends React.Component {
         this.setState({ errorsModalTrigger: "fade" })
     }
 
-    async clickProgressModalClose() {
+    clickProgressModalClose() {
         this.setState({ progressModalTrigger: "fade" })
     }
 
 
 
-    async checkValidateSetState(value, fieldName, stateObj, new_element, submitCheck = false) {
+    async checkValidateSetState(value, fieldName, stateObj, new_element, submitCheck = false, isEventTargetFile = false) {
         if (new_element.validate) {
             if (new_element.validateOptions.length != 0) {
-                await this.validation(value, fieldName, new_element, submitCheck);
+                await this.validation(value, fieldName, new_element, submitCheck, isEventTargetFile);
             }
         } else {
             stateObj.states.params[`${fieldName}`] = value;
-            this.setState({ ...stateObj }, () => { console.log(this.state.states.params) });
+            this.setState({ ...stateObj }, () => { });
         }
     }
 
@@ -147,12 +151,12 @@ class FormImage extends React.Component {
         return checkbox;
     }
 
-    async showProgressMsg(progress) {
+    async showProgressMsg(progress, trigger = "d-block") {
         let stateObj = { ...this.state };
         // console.log(message);
         stateObj.progress = progress;
-        stateObj.progressModalTrigger = "d-block";
-        stateObj.progressMessage = [{className: "", msg: ""}];
+        stateObj.progressModalTrigger = trigger;
+        stateObj.progressMessage = [{ className: "", msg: "" }];
         stateObj.progressTitle = [];
         stateObj.preLoading = false;
         this.setState({ ...stateObj }, () => { });
@@ -166,23 +170,25 @@ class FormImage extends React.Component {
 
             if (new_element.type == "checkbox") {
                 value = this.handleChangeCheckBox(event, stateObj.states.params[fieldName]);
-                await this.checkValidateSetState(value, fieldName, stateObj, new_element)
+                await this.checkValidateSetState(value, fieldName, stateObj, new_element, false, false)
             }
 
-            if (new_element.type == "file") {
-                // value = (async () => { await this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple) })();
+            else if (new_element.type == "file") {
                 let fileValue = await this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
                 console.log(fileValue);
                 if (fileValue.length > 0) {
-                    await this.checkValidateSetState(fileValue, fieldName, stateObj, new_element)
+                    await this.checkValidateSetState(fileValue, fieldName, stateObj, new_element, false, true) //here isEventTargetfile is true
                 }
-                // setInterval(() => this.clickProgressModalClose(), 3000);
-
+                // await this.checkFileSize(eventTarFiles, fieldName)
             }
 
-            if (new_element.type == "tinyMCE") {
+            else if (new_element.type == "tinyMCE") {
                 value = value;
-                await this.checkValidateSetState(value, fieldName, stateObj, new_element)
+                await this.checkValidateSetState(value, fieldName, stateObj, new_element, false, false)
+            }
+
+            else {
+                await this.checkValidateSetState(value, fieldName, stateObj, new_element, false, false)
             }
             // if (new_element.type == "datetime") {
             //     value = this.handleChangeFile(event, stateObj.states.params[fieldName], new_element.multiple);
@@ -191,70 +197,74 @@ class FormImage extends React.Component {
         })();
     }
 
-    async handleChangeFile(event, curArray, multiple) {
-        // await Promise.all(
-
-        if (multiple == "") {
-            curArray = [];
-        }
-        console.log(event.target.files);
-        let files = Array.prototype.slice.call(event.target.files);
-        // let files = Array.prototype.slice.call(event.target.files);
-        // if (files.length > 0) {
-        //     files.map((file, j) => {
-        //         curArray.push(file);
-        //     })
-        // }
-        // return curArray;
-        // if (files.length > 0) {
-        //     files.map(async (file, j) => {
-        //         // (async () => {
-        //         let compressedFile = await this.handleImageUpload(file)
-        //         console.log("compressedFile");
-        //         console.log(compressedFile);
-        //         curArray.push(compressedFile);
-        //         // })();
-        //     })
-        // }
-
-        // var results = await files.map(async (file) => {
-        //     let compressedFile = await this.handleImageUpload(file)
-        //     console.log("compressedFile");
-        //     console.log(compressedFile);
-        //     return curArray.push(compressedFile);
-        // });
+    async handleChangeFile(event, curAllArray, multiple) {
         let progresArray = [];
         progresArray[0] = 0
         this.showProgressMsg(progresArray)
+        // await Promise.all(
+
+        // if (multiple == "") {
+        let curArray = [];
+        // }
+        // console.log(event.target.files);
+        // let files = Array.prototype.slice.call(event.target.files);
+        let files = Array.prototype.slice.call(event.target.files);
+        let curAllArrayCount = curAllArray.length;
+        if (curAllArrayCount >= 5) {
+            this.showServerErrorMsg({ "msg": ["Only allowed 5 images"] });
+            console.log("Only allowed 5 images")
+            return [];
+        }
+        if (files.length > 0) {
+            let sliceCount = 5 - curAllArrayCount;
+            files = files.slice(0, sliceCount)
+            files.map((file, j) => {
+                curArray.push(file);
+            })
+        }
+        return curArray;
+    }
+
+    async getCompressedFile(event, fieldName, multiple) {
+        let stateObj = { ...this.state };
+        let curArray = stateObj.states.params[fieldName];
+        var entities = this.state.entities;
+        let maxWidthOrHeight = 800;
+        let curArrayCount = curArray.length;
+        entities.map((Element, i) => {
+            if (Element.name == fieldName) {
+                if (Element.maxWidthOrHeight && Element.maxWidthOrHeight != "") {
+                    maxWidthOrHeight = parseInt(Element.maxWidthOrHeight);
+                }
+            }
+        })
         var results = await Promise.all(
-            files.map(async (item, i) => await this.handleImageUpload(item, i))
+            event.map(async (item, i) => await this.handleImageUpload(item, maxWidthOrHeight, i))
         );
-        // await this.clickProgressModalClose();
-        console.log(results);
-        var resultFilter = curArray;
+        var resultFilter = [];
         results.map(function (value) {
             if (typeof value === 'object' &&
                 value !== null &&
                 !Array.isArray(value)
             ) {
                 resultFilter.push(value)
+                if (multiple != "") {
+                    curArray.push(value)
+                } else {
+                    curArray = [value]
+                }
             }
         });
-
-        console.log(resultFilter);
-
-        return resultFilter;
-        // )
+        console.log(curArray);
+        return curArray;
     }
 
-    async handleImageUpload(imageFile, index) {
-
-        // const imageFile = event.target.files[0];
+    async handleImageUpload(imageFile, maxWidthOrHeight, index) {
         const options = {
-            maxSizeMB: 0.2,
-            // maxWidthOrHeight: 1200,
+            maxSizeMB: 0.1,
+            maxWidthOrHeight: maxWidthOrHeight,
             useWebWorker: true,
-            // fileType: 'image/png',
+            fileType: 'image/jpeg',
             alwaysKeepResolution: true,
             // onProgress: Function, 
             onProgress: (p) => {
@@ -262,41 +272,35 @@ class FormImage extends React.Component {
                 let progress = stateObj.progress;
                 progress[index] = p
                 stateObj.progress = progress;
-                this.setState({ ...stateObj }, () => { console.log(this.state.progress) });
+                this.setState({ ...stateObj }, () => { });
             }
 
         }
-        // let stateObj = { ...this.state };
         try {
+            if (!imageFile.type || !imageFile.size) { return []; }
             const blob = await imageCompression(imageFile, options);
+            //console.log(blob);
             const blobsize = blob.size / 1024 / 1024;
-            console.log(blob);
-            console.log(blobsize);
-            // console.log(blob.size / 1024 / 1024);
-            if (blobsize > 0.2) {
-                console.log(blobsize);
+            let blob_name = blob.name.replace(".png", ".JPG");
+            if (blobsize > 1) {
+                //  console.log(blobsize);
                 let stateObj = { ...this.state };
-                stateObj.progressMessage[index] = { className: "red", msg: "Image size should not exceed 200KB" };
-                stateObj.progressTitle[index] = blob.name;
-                this.setState({ ...stateObj }, () => { console.log("lkl"); });
+                stateObj.progressMessage[index] = { className: "red", msg: "Image size should not exceed 1mb" };
+                stateObj.progressTitle[index] = blob_name;
+                this.setState({ ...stateObj }, () => { });
                 return [];
             }
             else {
-                // console.log("blobsize");
                 let stateObj = { ...this.state };
                 stateObj.progressMessage[index] = { className: "green", msg: "Image uploaded Successfully" };
-                stateObj.progressTitle[index] = blob.name;
-                // stateObj.progressModalTrigger = "Image size should not exceed 200KB";
+                stateObj.progressTitle[index] = blob_name;
                 this.setState({ ...stateObj }, () => { });
-                return new File([blob], blob.name);
+                //console.log(new File([blob], blob_name, { type: blob.type }));
+                return new File([blob], blob_name, { type: blob.type });
             }
-            // stateObj.states.params[`${fieldName}`] = [new File([blob], blob.name)]; //set validation value for each param
-            // this.setState({ ...stateObj }, () => { console.log(stateObj); });
-
         } catch (error) {
             console.log(error);
-            // stateObj.states.params[`${fieldName}`] = []; //set validation value for each param
-            // this.setState({ ...stateObj }, () => { });
+            return [];
         }
     }
 
@@ -377,8 +381,21 @@ class FormImage extends React.Component {
         console.log(curArray);
         (async () => {
             await this.deleteExistImage(fieldName, file_id);
-            await this.checkValidateSetState(curArray, fieldName, stateObj, new_element);
+            await this.checkValidateSetState(curArray, fieldName, stateObj, new_element, false, false);
         })();
+    }
+
+
+    handleSelectImage(e, fieldName, new_element) {
+        let stateObj = { ...this.state };
+        // var f = new File([""], e.currentTarget.dataset.name, {type: "image/jpeg", lastModified: new Date(0)})
+        // stateObj.states.params[`${new_element.htmlFor}`] = [f]
+
+        stateObj.states.params[`${new_element.htmlFor}`] = [{ url: e.currentTarget.dataset.url, public_url: e.currentTarget.dataset.public_url, name: e.currentTarget.dataset.name, id: null }]
+        this.setState({ ...stateObj }, () => { console.log(stateObj.states.params[`${new_element.htmlFor}`]) });
+        // console.log(e.currentTarget.dataset.url);
+        // console.log(fieldName);  
+        // console.log(new_element);
     }
 
     async deleteExistImage(fieldName, id = null) {
@@ -417,11 +434,15 @@ class FormImage extends React.Component {
         let stateObj = { ...this.state };
         entities.map((Element, i) => {
             let value = this.state.states.params[`${Element.name}`];
-            this.checkValidateSetState(value, Element.name, stateObj, Element, true)
+            if (Element.type == "image") {
+                console.log(Element.name);
+                console.log(value);
+            }
+            this.checkValidateSetState(value, Element.name, stateObj, Element, true, false)
         })
     }
 
-    async validation(value, fieldName, new_element, submitCheck = false) {
+    async validation(value, fieldName, new_element, submitCheck = false, isEventTargetFile = false) {
         let hasErr = false;
         let hasHaveToErr = false;
         let stateObj = { ...this.state };
@@ -430,15 +451,29 @@ class FormImage extends React.Component {
             let hasErrName = validator.hasErrorNaming(fieldName, rule);
             if (rule == "required") {
                 hasErr = (validator.empty(value)) ? true : false;
+            } else if (rule == "url") {
+                hasErr = (validator.url(value)) ? true : false;
             } else if (rule == "email") {
                 hasErr = (validator.email(value)) ? true : false;
                 hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, validator.empty(value), hasErr);
             } else if (rule == "phone_no") {
                 hasErr = (validator.indianPhoneNo(value)) ? true : false;
                 hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, validator.empty(value), hasErr);
+            } else if (rule == "landline_no") {
+                hasErr = (validator.landLineNo(value)) ? true : false;
+                hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, validator.empty(value), hasErr);
+            } else if (rule == "rupee") {
+                hasErr = (validator.rupee(value)) ? true : false;
+                hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, validator.empty(value), hasErr);
+            } else if (rule == "quantity") {
+                hasErr = (validator.quantity(value)) ? true : false;
+                hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, validator.empty(value), hasErr);
             } else if (rule == "required_array") {
                 hasErr = (validator.requiredArray(value)) ? true : false;
-            } else if (rule == "have") {
+            } else if (rule == "string_numeric") {
+                hasErr = (validator.isStringNumericOnly(value)) ? true : false;
+            }
+            else if (rule == "have") {
                 hasErr = false;
                 let have_value = stateObj.states.params[`${option.have}`];
                 if ((validator.empty(have_value) == false)) {
@@ -467,36 +502,36 @@ class FormImage extends React.Component {
             }
 
             else if (rule == "image" || rule == "pdf" || rule == "csv" || rule == "excel" || rule == "doc") {
+                // console.log(value);
                 let outresult = (validator.isFiles(value, rule));
                 hasErr = outresult[0].result ? true : false; //If true means this rule having error
                 if (this.state.states.params.encrypt_id) { submitCheck = true; }
 
                 hasErr = this.checkRequiredInArray(submitCheck, new_element.validateOptions, value.length == 0, hasErr);
                 value = outresult[1].value;
-                // if (outresult[1].value.length > 0) {
-                //     (async () => {
-                //         // console.log("valuefile");
-                //         // console.log(value[0]);
-                //         let compressedFile = await this.handleImageUpload(value[0], fieldName)
-                //         // console.log("compressedFile");
-                //         // console.log(compressedFile);
-                //         // value = compressedFile;
-                //         // console.log("valuedcd");
-                //         // console.log(outresult[1].value); //file instance
-                //     })();
-                // }
-
             }
             stateObj.states.validations[`${hasErrName}`] = hasErr;
 
         })
         stateObj.states.validate = (hasErr || hasHaveToErr) ? true : false; //set validate value
-        stateObj.states.params[`${fieldName}`] = value; //set validation value for each param
-        this.setState({ ...stateObj }, () => { });
+        if (new_element.fileType == "image" && isEventTargetFile) {
+            // console.log(value);
+            if (value.length > 0) {
+
+                let imageValue = await this.getCompressedFile(value, fieldName, new_element.multiple)
+                console.log(imageValue);
+                stateObj.states.params[`${fieldName}`] = imageValue; //set validation value for each param
+                this.setState({ ...stateObj }, () => { });
+            } else {
+                this.showProgressMsg([], 'fade')
+            }
+        } else {
+            console.log("value");
+            console.log(value);
+            stateObj.states.params[`${fieldName}`] = value; //set validation value for each param
+            this.setState({ ...stateObj }, () => { });
+        }
     }
-
-
-
 
 
     checkRequiredInArray(submitCheck, array, emptyValue, hasErr) {
@@ -513,123 +548,182 @@ class FormImage extends React.Component {
     render() {
         return (
             <>
-                <div className='content-div'>
-                    <StatusBar status={this.state.states.status} onStatusClose={this.onStatusClose} />
+                {
+                    (this.props.forSearchModel) ?
+                        <>
+                            <Field
+                                key={`fieldForm${0}`}
+                                state={this.state}
+                                tab={this.state.states.tabs[0]}
+                                isFile={false}
+                                onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                            />
+                        </> :
 
-                    {this.state.preLoading ? <Preloader /> : ""}
+                        <div className='content-div'>
+                            <StatusBar status={this.state.states.status} onStatusClose={this.onStatusClose} />
 
-                    <div className='d-flex justify-content-between'>
-                        <div><h4 className='brown'>{this.state.states.title}</h4></div>
-                        {(this.state.states.tabs.length > 1) ?
-                            <Tab state={this.state} onClick={(e) => this.clickTab(e)} /> : ""}
-                    </div>
+                            {this.state.preLoading ? <Preloader /> : ""}
+
+                            <div className='d-flex justify-content-between'>
+                                <div><h4 className='brown'>{this.state.states.title}</h4></div>
+                                {(this.state.states.tabs.length > 1) ?
+                                    <Tab state={this.state} onClick={(e) => this.clickTab(e)} /> : ""}
 
 
-                    <form>
-                        {
-                            this.state.states.tabs.map((tab, j) => {
-                                var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
-                                var forTask = (j > 0 && this.state.states.listLink == "task") ? true : false;
-                                var forWebsite = (j > 0 && this.state.states.listLink == "website") ? true : false;
-                                return (
-                                    <>
-                                        <ErrorModal
-                                            key={`errorModal${j}`}
-                                            errors={this.state.errors}
-                                            title={this.state.states.title}
-                                            errorsModalTrigger={this.state.errorsModalTrigger}
-                                            clickErrorModalClose={() => this.clickErrorModalClose()} />
+                                {(this.state.states.listLink == "website") ?
 
-                                        <ProgressModal
-                                            key={`progressModal${j}`}
-                                            progress={this.state.progress}
-                                            progressMessage={this.state.progressMessage}
-                                            progressTitle={this.state.progressTitle}
-                                            title={this.state.states.title}
-                                            progressModalTrigger={this.state.progressModalTrigger}
-                                            clickProgressModalClose={() => this.clickProgressModalClose()} />
+                                    <div>
+                                        {(this.state.states.params.oldsite_url != "") ?
+                                            <>
+                                                <Link target="_blank" type="button"
+                                                    to={`/${this.state.states.params.oldsite_url}/home`}
+                                                    // onClick={(e) => { this.props.handlePreview(e) }}
+                                                    className="btn btn-light jewell-bg-color brown ">
+                                                    <i className='fa fa-eye'></i> Preview
+                                                </Link>
 
-                                        <div key={j} className={`row mt-2 brown ${tabShow}`}>
+                                                <button type="button"
+                                                    onClick={(e) => { this.props.handleLaunch(e) }}
+                                                    className="btn btn-light jewell-bg-color brown ms-2">
+                                                    <i className='fa fa-rocket'></i> Launch Website
+                                                </button>
+                                            </>
+                                            : ""}
+                                    </div> : ""}
+                            </div>
 
-                                            <div className={"" + ((forTask || (forWebsite && tab.id == "banner")) ? "col-md-3" : "col-md-9")}>
-                                                <div className={`row g-3`}>
-                                                    <Field
-                                                        key={`fieldForm${j}`}
-                                                        state={this.state}
-                                                        tab={tab}
-                                                        isFile={false}
-                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                    />
-                                                    {/* Product */}
-                                                    {
-                                                        (this.state.states.params.other_specifications && j == 0) ?
-                                                            <>
-                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-4'>
-                                                                    <legend className='fs-18'>Other Specifications:</legend>
-                                                                    <SpecificationComponent
-                                                                        ref={this.OtherSpecificationsRef}
-                                                                        specifications={this.state.states.params.other_specifications}
-                                                                        deletedIds={this.state.states.params.delete_specifications_ids}
-                                                                    />
-                                                                </fieldset>
-                                                            </> : ""
-                                                    }
-                                                    {
-                                                        (this.state.states.params.price_breakdowns && j == 0) ?
-                                                            <>
-                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-5'>
-                                                                    <legend className='fs-18'>Price Breakdowns:</legend>
-                                                                    <SpecificationComponent
-                                                                        ref={this.PricebreakdownsRef}
-                                                                        specifications={this.state.states.params.price_breakdowns}
-                                                                        deletedIds={this.state.states.params.delete_pricebreakdowns_ids}
-                                                                    />
-                                                                </fieldset>
-                                                            </> : ""
-                                                    }
-                                                    {/* End Product */}
+
+                            <form>
+                                {
+                                    this.state.states.tabs.map((tab, j) => {
+                                        var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
+                                        var forTask = (j > 0 && this.state.states.listLink == "task") ? true : false;
+                                        var forWebsite = (j > 0 && this.state.states.listLink == "website") ? true : false;
+                                        return (
+                                            <>
+                                                <ErrorModal
+                                                    key={`errorModal${j}`}
+                                                    errors={this.state.errors}
+                                                    title={this.state.states.title}
+                                                    errorsModalTrigger={this.state.errorsModalTrigger}
+                                                    clickErrorModalClose={() => this.clickErrorModalClose()} />
+
+                                                <ProgressModal
+                                                    key={`progressModal${j}`}
+                                                    progress={this.state.progress}
+                                                    progressMessage={this.state.progressMessage}
+                                                    progressTitle={this.state.progressTitle}
+                                                    title={this.state.states.title}
+                                                    progressModalTrigger={this.state.progressModalTrigger}
+                                                    clickProgressModalClose={() => this.clickProgressModalClose()} />
+
+                                                <div key={j} className={`row mt-2 brown ${tabShow}`}>
+
+                                                    <div className={"" + ((forTask || (forWebsite && (tab.id == "banner"))) ? "col-md-3" :
+                                                        (forWebsite && (tab.id == "feature")) ? "" :
+                                                            (forWebsite && (tab.id == "about")) ? "col-md-6" : "col-md-9")}>
+                                                        <div className={`row g-3`}>
+                                                            <Field
+                                                                key={`fieldForm${j}`}
+                                                                state={this.state}
+                                                                tab={tab}
+                                                                isFile={false}
+                                                                onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                            />
+                                                            {/* Product */}
+                                                            {
+                                                                (this.state.states.params.other_specifications && j == 0) ?
+                                                                    <>
+                                                                        <fieldset className='border-1-brown border-radius-25 p-3 mt-4'>
+                                                                            <legend className='fs-18'>Other Descriptions:</legend>
+                                                                            <SpecificationComponent
+                                                                                ref={this.OtherSpecificationsRef}
+                                                                                forField="OtherDescription"
+                                                                                specifications={this.state.states.params.other_specifications}
+                                                                                deletedIds={this.state.states.params.delete_specifications_ids}
+                                                                            />
+                                                                        </fieldset>
+                                                                    </> : ""
+                                                            }
+                                                            {
+                                                                (this.state.states.params.price_breakdowns && j == 0) ?
+                                                                    <>
+                                                                        <fieldset className='border-1-brown border-radius-25 p-3 mt-5'>
+                                                                            <legend className='fs-18'>Price Breakdowns:</legend>
+                                                                            <SpecificationComponent
+                                                                                ref={this.PricebreakdownsRef}
+                                                                                forField="PriceBreakDown"
+                                                                                specifications={this.state.states.params.price_breakdowns}
+                                                                                deletedIds={this.state.states.params.delete_pricebreakdowns_ids}
+                                                                            />
+                                                                        </fieldset>
+                                                                    </> : ""
+                                                            }
+                                                            {/* End Product */}
+
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div className={((forTask) ? "mb-4" : ((forWebsite && tab.id == "banner")) ? "col-md" :
+                                                        (forWebsite && (tab.id == "feature")) ? "" : "col-md-3")}>
+                                                        <div className={((forTask || (forWebsite && tab.id == "feature")) ? "row" : "") + " "}>
+                                                            <Field
+                                                                key={`fieldImages${j}`}
+                                                                state={this.state}
+                                                                tab={tab}
+                                                                isFile={true}
+                                                                onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                            // ref={this.fileImage}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    {((forWebsite && (tab.id == "banner" || tab.id == "about" || tab.id == "feature"))) ?
+                                                        <div className={(
+                                                            (forWebsite && (tab.id == "banner" || tab.id == "about")) ? "col-md" :
+                                                                (forWebsite && (tab.id == "feature")) ? "col-md" : "")}>
+                                                            <div className={(forWebsite && tab.id == "feature") ? "row" : ""}>
+                                                                <Field
+                                                                    key={`fieldImages${j}`}
+                                                                    state={this.state}
+                                                                    tab={tab}
+                                                                    isFileCheckbox={true}
+                                                                    onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                    onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                    onSelectImage={(e, fieldName, new_element) => { this.handleSelectImage(e, fieldName, new_element) }}
+
+                                                                // ref={this.fileImage}
+                                                                />
+                                                            </div>
+                                                        </div> : ""}
+
+
+
 
                                                 </div>
-                                            </div>
+                                            </>
+                                        )
+                                    })
+                                }
+                            </form >
 
 
+                            {(this.state.action != "view" && (!this.props.forSearchModel)) ?
+                                <div className="col-12">
+                                    <button type="button"
+                                        onClick={(e) => { this.handleSubmit(e) }}
+                                        disabled={this.state.states.submitDisabled}
+                                        className="btn btn-light jewell-bg-color brown float-end">Submit</button>
+                                </div> : ""
+                            }
 
-                                            <div className={((forTask) ? "mb-4" : ((forWebsite && tab.id == "banner")) ? "col-md-9" : "col-md-3")}>
-                                                <div className={((forTask) ? "row" : "") + " g-3"}>
-                                                    <Field
-                                                        key={`fieldImages${j}`}
-                                                        state={this.state}
-                                                        tab={tab}
-                                                        isFile={true}
-                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                    // ref={this.fileImage}
-                                                    />
-                                                </div>
-                                            </div>
-
-
-
-
-                                        </div>
-                                    </>
-                                )
-                            })
-                        }
-                    </form >
-
-
-                    {(this.state.action != "view") ?
-                        <div className="col-12">
-                            <button type="button"
-                                onClick={(e) => { this.handleSubmit(e) }}
-                                disabled={this.state.states.submitDisabled}
-                                className="btn btn-light jewell-bg-color brown float-end">Submit</button>
-                        </div> : ""
-                    }
-
-                </div >
+                        </div >}
             </>
         )
     }

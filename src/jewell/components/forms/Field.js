@@ -7,6 +7,7 @@ export const Field = React.forwardRef((props, ref) => {
     var state = props.state;
     var tab = props.tab;
     var isFile = props.isFile;
+    var isFileCheckbox = props.isFileCheckbox;
     return (
         state.entities.map((element, i) => {
             var tabShow = "hide";
@@ -34,7 +35,18 @@ export const Field = React.forwardRef((props, ref) => {
                 }
             }
 
+            if (element.type == "fileCheckbox") {
+                if (!isFileCheckbox) { return; }
+                if (element.fileType == "image") {
+                    new_element.images = state.states.params[fieldName]
+                } else {
+                    new_element.files = state.states.params[fieldName]
+                }
+            }
+
+
             if (isFile && (element.type != "file")) { return; }
+            if (isFileCheckbox && (element.type != "fileCheckbox")) { return; }
 
             return (
                 <>
@@ -42,6 +54,7 @@ export const Field = React.forwardRef((props, ref) => {
                         <InputElement key={i} element={new_element}
                             onChange={(newValue) => { props.onChange(newValue, fieldName, new_element) }}
                             onClick={(e) => { props.onClick(e, fieldName, new_element) }}
+                            onSelectImage={(e) => { props.onSelectImage(e, fieldName, new_element) }}
                         />
                         <ValidateDisplay state={state} new_element={new_element} fieldName={fieldName} />
                     </div>

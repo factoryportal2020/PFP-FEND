@@ -38,7 +38,7 @@ class Login extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let auth = nextProps.auth;
-
+        console.log(auth);
         if ((!auth.success) && (auth.errorsModalTrigger == "d-block") && auth.errors) { //errors block display
             (async () => {
                 await this.showServerErrorMsg(auth.errors)
@@ -134,7 +134,7 @@ class Login extends React.Component {
 
                                     <div className='login-small-round-content'>
                                         <a href="/">
-                                            Pocket<br />Poche<br />Admin
+                                        Pocket<br />Poche<br />Admin
                                         </a>
                                         {/* <h6 className='grey'>Task Management Portal</h6> */}
                                     </div>

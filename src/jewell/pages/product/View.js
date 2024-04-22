@@ -108,7 +108,7 @@ class View extends React.Component {
 
 
                                         <div className="row ">
-                                            <h6 className='grey'>Other Specifications:</h6>
+                                            <h6 className='grey'>Other Descriptions:</h6>
 
                                             {
                                                 (param.other_specifications.length > 0) ?

@@ -13,6 +13,8 @@ import csvImage from "../../theme/images/file-images/csv.png";
 import multipleImage from "../../theme/images/file-images/muliple_image.png";
 import { Editor } from '@tinymce/tinymce-react';
 
+
+
 const isFile = input => 'File' in window && input instanceof File;
 
 const TINYMCE_API_KEY = (process.env.REACT_APP_TINYMCE)
@@ -21,12 +23,16 @@ export const TextInput = (props) => {
     // let cursor = "";
     return (
         <>
+
             {(props.label != "") ?
-                <label htmlFor={props.htmlFor} className="form-label">{props.label}</label> : ""
+                <label htmlFor={props.htmlFor} className="form-label">{props.label} {(props.name == "price") ? "(Rupees ₹)" : ""}</label> : ""
             }
+
             <input type={props.type}
                 className={`form-control ${props.className}`} id={props.htmlFor} value={props.value} placeholder={props.placeholder}
                 readOnly={props.readonly}
+                pattern={`${(props.pattern) ? (props.pattern) : ""}`}
+                maxLength={props.maxLength}
                 onChange={(e) => {
 
                     props.onChange(e.target.value)
@@ -39,6 +45,33 @@ export const TextInput = (props) => {
 
 export const TinyInput = (props) => {
     // let cursor = "";
+    const sizeLimit = 1500;
+    const [value, setValue] = React.useState((props.value) ? props.value : '');
+    const [length, setLength] = React.useState(0);
+
+    const handleInit = (evt, editor) => {
+        setLength(editor.getContent({ format: 'text' }).length);
+    };
+
+    const handleUpdate = (value, editor) => {
+        const length = editor.getContent({ format: 'text' }).length;
+        if (length <= sizeLimit) {
+            setValue(value);
+            setLength(length);
+            props.onChange(value);
+        }
+    };
+
+    const handleBeforeAddUndo = (evt, editor) => {
+        const length = editor.getContent({ format: 'text' }).length;
+        // note that this is the opposite test as in handleUpdate
+        // because we are determining when to deny adding an undo level
+        if (length > sizeLimit) {
+            evt.preventDefault();
+        }
+    };
+
+
     return (
         <>
             {(props.label != "") ?
@@ -47,16 +80,23 @@ export const TinyInput = (props) => {
             <Editor
                 apiKey={TINYMCE_API_KEY}
                 // apiKey='rz0pw1oj4964nwqugfduv8zn0l345agbs3z36xcz8kvei4t4'
-                value={props.value}
+                value={value}
                 init={{
                     height: 500,
                     menubar: false,
+                    plugins: [
+                        'wordcount'
+                    ],
                 }}
-                onEditorChange={(e) => {
+                onInit={handleInit}
+                onEditorChange={handleUpdate}
+                onBeforeAddUndo={handleBeforeAddUndo}
 
-                    props.onChange(e)
-                }}
+            // onEditorChange={(e) => {
+            //     handleUpdate
+            // }}
             />
+            <p>Remaining: {sizeLimit - length}</p>
 
             {/* <Editor
                 apiKey="your-api-key"
@@ -172,7 +212,7 @@ export const RadioInput = (props) => {
     return (
         <>
             <label htmlFor={props.htmlFor} className="form-label">{props.label}</label>
-            <br />
+            {/* <br /> */}
             <>
                 <div className="btn-group btn-group-toggle" data-toggle="buttons">
 
@@ -200,7 +240,9 @@ export const TextAreaInput = (props) => {
     return (
         <>
             <label htmlFor={props.htmlFor} className="form-label">{props.label}</label>
-            <textarea className="form-control" id={props.htmlFor} value={props.value} placeholder={props.placeholder}
+            <textarea className="form-control" id={props.htmlFor} value={props.value}
+                placeholder={props.placeholder}
+                maxLength={props.maxLength}
                 onChange={(e) => { props.onChange(e.target.value) }}
                 onBlur={(e) => { props.onChange(e.target.value) }} />
         </>
@@ -256,18 +298,25 @@ export const FileInput = React.forwardRef((props, ref) => {
     let files = props.files;
     let datas = (images.length > 0) ? images : files;
     // console.log(datas);
+    // const [selectedImage, setSelectedImage] = 
 
     let imgClassName = "img-file shadow-1-strong rounded";
 
     imgClassName = (props.className != "") ? props.className : imgClassName;
 
+    imgClassName = (props.filecheckbox) ? imgClassName + " pointer" : imgClassName;
+
     let eyeBtnClassname = "preview-btn"
 
-    eyeBtnClassname = (imgClassName == "medium-file" || imgClassName == "banner-file") ? "banner-btn" : "preview-btn";
+    eyeBtnClassname = (imgClassName == "banner-file") ? "banner-btn" : "preview-btn";
+    eyeBtnClassname = (imgClassName == "medium-file") ? "feature-btn" : eyeBtnClassname;
 
     let deleteBtnClassname = "delete-btn"
 
-    deleteBtnClassname = (imgClassName == "medium-file" || imgClassName == "banner-file") ? "banner-de" : "delete-btn";
+    deleteBtnClassname = (imgClassName == "banner-file") ? "banner-delete-btn" : "delete-btn";
+    deleteBtnClassname = (imgClassName == "medium-file") ? "feature-delete-btn" : deleteBtnClassname;
+
+    let selectBtnClassname = "select-btn";
 
     let accept = ".gif,.jpg,.jpeg,.png";
     let iconimage = fileImage;
@@ -295,10 +344,12 @@ export const FileInput = React.forwardRef((props, ref) => {
     }
     return (
         <>
-            <label htmlFor={props.htmlFor} className="form-label">{props.label}
-                <span className='fs-6 light-green ps-1'>{(datas.length > 0) ? datas.length + " uploaded" : ""} </span>
-            </label>
-            <br />
+            {(!props.filecheckbox) ?
+                <>
+                    <label htmlFor={props.htmlFor} className="form-label">{props.label}
+                        <span className='fs-6 light-green ps-1'>{(datas.length > 0) ? datas.length + " uploaded" : ""} </span>
+                    </label>
+                </> : <h6>Choose {props.tab} Image from App</h6>}
 
 
             {(datas.length > 0) ?
@@ -315,20 +366,42 @@ export const FileInput = React.forwardRef((props, ref) => {
                         return (
                             <>
                                 {/* <div className="col-lg-3 col-6 mt-3 mb-3 img-container"> */}
-                                <div key={`image${j}`} className="col-sm mt-2 mb-4 img-container">
-                                    <img
-                                        src={iconimage}
-                                        className={imgClassName}
-                                        alt={file.name}
-                                    />
-                                    <a href={ahref} target='_blank'>
-                                        <i className={`${eyeBtnClassname} fa-solid fa-eye`} /></a>
-                                    <button type="button"
-                                        id={j}
-                                        className="delete-btn"
-                                        onClick={(e) => { props.onClick(e) }}>Delete</button>
-                                    <br></br>
-                                    <span className='fs-8 text-left grey'>{file.name}</span>
+                                <div key={`image${j}`} className="col-sm mt-1 mb-2 img-container">
+                                    {(!props.filecheckbox) ?
+                                        <>
+                                            <img
+                                                src={iconimage}
+                                                className={imgClassName}
+                                                alt={file.name}
+                                            />
+                                            <a href={ahref} target='_blank'>
+                                                <i className={`${eyeBtnClassname} fa-solid fa-eye`} />
+                                            </a>
+                                            <button type="button"
+                                                id={j}
+                                                className={`${deleteBtnClassname}`}
+                                                onClick={(e) => { props.onClick(e) }}>Delete</button>
+
+                                        </> :
+                                        <>
+                                            <img
+                                                data-url={file.url}
+                                                data-id={file.id}
+                                                data-name={file.name}
+                                                data-public_url={file.public_url}
+                                                src={iconimage}
+                                                className={`${imgClassName}  pb-3"`}
+                                                alt={file.name}
+                                                onClick={(e) => { props.onSelectImage(e) }}
+                                            />
+                                            <button type="button"
+
+                                                className={`${selectBtnClassname}`}
+                                            >
+                                                {/* <i className='fa fa-check fs-20'></i> */}
+                                            </button> </>}
+                                    {/* <br></br> */}
+                                    <p className='fs-8 text-left grey mb-0'>{file.name}</p>
                                 </div>
                             </>
                         )
@@ -341,26 +414,26 @@ export const FileInput = React.forwardRef((props, ref) => {
                         <label className={`${imgClassName} col-sm mt-2 img-drop-container`} for={props.htmlFor}>
                             <img src={iconimage} className="empty-img" />
                         </label>
-                        <br />
-                        <span className='fs-8 text-left grey'>&nbsp;</span>
+                        {/* <br />*/}
+                        <p className='fs-8 text-left grey mb-0'>&nbsp;</p>
                     </> :
                     <>
                         <label className={`${imgClassName} col-sm mt-2 img-drop-container`} for={props.htmlFor}>
                             <img src={multipleImage} className="empty-img" />
                         </label>
-                        <br />
-                        <span className='fs-8 text-left grey'>&nbsp;</span>
+                        {/* <br />*/}
+                        <p className='fs-8 text-left grey mb-0'>&nbsp;</p>
                     </>
             }
+            {(!props.filecheckbox) ?
+                <input type="file" className="form-control" id={props.htmlFor}
+                    multiple={props.multiple}
+                    value=""
+                    accept={accept}
+                    onChange={(e) => { props.onChange(e) }}
+                /> : ""}
 
-            <input type="file" className="form-control" id={props.htmlFor}
-                multiple={props.multiple}
-                value=""
-                accept={accept}
-                onChange={(e) => { props.onChange(e) }}
-            />
-
-{/* <hr></hr> */}
+            {/* <hr></hr> */}
         </>
     )
 })
@@ -374,6 +447,9 @@ export const InputElement = React.forwardRef((props, ref) => {
     let label = props.element.label;
 
     let htmlFor = props.element.htmlFor;
+    let pattern = props.element.pattern;
+    let maxLength = (props.element.maxLength) ? props.element.maxLength : "";
+    let tab = props.element.tab;
     let value = (props.element.value) ? props.element.value : "";
     let placeholder = (props.element.placeholder) ? props.element.placeholder : "";
     let options = (props.element.options) ? props.element.options : [];
@@ -389,7 +465,7 @@ export const InputElement = React.forwardRef((props, ref) => {
         label = (validateOptions[0].rule === "required") ? <RequiredSpan label={label} /> : label;
     }
 
-    let element = { type, name, colClass, className, label, htmlFor, value, placeholder, readonly, validate, required, email, options, fileType };
+    let element = { type, name, colClass, className, label, htmlFor, tab, value, placeholder, readonly, validate, required, email, options, fileType, pattern, maxLength };
     switch (type) {
         case "select": return <SelectInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "checkbox": return <CheckBoxInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
@@ -409,6 +485,21 @@ export const InputElement = React.forwardRef((props, ref) => {
             return <FileInput {...element}
                 onChange={(e) => { props.onChange(e) }}
                 onClick={(e) => { props.onClick(e) }}
+                onBlur={(e) => { props.onChange(e) }} ref={ref} />;
+        case "fileCheckbox":
+            let images1 = (props.element.images) ? props.element.images : [];
+            // console.log(images1);
+            let files1 = (props.element.files) ? props.element.files : [];
+            let multiple1 = (props.element.multiple) ? props.element.multiple : "";
+            element = { ...element }
+            element.images = images1
+            element.files = files1
+            element.multiple = multiple1
+            element.filecheckbox = true
+            return <FileInput {...element}
+                onChange={(e) => { props.onChange(e) }}
+                onClick={(e) => { props.onClick(e) }}
+                onSelectImage={(e) => { props.onSelectImage(e) }}
                 onBlur={(e) => { props.onChange(e) }} ref={ref} />;
         case "div": return "";
         default: return <TextInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />

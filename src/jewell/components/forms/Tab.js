@@ -5,7 +5,7 @@ export const Tab = React.forwardRef((props, ref) => {
 
     return (
         <div className='navbar-expand-lg navbar-light mx-auto'>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <div className="navbar-collapse" id="navbarSupportedContent">
                 <ul className='navbar-nav ms-0 mr-auto'>
                     {
                         state.states.tabs.map((element, i) => {

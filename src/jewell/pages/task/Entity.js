@@ -3,6 +3,7 @@ export const formEntities = [
         name: "title", type: "text", colClass: 'col-md-3', className: "", htmlFor: "title", value: "",
         label: "Title", placeholder: "Task-1",
         validate: true,
+        maxLength: 40,
         tab: "details",
         validateOptions: [
             {
@@ -62,19 +63,30 @@ export const formEntities = [
                 rule: "required",
                 msg: "Quantity is Required"
             },
+            {
+                rule: "quantity",
+                msg: "More than rupee value not allowed",
+            }
         ]
     },
     {
         name: "specification", type: "text", colClass: 'col-md-3', className: "", htmlFor: "specification", value: "",
         label: "Specification", placeholder: "",
+        maxLength: 50,
         validate: false,
         tab: "details",
     },
     {
         name: "price", type: "number", colClass: 'col-md-3', className: "", htmlFor: "price", value: "",
         label: "Price", placeholder: "",
-        validate: false,
+        validate: true,
         tab: "details",
+        validateOptions: [
+            {
+                rule: "rupee",
+                msg: "More than rupee value not allowed",
+            }
+        ]
     },
     {
         name: "task_image",
@@ -179,7 +191,8 @@ export const formEntities = [
     {
         name: "description", type: "textarea", colClass: 'col-md-3', className: "", htmlFor: "Description", value: "",
         tab: "details",
-        label: "Description", placeholder: "description",
+        maxLength: 1000,
+        label: "Product Story", placeholder: "detail",
         validate: false,
     },
 

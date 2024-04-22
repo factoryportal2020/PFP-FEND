@@ -74,6 +74,7 @@ class Index extends React.Component {
 
                     //Inital false
                     hasTask_imageImage: false,
+                    hasQuantityQuantity: false,
                 },
                 validate: false
             },
