@@ -46,11 +46,13 @@ class Index extends React.Component {
                     delete_specifications_ids: [],
                     delete_pricebreakdowns_ids: [],
                     status: 1,
+                    is_show: 1,
                 },
                 validations: {
                     hasNameRequired: true,
 
                     //Inital false
+                    hasPriceRupee: false,
                     hasItem_imageImage: false,
                 },
                 validate: false
@@ -144,7 +146,7 @@ class Index extends React.Component {
             })
             .catch(e => {
                 console.log(e);
-                this.setState({preLoading:false})
+                this.setState({ preLoading: false })
 
             });
     }

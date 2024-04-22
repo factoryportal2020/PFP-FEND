@@ -1,12 +1,15 @@
 import React from 'react';
 import maleLogo from "../../theme/images/profile/male1.png";
 import femaleLogo from "../../theme/images/profile/female.jpg";
+import categoryLogo from "../../theme/images/profile/no-image.jpg";
+import NewProductLogo from "../../theme/images/profile/no-image.jpg";
 import CustomerCard from '../../pages/customer/Card';
 import WorkerCard from '../../pages/worker/Card';
 import CategoryCard from '../../pages/category/Card';
-import AdminCard from '../../pages/admin/Card'; 
+import AdminCard from '../../pages/admin/Card';
 import ItemCard from '../../pages/product/Card';
 import { Link } from 'react-router-dom';
+import { FigureCaption } from 'react-bootstrap';
 
 
 export const Card = React.forwardRef((props, ref) => {
@@ -16,6 +19,7 @@ export const Card = React.forwardRef((props, ref) => {
 
     var title = props.title;
     let status = (element.status == 1) ? "Active" : "Deactive"
+    
     let profileImage = maleLogo;
 
     if (element.gender == "female") {
@@ -46,6 +50,8 @@ export const Card = React.forwardRef((props, ref) => {
     if (addLink == "category") {
         if (element.category_image.url != "") {
             profileImage = element.category_image.url;
+        } else {
+            profileImage = categoryLogo
         }
         card = <CategoryCard element={element} />;
         name = element.name
@@ -54,6 +60,8 @@ export const Card = React.forwardRef((props, ref) => {
     if (addLink == "product") {
         if (element.item_image.url != "") {
             profileImage = element.item_image.url;
+        } else {
+            profileImage = NewProductLogo
         }
         card = <ItemCard element={element} />;
         name = element.name
@@ -69,6 +77,7 @@ export const Card = React.forwardRef((props, ref) => {
     return (
         <>
             <div className="card w-auto">
+
                 <div className="card-body d-flex">
                     <div className="card-image">
                         <div className="col-sm mt-2 mb-2 img-container">
@@ -79,13 +88,13 @@ export const Card = React.forwardRef((props, ref) => {
                     </div>
                     <div className="card-content">
                         <div className="d-flex justify-content-between">
-                            <div><h5 className="card-title fs-16">{name}</h5></div>
-                            <div className="ms-2">
+                            <div className="w-75"><h5 className="card-title fs-16">{name}</h5></div>
+                            <div className="w-25 ms-2">
                                 <a href="#/" onClick={(event) => props.deleteModalTriggerClick(event)}>
                                     <i id={encrypt_id} data-title={`${name}`} title="delete" className="fa-solid fa-trash fs-20 light-red"></i>
                                 </a>
                                 <Link to={`/${addLink}/edit/${element.encrypt_id}`}>
-                                    <i title="Edit" className="fa-solid fa-pencil fs-20 ps-2 jewell-color"></i>
+                                    <i title="Edit" className="fa-solid fa-pencil fs-20 ps-2 light-green"></i>
                                 </Link>
                                 <a href="#/" onClick={(event) => props.viewModalTriggerClick(event)}>
                                     <i id={encrypt_id} title="View" className="fa-solid fa-eye fs-20 ps-2 jewell-color"></i>
@@ -98,13 +107,13 @@ export const Card = React.forwardRef((props, ref) => {
                         {card}
 
                         <div className='d-flex justify-content-between'>
+                            
                             <div className="fs-16 maxw-60">
                                 {(username) ? <span className='fs-10 grey'>Username: </span> : ""}
                                 {username}
                             </div>
                             <div className="maxw-40">
                                 <div className='fs-8 pb-1'>Created At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>
-
                                 <div className='fs-8'>Updated At: <span className="created_at" title="Created Date">{element.updated_at}</span></div>
                             </div>
                         </div>

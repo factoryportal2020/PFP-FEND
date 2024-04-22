@@ -3,6 +3,7 @@ export const formEntities = [
         name: "first_name", type: "text", colClass: 'col-md-3', className: "", htmlFor: "First name", value: "",
         label: "First name", placeholder: "Ram",
         validate: true,
+        maxLength: 15,
         tab: "details",
         validateOptions: [
             {
@@ -14,6 +15,7 @@ export const formEntities = [
         name: "last_name", type: "text", colClass: 'col-md-3', className: "", htmlFor: "Last name", value: "",
         label: "Last name", placeholder: "Kumar",
         validate: true,
+        maxLength: 15,
         tab: "details",
         validateOptions: [
             {
@@ -71,6 +73,7 @@ export const formEntities = [
         name: "email", type: "email", colClass: 'col-md-3', className: "", htmlFor: "Email", value: "", label: "Email", placeholder: "leo@gmail.com",
         validate: true,
         tab: "details",
+        maxLength: 40,
         validateOptions: [
             {
                 rule: "required",
@@ -87,6 +90,7 @@ export const formEntities = [
         name: "phone_no", type: "number", colClass: 'col-md-3', className: "", htmlFor: "PhoneNo", value: "", label: "Phone No", placeholder: "9629188839",
         validate: true,
         tab: "details",
+        maxLength: 10,
         validateOptions: [
             {
                 rule: "required",
@@ -103,6 +107,7 @@ export const formEntities = [
         name: "whatsapp_no", type: "number", colClass: 'col-md-3', className: "", htmlFor: "Whatsapp_no", value: "", label: "Whatsapp No", placeholder: "9629188839",
         validate: true,
         tab: "details",
+        maxLength: 10,
         validateOptions: [
             {
                 rule: "phone_no",
@@ -113,7 +118,8 @@ export const formEntities = [
 
     {
         name: "instagram_id", type: "text", colClass: 'col-md-3', className: "", htmlFor: "Instagram_id", value: "",
-        label: "Instagram Id", placeholder: "Kumar",
+        label: "Instagram Id (@id)", placeholder: "Kumar",
+        maxLength: 30,
         tab: "details",
         validate: false,
     },
@@ -123,6 +129,7 @@ export const formEntities = [
         label: "Address", placeholder: "Address",
         validate: true,
         tab: "details",
+        maxLength: 200,
         validateOptions: [
             {
                 rule: "required",
@@ -165,6 +172,7 @@ export const formEntities = [
     {
         name: "notes", type: "textarea", colClass: 'col-md-3', className: "", htmlFor: "Notes", value: "",
         tab: "details",
+        maxLength: 300,
         label: "Notes", placeholder: "notes",
         validate: false,
     },
@@ -181,6 +189,7 @@ export const formEntities = [
         name: "username", type: "text", colClass: 'col-md-3', className: "", htmlFor: "username", value: "",
         label: "User Name", placeholder: "",
         validate: true, readonly: "",
+        maxLength: 15,
         tab: "login_detail",
         validateOptions: [
             {
@@ -199,6 +208,7 @@ export const formEntities = [
         name: "password", type: "password", colClass: 'col-md-3', className: "", htmlFor: "Password", value: "",
         label: "Password", placeholder: "*****", readonly: "",
         validate: true,
+        maxLength: 15,
         tab: "login_detail",
         validateOptions: [
             {
@@ -222,6 +232,7 @@ export const formEntities = [
         name: "password_confirmation", type: "password_confirmation", colClass: 'col-md-3', className: "", htmlFor: "Confirm_password", value: "",
         label: "Confirm Password", placeholder: "*****", readonly: "",
         validate: true,
+        maxLength: 15,
         tab: "login_detail",
         validateOptions: [
             {

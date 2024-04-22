@@ -2,6 +2,7 @@ export const formEntities = [
     {
         name: "email", type: "email", colClass: 'form-group mt-3', className: "", htmlFor: "email", value: "", label: "", placeholder: "Email",
         validate: true,
+        maxLength: 40,
         tab: "details",
         validateOptions: [
             {
@@ -17,6 +18,7 @@ export const formEntities = [
     {
         name: "username", type: "text", colClass: 'form-group mt-3', className: "", htmlFor: "username", value: "",
         label: "", placeholder: "Username",
+        maxLength: 15,
         validate: true, readonly: "",
         tab: "login_detail",
         validateOptions: [
@@ -31,6 +33,7 @@ export const formEntities = [
         name: "phone_no", type: "number", colClass: 'form-group mt-3', className: "", htmlFor: "phone_no", value: "", label: "",
         placeholder: "Phone No",
         validate: true,
+        maxLength: 10,
         tab: "details",
         validateOptions: [
             {
@@ -47,6 +50,7 @@ export const formEntities = [
         name: "password", type: "password", colClass: 'form-group mt-3', className: "", htmlFor: "password", value: "",
         label: "", placeholder: "Password", readonly: "",
         validate: true,
+        maxLength: 15,
         tab: "login_detail",
         validateOptions: [
             {
@@ -59,6 +63,7 @@ export const formEntities = [
         name: "password_confirmation", type: "password", colClass: 'form-group mt-3', className: "", htmlFor: "password_confirmation", value: "",
         label: "", placeholder: "Confirm Password", readonly: "",
         validate: true,
+        maxLength: 15,
         tab: "login_detail",
         validateOptions: [
             {

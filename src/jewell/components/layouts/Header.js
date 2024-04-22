@@ -1,14 +1,12 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
 import { useGetUserDetailsQuery } from '../../app/services/auth/authService.js';
 import HeaderComponent from './HeaderComponent.js';
-import { logout, setCredentials } from '../../features/auth/authSlice';
-import LoginIndex from '../../pages/login/Login.js';
-import Delayed from './Delayed.js';
+import { setCredentials } from '../../features/auth/authSlice';
 
 const Header = () => {
-  const { userInfo} = useSelector((state) => state.auth)
+  const { userInfo } = useSelector((state) => state.auth)
+  
   const dispatch = useDispatch()
 
   // automatically authenticate user if token is found
@@ -26,6 +24,9 @@ const Header = () => {
       // }, 5000);
 
     }
+  }, [data, dispatch])
+
+  useEffect(() => {
   }, [data, dispatch])
 
 

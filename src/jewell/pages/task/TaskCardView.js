@@ -94,7 +94,7 @@ export const TaskCardView = React.forwardRef((props, ref) => {
                         {/* <div className="d-flex">
 
                             <div> */}
-                        <h6 className="fs-12 pt-1">Other Specifications:</h6>
+                        <h6 className="fs-12 pt-1">Other Descriptions:</h6>
                         {
                             (element.other_specifications.length) > 0 ?
                                 element.other_specifications.map(function (spec) {

@@ -7,12 +7,13 @@ class Filter extends React.Component {
     constructor(props) {
         super(props);
         let itemPerPage = props.states.params.itemPerPage;
+        let perPageSelectEntity = props.perPageSelectEntity;
         this.state = {
             states: props.states,
             entities: props.filterEntities,
             modalTrigger: "fade",
             appliedFilter: false,
-            perPageSelectEntity: {
+            perPageSelectEntity: (perPageSelectEntity) ? perPageSelectEntity : {
                 name: "perpage", type: "select", colClass: '',
                 className: "fs-12 p-0 h-0", htmlFor: "", value: itemPerPage, label: "", placeholder: "10",
                 validate: false,
@@ -212,6 +213,9 @@ class Filter extends React.Component {
     }
 
     pgChildClick(e) {
+        if (this.state.totalCount <= this.state.states.params.itemPerPage) {
+            return;
+        }
         this.props.startPreload(true);
 
         var clickedPgId = e.currentTarget.id;
@@ -248,7 +252,7 @@ class Filter extends React.Component {
 
                         <div className="col-sm">
                             <div className='d-flex fs-10 brown fw-normal'>
-                                <div className='me-1 p-1 fs-14'>{this.state.states.title} per page:</div>
+                                <div className='me-1 p-1 fs-14'>{this.state.states.title} Per Page:</div>
                                 <InputElement element={this.state.perPageSelectEntity}
                                     // onChange={() => {}}
                                     onChange={(newValue) => { this.handleChangePerPage(newValue, "perPageSelectEntity", this.state.perPageSelectEntity) }}
@@ -304,44 +308,41 @@ class Filter extends React.Component {
 
 
                         {/* Filter */}
-
                         <div className="col-sm">
-                            <div className="d-flex float-end">
-
-
-                                <div>
-                                    <div className='d-flex fw-normal p-1'>
-                                        {this.state.entities.map((element, i) => {
-                                            let new_element = { ...element }
-                                            let fieldName = `${element.name}`
-                                            new_element.value = this.state.states.params[fieldName]
-                                            if (element.name != "search_word") {
-                                                return;
-                                            }
-                                            return (
-                                                <>
-                                                    <InputElement key={i} element={new_element}
-                                                        onChange={(newValue) => { this.handleChangeSearch(newValue, fieldName, new_element) }}
-                                                        onClick={() => { }}></InputElement>
-                                                </>
-                                            )
-
-                                        })}
+                            {(this.state.entities.length > 0) ?
+                                <div className="d-flex float-end">
+                                    <div>
+                                        <div className='d-flex fw-normal p-1'>
+                                            {this.state.entities.map((element, i) => {
+                                                let new_element = { ...element }
+                                                let fieldName = `${element.name}`
+                                                new_element.value = this.state.states.params[fieldName]
+                                                if (element.name != "search_word") {
+                                                    return;
+                                                }
+                                                return (
+                                                    <>
+                                                        <InputElement key={i} element={new_element}
+                                                            onChange={(newValue) => { this.handleChangeSearch(newValue, fieldName, new_element) }}
+                                                            onClick={() => { }}></InputElement>
+                                                    </>
+                                                )
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div className='ms-2 p-0'>
-                                    <button type="button"
-                                        onClick={this.filterClick}
-                                        className="btn btn-light jewell-bg-color brown">{FilterCap}</button>
-                                </div>
+                                    <div className='ms-2 p-0'>
+                                        <button type="button"
+                                            onClick={this.filterClick}
+                                            className="btn btn-light jewell-bg-color brown">{FilterCap}</button>
+                                    </div>
 
-                                <div className='ms-2 p-0'>
-                                    <Link to={`/${this.state.states.addLink}/add`}
-                                        className="btn btn-light jewell-bg-color brown">Add {this.state.states.addLink}</Link>
-                                </div>
+                                    <div className='ms-2 p-0'>
+                                        <Link to={`/${this.state.states.addLink}/add`}
+                                            className="btn btn-light jewell-bg-color brown">Add {this.state.states.addLink}</Link>
+                                    </div>
 
-                            </div>
+                                </div> : ""}
                         </div>
                     </div >
                 </div >

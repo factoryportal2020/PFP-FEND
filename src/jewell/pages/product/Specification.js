@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { specificationEntities } from './Entity';
+import { priceBreakEntities } from './Entity';
 import validator from '../../components/forms/validate';
 import { Field } from '../../components/forms/Field';
 
 export const SpecificationComponent = React.forwardRef((props, ref) => {
 
+    const [forField, setForField] = useState(props.forField);
     const [itemsArray, setHandleChangeItem] = useState(props.specifications);
     const [deletedIds, setSelectChangeDeletedIds] = useState(props.deletedIds);
 
     useEffect(() => {
         setHandleChangeItem(props.specifications);
+        setForField(props.forField);
         ref.current = props.specifications;
         ref.current.deletedIds = [];
-    }, [props.specifications]);
+    }, [props.specifications, props.forField]);
 
 
     function addItemComponent(e) {
@@ -76,7 +79,12 @@ export const SpecificationComponent = React.forwardRef((props, ref) => {
             let states = { params: params };
             let state = {};
             state.states = { ...states };
-            state.entities = [...specificationEntities];
+            if (forField === "PriceBreakDown") {
+                state.entities = [...priceBreakEntities];
+            }else{
+                state.entities = [...specificationEntities];
+
+            }
             let tab = [];
             // console.log(state);
             return (

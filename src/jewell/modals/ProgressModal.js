@@ -17,12 +17,24 @@ class ProgressModal extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        // console.log(newProps);
+        // // console.log(newProps);
+        // if (this.state.modalTrigger != newProps.progressModalTrigger) {
+        //     this.setState({
+        //         modalTrigger: newProps.progressModalTrigger,
+        //     });
+        // }
+        // if (this.state.progressMessage != newProps.progressMessage) {
+
+        //     this.setState({
+        //         progressMessage: newProps.progressMessage,
+        //         progressTitle: newProps.progressTitle
+        //     });
+        // }
         this.setState({
             modalTrigger: newProps.progressModalTrigger,
+            progressMessage: newProps.progressMessage,
+            progressTitle: newProps.progressTitle,
             progress: newProps.progress,
-            progressMessage: [...newProps.progressMessage],
-            progressTitle: newProps.progressTitle
         });
     }
 
@@ -32,11 +44,9 @@ class ProgressModal extends React.Component {
 
     render() {
         var progress = this.state.progress;
-        // console.log(progressMessage);
         var progressMessage = this.state.progressMessage;
-        console.log(progressMessage);
         var progressTitle = this.state.progressTitle;
-
+        // console.log(progressMessage);
         return (
             <>
                 <div className={`modal ${this.state.modalTrigger}`} tabIndex="-1" role="dialog">
@@ -57,7 +67,7 @@ class ProgressModal extends React.Component {
                                                     {
                                                         (progressMessage[i]) ?
                                                             < h6 className={`fs-14 ${progressMessage[i]['className']}`}>
-                                                                <span className='grey fs-12'>{progressTitle[i]}</span>
+                                                                <span className='grey fs-12'>{progressTitle[i]} </span>
                                                                 {progressMessage[i]['msg']}
                                                             </h6 >
                                                             : ""}

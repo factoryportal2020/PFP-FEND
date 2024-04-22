@@ -6,6 +6,9 @@ const empty = (v: string) => {
 };
 const email = (v: string) => (reg(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, v));
 const indianPhoneNo = (v: string) => (reg(/^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$/, v));
+const landLineNo = (v: string) => (reg(/^(\d{5}([- ]*)\d{6})$/, v))
+const rupee = (v: number) => (v <= 99999999) ? false : true;
+const quantity = (v: number) => (v <= 9999) ? false : true;
 const number = (v: number, min: any, max: any) => {
   if (min === null && max === null) {
     return true
@@ -27,13 +30,45 @@ const isNumeric = (v: any) => {
   return !isNaN(parseFloat(v)) && isFinite(v);
 };
 
+const isStringOnly = (v: any) => {
+  return (/^[a-zA-Z]+$/.test(v));
+};
+
+
+const isStringNumericOnly = (v: any) => {
+  let res = true;
+  if ((/^([\w]+[0-9])$/.test(v))) {
+    if (isNumeric(v)) {
+      res = true
+    } else {
+      res = false
+    }
+  } else {
+    if (isStringOnly(v)) {
+      res = false
+    }
+  }
+  return res;
+};
+
 const requiredArray = (v: any) => {
   return (v.length != 0) ? false : true;
 };
 
-
 const equal = (v: any, e: any) => {
   return (v == e) ? false : true;
+};
+
+const url = (v: any) => {
+  try {
+    if (empty(v)) {
+      return false;
+    }
+    new URL(v);
+    return false;
+  } catch (err) {
+    return true;
+  }
 };
 
 const isFiles = (v: any, rule: string) => {
@@ -53,9 +88,9 @@ const isFiles = (v: any, rule: string) => {
   } else if (rule == "csv") {
     allowedExtensions = /(\.csv)$/i;
   } else if (rule == "image") {
-    allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.avif|\.webp)$/i;
   }
-  console.log(v);
+  //console.log(v);
   var rw = v.map((val: any) => {
     let chk = (allowedExtensions.exec(val.name) != null) ? true : false; //if false having error
     chk = (val.name.length > 100) ? false : chk; //if false having error
@@ -69,13 +104,10 @@ const isFiles = (v: any, rule: string) => {
 
 
 const isBanner = (v: any, rule: string) => {
-  // if (requiredArray(v)) {
-  //   return [{ result: true }, { value: [] }];
-  // }
   const result: boolean[] = [];
   const onlybanners: object[] = [];
 
-  var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+  var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.avif|\.webp)$/i;
 
   var rw = v.map((val: any) => {
     let chk = (allowedExtensions.exec(val.name) != null) ? true : false; //if false having error
@@ -116,14 +148,20 @@ const validator: Validator = {
   empty,
   email,
   number,
+  url,
   toCapitalize,
   replaceUnderscore,
   hasErrorNaming,
   indianPhoneNo,
+  landLineNo,
   requiredArray,
   equal,
   isFiles,
   makeArrayUnique,
-  isBanner
+  isStringNumericOnly,
+  isStringOnly,
+  isBanner,
+  rupee,
+  quantity
 };
 export default validator;
