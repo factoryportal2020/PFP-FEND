@@ -12,6 +12,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
     var encrypt_id = element.encrypt_id;
 
     let status = (element.status) ? element.status : "Unassigned"
+    let overdue = (element.overdue) ? element.overdue : ""
     let name = element.title
 
     let profileImage = (element.gender == "female") ? femaleLogo : maleLogo;
@@ -41,14 +42,19 @@ export const TaskCard = React.forwardRef((props, ref) => {
                                 <i className="preview-btn fa-solid fa-eye" /></a>
                         </div>
                         <div className="fs-12 pt-3">
-                            <span className="grey fs-10">Start Date:</span><br></br>
+                            <span className="grey fs-8">Start Date:</span><br></br>
                             {datetime.showDateTime(element.start_date)}
                         </div>
 
                         <div className="fs-12 pt-3">
-                            <span className="grey fs-10">Due Date:</span><br></br>
+                            <span className="grey fs-8">Due Date:</span><br></br>
                             {datetime.showDateTime(element.end_date)}
                         </div>
+
+                        {(overdue != "") ?
+                            <div className="fs-14 ">
+                                <span className="red fs-14">Overdue:</span><br></br>
+                            </div> : ""}
 
                     </div>
 

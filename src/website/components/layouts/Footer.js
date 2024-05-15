@@ -1,16 +1,69 @@
+import React, { useRef } from 'react';
+
 import categoryImage from "../../theme/images/jewell/no-image.jpg"
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import apiDataService from "../../services/api.service";
 import { useSelector, useDispatch } from 'react-redux'
-
+import FormImage from "../../../jewell/components/forms/FormImage";
+import Preloader from './Preloader';
+import StatusBar from './StatusBar';
 
 const Footer = () => {
+    const ref = useRef(null);
 
     const [categories, setCategories] = useState([]);
     const [contact, setContact] = useState([]);
     const { adminInfo, adminToken } = useSelector((state) => state.adminAuth)
+
+    const [preLoading, setPreLoading] = useState(false);
+    
+    const [states, setStates] = useState({
+        title: "",
+        submitted: false,
+        submitDisabled: "",
+        status: { show: false, type: 'success', msg: '' },
+        clickedTabId: 0,
+        errorsModalTrigger: "fade",
+        errors: [],
+        tabs: [{ id: "details", tab: "Details" }],
+        params: {
+            email: "",
+        },
+        validations: {
+            hasEmailRequired: true,
+            hasEmailEmail: true,
+        },
+        validate: false
+    })
+
+
+    const [status, setStatus] = useState({ show: false, type: 'success', msg: '' })
+
+    function onStatusClose() {
+        setStatus({ show: false, type: 'success', msg: '' });
+    }
+
+    const [entities, setEntities] = useState([
+        {
+            name: "email", type: "email",
+            colClass: 'wrap-input1 w-full p-b-4', className: "input1 bg-none plh1 stext-107 cl7",
+            htmlFor: "Email", value: "", label: "", placeholder: "example@gmail.com",
+            validate: true,
+            noFormcontrolCls: true,
+            tab: "details",
+            maxLength: 40,
+            validateOptions: [
+                {
+                    rule: "required",
+                    msg: "Email is Required"
+                },
+                {
+                    rule: "email",
+                    msg: "Email format is wrong",
+                }]
+        },]);
 
     useEffect(() => {
         getCategory();
@@ -51,12 +104,50 @@ const Footer = () => {
             });
     }
 
+
+    function saveDataApiCall(params) {
+        setPreLoading(true);
+
+        let callApi = apiDataService.saveSubscribe(params)
+        let states1 = { ...states }
+        callApi.then(response => {
+            let data = response.data;
+            console.log(response.data);
+            if (!data.status) { // errors
+                (async () => {
+                    setStatus({ show: true, type: 'success', msg: 'Something went wrong' });
+                    setPreLoading(false);
+                    setStates(states1)
+
+                })();
+            } else { // success
+                // this.setState({ successMsg: data.message })
+                let msg = states1.params.email + " - " + data.message;
+                setStatus({ show: true, type: 'success', msg: msg });
+                setPreLoading(false);
+                let sub = response.data.data.subscribed;
+                // if (!sub) {
+                states1.params.email = ""
+                setStates(states1)
+                // }
+            }
+        }).catch(e => {
+            console.log(e);
+            setStatus({ show: true, type: 'success', msg: 'Something went wrong' });
+            setPreLoading(false);
+            // setStates(states1)
+        });
+    }
+
     return (
         <>
             {(adminInfo && adminToken) ?
                 <>
                     <footer className="bg3 p-t-75 p-b-32">
                         <div className="container">
+                            {preLoading ? <Preloader /> : ""}
+                            <StatusBar className="m-t-3" status={status} onStatusClose={() => onStatusClose()} />
+
                             <div className="row">
                                 <div className="col-sm-6 col-lg-3 p-b-50">
                                     <h4 className="stext-301 cl0 p-b-30">
@@ -147,18 +238,32 @@ const Footer = () => {
                                         Newsletter
                                     </h4>
 
-                                    <form>
+                                    {/* <form>
                                         <div className="wrap-input1 w-full p-b-4">
-                                            <input className="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="email@example.com" />
+                                            <input className="input1 bg-none plh1 stext-107 cl7"
+                                                type="text" name="email" placeholder="email@example.com" />
                                             <div className="focus-input1 trans-04"></div>
                                         </div>
 
                                         <div className="p-t-18">
-                                            <button className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn2 p-lr-15 trans-04">
+                                            <button 
+                                            className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn2 p-lr-15 trans-04">
                                                 Subscribe
                                             </button>
                                         </div>
-                                    </form>
+                                    </form> */}
+
+                                    < FormImage
+                                        entities={entities}
+                                        states={states}
+                                        action="form"
+                                        viewEncryptId=""
+                                        saveDataApiCall={(params) => saveDataApiCall(params)}
+                                        ref={ref}
+                                        preLoading={preLoading}
+                                        forSubscribe={true}
+                                    />
+
                                 </div>
                             </div>
 

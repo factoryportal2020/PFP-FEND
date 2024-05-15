@@ -15,6 +15,8 @@ class View extends React.Component {
             preLoading: props.preLoading,
             action: props.action,
             viewEncryptId: props.viewEncryptId,
+            enquiryLink: (props.enquiryLink)?props.enquiryLink:"",
+            favouriteLink: (props.favouriteLink)?props.favouriteLink:""
         }
     }
 
@@ -107,7 +109,7 @@ class View extends React.Component {
                                                     </div>
                                                 </div>
 
-                                                <h5 className='pt-2 fs-12'>Login attempts:</h5>
+                                                {/* <h5 className='pt-2 fs-12'>Login attempts:</h5>
 
                                                 <div className='row'>
                                                     <div className="col-sm-3">
@@ -128,7 +130,7 @@ class View extends React.Component {
                                                     <div className="col-sm-3">
                                                         <h5 className='grey fs-8'>Logged at {param.created_at}</h5>
                                                     </div>
-                                                </div>
+                                                </div> */}
 
                                             </>
                                             :
@@ -139,33 +141,29 @@ class View extends React.Component {
                             <div className="card w-auto mt-4">
                                 <div className="card-body ps-3 pe-5">
                                     <div className="card-content">
-                                        <h6>Order Detail:</h6>
+                                        <h6>Other Details:</h6>
                                         <div className='row'>
                                             <div className="col-sm pb-2">
                                                 <div className="d-flex">
-                                                    <div className="fs-14 grey">Total Orders:&nbsp;</div>
-                                                    <div className="ps-1 fs-14">20</div>
+                                                    <div className="fs-14 grey">Total Enquiries:&nbsp;</div>
+                                                    <div className="ps-1 fs-14">{param.enquiry_count}</div>
                                                 </div>
 
                                                 <div className="d-flex">
-                                                    <div className="fs-14 grey">Delivered Orders:&nbsp;</div>
-                                                    <div className="ps-1 fs-14">20</div>
+                                                    <div className="fs-14 grey">Subscribed Email:&nbsp;</div>
+                                                    <div className="ps-1 fs-14">{param.subscribed_email}</div>
                                                 </div>
                                             </div>
                                             <div className="col-sm pb-2">
                                                 <div className="d-flex">
-                                                    <div className="fs-14 grey">Pending Orders:&nbsp;</div>
-                                                    <div className="ps-1 fs-14">20</div>
-                                                </div>
-
-                                                <div className="d-flex">
-                                                    <div className="fs-14 grey">Cancelled Orders:&nbsp;</div>
-                                                    <div className="ps-1 fs-14">20</div>
+                                                    <div className="fs-14 grey">Total Favourites:&nbsp;</div>
+                                                    <div className="ps-1 fs-14">{param.favourite_count}</div>
                                                 </div>
                                             </div>
 
                                             <div className="form-group">
-                                                <Link role="button" type="button" className="view__btn float-end">View Orders</Link>
+                                                <Link to={this.state.enquiryLink} role="button" type="button" className="ms-2 me-2 view__btn float-end">Enquiries</Link>
+                                                <Link to={this.state.favouriteLink} role="button" type="button" className="view__btn float-end">Favourites</Link>
                                             </div>
                                         </div>
                                     </div>

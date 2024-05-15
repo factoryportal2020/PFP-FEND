@@ -561,169 +561,231 @@ class FormImage extends React.Component {
                             />
                         </> :
 
-                        <div className='content-div'>
-                            <StatusBar status={this.state.states.status} onStatusClose={this.onStatusClose} />
+                        (!this.props.forSubscribe && !this.props.forMessage) ?
+                            <>
+                                <div className='content-div'>
+                                    <StatusBar status={this.state.states.status} onStatusClose={this.onStatusClose} />
 
-                            {this.state.preLoading ? <Preloader /> : ""}
+                                    {this.state.preLoading ? <Preloader /> : ""}
 
-                            <div className='d-flex justify-content-between'>
-                                <div><h4 className='brown'>{this.state.states.title}</h4></div>
-                                {(this.state.states.tabs.length > 1) ?
-                                    <Tab state={this.state} onClick={(e) => this.clickTab(e)} /> : ""}
-
-
-                                {(this.state.states.listLink == "website") ?
-
-                                    <div>
-                                        {(this.state.states.params.oldsite_url != "") ?
-                                            <>
-                                                <Link target="_blank" type="button"
-                                                    to={`/${this.state.states.params.oldsite_url}/home`}
-                                                    // onClick={(e) => { this.props.handlePreview(e) }}
-                                                    className="btn btn-light jewell-bg-color brown ">
-                                                    <i className='fa fa-eye'></i> Preview
-                                                </Link>
-
-                                                <button type="button"
-                                                    onClick={(e) => { this.props.handleLaunch(e) }}
-                                                    className="btn btn-light jewell-bg-color brown ms-2">
-                                                    <i className='fa fa-rocket'></i> Launch Website
-                                                </button>
-                                            </>
-                                            : ""}
-                                    </div> : ""}
-                            </div>
+                                    <div className='d-flex justify-content-between'>
+                                        <div><h4 className='brown'>{this.state.states.title}</h4></div>
+                                        {(this.state.states.tabs.length > 1) ?
+                                            <Tab state={this.state} onClick={(e) => this.clickTab(e)} /> : ""}
 
 
-                            <form>
-                                {
-                                    this.state.states.tabs.map((tab, j) => {
-                                        var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
-                                        var forTask = (j > 0 && this.state.states.listLink == "task") ? true : false;
-                                        var forWebsite = (j > 0 && this.state.states.listLink == "website") ? true : false;
-                                        return (
-                                            <>
-                                                <ErrorModal
-                                                    key={`errorModal${j}`}
-                                                    errors={this.state.errors}
-                                                    title={this.state.states.title}
-                                                    errorsModalTrigger={this.state.errorsModalTrigger}
-                                                    clickErrorModalClose={() => this.clickErrorModalClose()} />
+                                        {(this.state.states.listLink == "website") ?
 
-                                                <ProgressModal
-                                                    key={`progressModal${j}`}
-                                                    progress={this.state.progress}
-                                                    progressMessage={this.state.progressMessage}
-                                                    progressTitle={this.state.progressTitle}
-                                                    title={this.state.states.title}
-                                                    progressModalTrigger={this.state.progressModalTrigger}
-                                                    clickProgressModalClose={() => this.clickProgressModalClose()} />
+                                            <div>
+                                                {(this.state.states.params.oldsite_url != "") ?
+                                                    <>
+                                                        <Link target="_blank" type="button"
+                                                            to={`/${this.state.states.params.oldsite_url}/home`}
+                                                            // onClick={(e) => { this.props.handlePreview(e) }}
+                                                            className="btn btn-light jewell-bg-color brown ">
+                                                            <i className='fa fa-eye'></i> Preview
+                                                        </Link>
 
-                                                <div key={j} className={`row mt-2 brown ${tabShow}`}>
-
-                                                    <div className={"" + ((forTask || (forWebsite && (tab.id == "banner"))) ? "col-md-3" :
-                                                        (forWebsite && (tab.id == "feature")) ? "" :
-                                                            (forWebsite && (tab.id == "about")) ? "col-md-6" : "col-md-9")}>
-                                                        <div className={`row g-3`}>
-                                                            <Field
-                                                                key={`fieldForm${j}`}
-                                                                state={this.state}
-                                                                tab={tab}
-                                                                isFile={false}
-                                                                onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                                                onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                            />
-                                                            {/* Product */}
-                                                            {
-                                                                (this.state.states.params.other_specifications && j == 0) ?
-                                                                    <>
-                                                                        <fieldset className='border-1-brown border-radius-25 p-3 mt-4'>
-                                                                            <legend className='fs-18'>Other Descriptions:</legend>
-                                                                            <SpecificationComponent
-                                                                                ref={this.OtherSpecificationsRef}
-                                                                                forField="OtherDescription"
-                                                                                specifications={this.state.states.params.other_specifications}
-                                                                                deletedIds={this.state.states.params.delete_specifications_ids}
-                                                                            />
-                                                                        </fieldset>
-                                                                    </> : ""
-                                                            }
-                                                            {
-                                                                (this.state.states.params.price_breakdowns && j == 0) ?
-                                                                    <>
-                                                                        <fieldset className='border-1-brown border-radius-25 p-3 mt-5'>
-                                                                            <legend className='fs-18'>Price Breakdowns:</legend>
-                                                                            <SpecificationComponent
-                                                                                ref={this.PricebreakdownsRef}
-                                                                                forField="PriceBreakDown"
-                                                                                specifications={this.state.states.params.price_breakdowns}
-                                                                                deletedIds={this.state.states.params.delete_pricebreakdowns_ids}
-                                                                            />
-                                                                        </fieldset>
-                                                                    </> : ""
-                                                            }
-                                                            {/* End Product */}
-
-                                                        </div>
-                                                    </div>
+                                                        <button type="button"
+                                                            onClick={(e) => { this.props.handleLaunch(e) }}
+                                                            className="btn btn-light jewell-bg-color brown ms-2">
+                                                            <i className='fa fa-rocket'></i> Launch Website
+                                                        </button>
+                                                    </>
+                                                    : ""}
+                                            </div> : ""}
+                                    </div>
 
 
+                                    <form>
+                                        {
+                                            this.state.states.tabs.map((tab, j) => {
+                                                var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
+                                                var forTask = (j > 0 && this.state.states.listLink == "task") ? true : false;
+                                                var forWebsite = (j > 0 && this.state.states.listLink == "website") ? true : false;
+                                                return (
+                                                    <>
+                                                        <ErrorModal
+                                                            key={`errorModal${j}`}
+                                                            errors={this.state.errors}
+                                                            title={this.state.states.title}
+                                                            errorsModalTrigger={this.state.errorsModalTrigger}
+                                                            clickErrorModalClose={() => this.clickErrorModalClose()} />
 
-                                                    <div className={((forTask) ? "mb-4" : ((forWebsite && tab.id == "banner")) ? "col-md" :
-                                                        (forWebsite && (tab.id == "feature")) ? "" : "col-md-3")}>
-                                                        <div className={((forTask || (forWebsite && tab.id == "feature")) ? "row" : "") + " "}>
-                                                            <Field
-                                                                key={`fieldImages${j}`}
-                                                                state={this.state}
-                                                                tab={tab}
-                                                                isFile={true}
-                                                                onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                                                onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                            // ref={this.fileImage}
-                                                            />
-                                                        </div>
-                                                    </div>
+                                                        <ProgressModal
+                                                            key={`progressModal${j}`}
+                                                            progress={this.state.progress}
+                                                            progressMessage={this.state.progressMessage}
+                                                            progressTitle={this.state.progressTitle}
+                                                            title={this.state.states.title}
+                                                            progressModalTrigger={this.state.progressModalTrigger}
+                                                            clickProgressModalClose={() => this.clickProgressModalClose()} />
 
-                                                    {((forWebsite && (tab.id == "banner" || tab.id == "about" || tab.id == "feature"))) ?
-                                                        <div className={(
-                                                            (forWebsite && (tab.id == "banner" || tab.id == "about")) ? "col-md" :
-                                                                (forWebsite && (tab.id == "feature")) ? "col-md" : "")}>
-                                                            <div className={(forWebsite && tab.id == "feature") ? "row" : ""}>
-                                                                <Field
-                                                                    key={`fieldImages${j}`}
-                                                                    state={this.state}
-                                                                    tab={tab}
-                                                                    isFileCheckbox={true}
-                                                                    onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                                                    onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                                    onSelectImage={(e, fieldName, new_element) => { this.handleSelectImage(e, fieldName, new_element) }}
+                                                        <div key={j} className={`row mt-2 brown ${tabShow}`}>
 
-                                                                // ref={this.fileImage}
-                                                                />
+                                                            <div className={"" + ((forTask || (forWebsite && (tab.id == "banner"))) ? "col-md-3" :
+                                                                (forWebsite && (tab.id == "feature")) ? "" :
+                                                                    (forWebsite && (tab.id == "about")) ? "col-md-6" : "col-md-9")}>
+                                                                <div className={`row g-3`}>
+                                                                    <Field
+                                                                        key={`fieldForm${j}`}
+                                                                        state={this.state}
+                                                                        tab={tab}
+                                                                        isFile={false}
+                                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                    />
+                                                                    {/* Product */}
+                                                                    {
+                                                                        (this.state.states.params.other_specifications && j == 0) ?
+                                                                            <>
+                                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-4'>
+                                                                                    <legend className='fs-18'>Other Descriptions:</legend>
+                                                                                    <SpecificationComponent
+                                                                                        ref={this.OtherSpecificationsRef}
+                                                                                        forField="OtherDescription"
+                                                                                        specifications={this.state.states.params.other_specifications}
+                                                                                        deletedIds={this.state.states.params.delete_specifications_ids}
+                                                                                    />
+                                                                                </fieldset>
+                                                                            </> : ""
+                                                                    }
+                                                                    {
+                                                                        (this.state.states.params.price_breakdowns && j == 0) ?
+                                                                            <>
+                                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-5'>
+                                                                                    <legend className='fs-18'>Price Breakdowns:</legend>
+                                                                                    <SpecificationComponent
+                                                                                        ref={this.PricebreakdownsRef}
+                                                                                        forField="PriceBreakDown"
+                                                                                        specifications={this.state.states.params.price_breakdowns}
+                                                                                        deletedIds={this.state.states.params.delete_pricebreakdowns_ids}
+                                                                                    />
+                                                                                </fieldset>
+                                                                            </> : ""
+                                                                    }
+                                                                    {/* End Product */}
+
+                                                                </div>
                                                             </div>
-                                                        </div> : ""}
+
+
+
+                                                            <div className={((forTask) ? "mb-4" : ((forWebsite && tab.id == "banner")) ? "col-md" :
+                                                                (forWebsite && (tab.id == "feature")) ? "" : "col-md-3")}>
+                                                                <div className={((forTask || (forWebsite && tab.id == "feature")) ? "row" : "") + " "}>
+                                                                    <Field
+                                                                        key={`fieldImages${j}`}
+                                                                        state={this.state}
+                                                                        tab={tab}
+                                                                        isFile={true}
+                                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                    // ref={this.fileImage}
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+                                                            {((forWebsite && (tab.id == "banner" || tab.id == "about" || tab.id == "feature"))) ?
+                                                                <div className={(
+                                                                    (forWebsite && (tab.id == "banner" || tab.id == "about")) ? "col-md" :
+                                                                        (forWebsite && (tab.id == "feature")) ? "col-md" : "")}>
+                                                                    <div className={(forWebsite && tab.id == "feature") ? "row" : ""}>
+                                                                        <Field
+                                                                            key={`fieldImages${j}`}
+                                                                            state={this.state}
+                                                                            tab={tab}
+                                                                            isFileCheckbox={true}
+                                                                            onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                            onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                            onSelectImage={(e, fieldName, new_element) => { this.handleSelectImage(e, fieldName, new_element) }}
+
+                                                                        // ref={this.fileImage}
+                                                                        />
+                                                                    </div>
+                                                                </div> : ""}
 
 
 
 
-                                                </div>
-                                            </>
-                                        )
-                                    })
-                                }
-                            </form >
+                                                        </div>
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                    </form >
 
 
-                            {(this.state.action != "view" && (!this.props.forSearchModel)) ?
-                                <div className="col-12">
+                                    {(this.state.action != "view" && (!this.props.forSearchModel)) ?
+                                        <div className="col-12">
+                                            <button type="button"
+                                                onClick={(e) => { this.handleSubmit(e) }}
+                                                disabled={this.state.states.submitDisabled}
+                                                className="btn btn-light jewell-bg-color brown float-end">Submit</button>
+                                        </div> : ""
+                                    }
+
+                                </div >
+                            </> : ""}
+
+                {
+                    (this.props.forSubscribe && !this.props.forMessage) ?
+                        <>
+                            <form>
+
+                                <Field
+                                    key={`fieldForm${0}`}
+                                    state={this.state}
+                                    tab={this.state.states.tabs[0]}
+                                    isFile={false}
+                                    onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                    onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                />
+
+
+                                <div className="p-t-18">
                                     <button type="button"
                                         onClick={(e) => { this.handleSubmit(e) }}
                                         disabled={this.state.states.submitDisabled}
-                                        className="btn btn-light jewell-bg-color brown float-end">Submit</button>
-                                </div> : ""
-                            }
+                                        className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn2 p-lr-15 trans-04">
+                                        Subscribe
+                                    </button>
+                                </div>
+                            </form>
+                        </>
+                        :
+                        ""
+                }
 
-                        </div >}
+                {
+                    (this.props.forMessage) ?
+                        <>
+                            <form>
+
+                                <Field
+                                    key={`fieldForm${0}`}
+                                    state={this.state}
+                                    tab={this.state.states.tabs[0]}
+                                    isFile={false}
+                                    onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                    onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                />
+
+
+                                <div className="p-t-18">
+                                    <button type="button"
+                                        onClick={(e) => { this.handleSubmit(e) }}
+                                        disabled={this.state.states.submitDisabled}
+                                        className="flex-c-m stext-101 cl5 size-121 bg2 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </>
+                        :
+                        ""
+                }
+
             </>
         )
     }

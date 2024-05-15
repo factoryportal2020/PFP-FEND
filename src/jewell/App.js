@@ -25,6 +25,11 @@ import CategoryList from './pages/category/List';
 import WorkerList from './pages/worker/List';
 import ItemList from './pages/product/List';
 import TaskList from './pages/task/TaskList';
+import EnquiryList from './pages/enquiry/List';
+import FavouriteList from './pages/favourite/List';
+import SubscribeList from './pages/subscribe/List';
+import MessageList from './pages/message/List';
+import NotificationList from './pages/notification/List';
 
 import SampleForm from './pages/sample/Index';
 import Preloader from './components/layouts/Preloader';
@@ -85,7 +90,7 @@ const Mainwrapper = () => {
 
           <Route path="website" element={<Website action="form" />} />
           <Route path="dashboard" element={<Dashboard action="form" />} />
-          
+
           <Route path="admin/add" element={<AdminForm action="form" />} />
           <Route path="admin/edit/:encrypt_id" element={<AdminForm action="form" />} />
           <Route path="admin/list" element={<AdminList action="list" />} />
@@ -110,6 +115,15 @@ const Mainwrapper = () => {
           <Route path="task/add" element={<TaskForm action="form" />} />
           <Route path="task/edit/:encrypt_id" element={<TaskForm action="form" />} />
           <Route path="task/list" element={<TaskList action="list" />} />
+
+          <Route path="enquiry/list" element={<EnquiryList action="list" />} />
+          <Route path="favourite/list" element={<FavouriteList action="list" />} />
+          <Route path="subscribe/list" element={<SubscribeList action="list" />} />
+          <Route path="message/list" element={<MessageList action="list" />} />
+
+          <Route path="notification/list" element={<NotificationList action="list" />} />
+
+          
 
           <Route path="sample/add" element={<SampleForm action="form" />} />
           <Route path="sample/list" element={<SampleForm action="list" />} />

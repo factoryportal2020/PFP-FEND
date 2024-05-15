@@ -56,8 +56,16 @@ export const Field = React.forwardRef((props, ref) => {
                             onClick={(e) => { props.onClick(e, fieldName, new_element) }}
                             onSelectImage={(e) => { props.onSelectImage(e, fieldName, new_element) }}
                         />
-                        <ValidateDisplay state={state} new_element={new_element} fieldName={fieldName} />
+                        {(new_element.validateOut) ? "" : <ValidateDisplay state={state} new_element={new_element} fieldName={fieldName} />}
                     </div>
+                    {(new_element.validateOut) ?
+                        <>
+                            <div className="m-b-5">
+                                <ValidateDisplay state={state} new_element={new_element} fieldName={fieldName} />
+                            </div>
+                        </>
+                        : ""}
+
                 </>
             )
 

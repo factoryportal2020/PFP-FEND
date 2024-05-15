@@ -10,7 +10,8 @@ const Unauthenticate = () => {
     return (
         <div data-page-version="login">
             {
-                (!userInfo && !userToken) ? <Outlet /> : <Navigate to={'/profile'} />
+                (!userInfo && !userToken) ?
+                    <Outlet /> : <Navigate to={'/dashboard'} />
             }
         </div>
     )

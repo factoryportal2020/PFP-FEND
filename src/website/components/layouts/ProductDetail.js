@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Preloader from "../../../website/components/layouts/Preloader";
 import StatusBar from "../../../website/components/layouts/StatusBar";
 import apiDataService from "../../services/api.service";
@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 
 import iconheart01 from "../../theme/images/icons/icon-heart-01.png";
 import iconheart02 from "../../theme/images/icons/icon-heart-02.png";
+
+import { setCredentials } from "../../features/auth/websiteSlice";
 
 // import { MagnificPopup } from 'react-magnific-popup'
 // import { LightBoxGallery, GalleryItem } from '@types/react-magnific-popup';
@@ -69,6 +71,8 @@ const ProductDetail = (props) => {
 
     const [product, setProduct] = useState({})
 
+    const [favourite, setFavourite] = useState(false)
+
     const [currentEncryptID, setCurrentEncryptID] = useState("")
 
     const [relatedProduct, setRelatedProduct] = useState([])
@@ -91,6 +95,7 @@ const ProductDetail = (props) => {
 
     const [curUserInfo, setCurUserInfo] = useState(userInfo)
 
+    const dispatch = useDispatch()
 
     let sliderRef = useRef(null);
     let sliderRef1 = useRef(null);
@@ -156,14 +161,18 @@ const ProductDetail = (props) => {
     }, [userInfo]);
 
     const [status, setStatus] = useState({ show: false, type: 'success', msg: '' })
-   
+
     function onStatusClose() {
         setStatus({ show: false, type: 'success', msg: '' });
     }
 
     function getProduct(encrypt_id) {
         setPreLoading(true);
-        apiDataService.getProduct(encrypt_id)
+        let params = {}
+        params.encrypt_id = encrypt_id
+
+        params.userEncryptID = curUserInfo?.user_encrypt_id
+        apiDataService.getProduct(params)
             .then(async (response) => {
                 let responseData = response.data;
                 let productData = responseData.data;
@@ -171,6 +180,7 @@ const ProductDetail = (props) => {
                 if (productData) {
                     console.log(productData);
                     setProduct(productData);
+                    setFavourite(productData.favourite);
                     let item_images = [];
                     let other_images = [];
                     if (productData.item_image && productData.item_image.item_image.length > 0) {
@@ -226,6 +236,34 @@ const ProductDetail = (props) => {
     }
 
 
+    function saveFavourite() {
+        let params = {};
+        params.currentEncryptID = currentEncryptID
+        params.userEncryptID = curUserInfo?.user_encrypt_id
+
+        let callApi = apiDataService.saveFavourite(params)
+        callApi.then(response => {
+            let data = response.data;
+            console.log(response.data);
+            if (!data.status) { // errors
+                (async () => {
+                    setFavourite(false);
+                    setStatus({ show: true, type: 'error', msg: 'Something went wrong' });
+                })();
+            } else { // success
+                let fav = response.data.data.favourite;
+                let msg = (fav) ? "Added in Favourite list" : "Removed from Favourite list";
+                setStatus({ show: true, type: 'success', msg: msg });
+                setFavourite(fav);
+                let userData = { ...curUserInfo };
+                userData.favourite_count = (fav) ? userData.favourite_count + 1 : userData.favourite_count - 1;
+                dispatch(setCredentials(userData))
+            }
+        }).catch(e => {
+            setStatus({ show: true, type: 'error', msg: 'Something went wrong' });
+        });
+    }
+
     var slideSettings1 = {
         slidesToShow: 4,
         slidesToScroll: 4,
@@ -268,12 +306,15 @@ const ProductDetail = (props) => {
 
     };
 
+
+
+
     return (
 
         <>
 
             {/* breadcrumb */}
-            <div className="container mob-p-t-100">
+            <div className="container mob-p-t-80">
                 <div className="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
                     <a href="index.html" className="stext-109 cl8 hov-cl1 trans-04">
                         Home
@@ -297,7 +338,7 @@ const ProductDetail = (props) => {
                     {preLoading ? <Preloader /> : ""}
 
                     <div className="container">
-                        <StatusBar status={status} onStatusClose={() => onStatusClose()} />
+                        <StatusBar className="m-t-3" status={status} onStatusClose={() => onStatusClose()} />
 
                         <div className="row">
                             <div className="col-md-6 col-lg-7 p-b-30">
@@ -447,12 +488,15 @@ const ProductDetail = (props) => {
 
                                     <div className="flex-w flex-m p-l-0 p-t-30 respon7">
                                         <div className="flex-m bor9 p-r-10 m-r-11">
-                                            <a href="#" className="fs-18 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-                                                <i className="zmdi zmdi-favorite"></i>
+                                            <a href="#"
+                                                className="fs-18 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+                                                onClick={() => saveFavourite()}
+                                                data-tooltip={`${(favourite) ? "Added in Favourite List" : "Add to Favourite List"}`} >
+                                                <i className={`zmdi zmdi-favorite ${(favourite) ? "cl2" : ""}`}></i>
                                             </a>
                                         </div>
 
-                                        <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+                                        {/* <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
                                             <i className="fa fa-facebook"></i>
                                         </a>
 
@@ -462,7 +506,7 @@ const ProductDetail = (props) => {
 
                                         <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
                                             <i className="fa fa-google-plus"></i>
-                                        </a>
+                                        </a> */}
                                     </div>
                                 </div>
                             </div>

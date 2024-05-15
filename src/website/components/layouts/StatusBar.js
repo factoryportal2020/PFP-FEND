@@ -19,7 +19,7 @@ export default class StatusBar extends React.Component {
         let msg = this.props.status.msg;
         return (
             (show) ?
-                <div id="statusloader">
+                <div id="statusloader" className='m-t-100'>
                 {/* <div id=""> */}
                     <div className={classnames("alert alertCustom ", `alert-${classType}`, "noborder")
                     }>

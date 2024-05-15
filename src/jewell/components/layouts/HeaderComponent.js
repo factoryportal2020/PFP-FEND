@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import validator from '../forms/validate';
 import { workerTaskWorkerId, categoryTaskCategoryId, categoryItemCategoryId } from '../../features/auth/viewSlice';
+import dashboardService from '../../services/dashboard.service';
 
 //disptach
 import { logout, changeNavMenu } from '../../features/auth/authSlice';
@@ -16,22 +17,22 @@ class Header extends React.Component {
     this.state = {
       isNavCollapsed: true, isProfileDropdown: false, userInfo: props.userInfo,
       navMenu: { ...props.auth.navMenu },
-      permissions: [...props.auth.permissions]
+      permissions: [...props.auth.permissions],
+      dropMenuOpen: false,
+      notificationOpen: false,
+      notificationCount: 0,
+      notifications: [
+        {
+          encrypt_id: "",
+          link: "",
+          message: "",
+          created_at: ""
+        },
+      ],
     };
     this.handleIsNavCollapsed = this.handleIsNavCollapsed.bind(this);
     this.handleIsProfileDropdown = this.handleIsProfileDropdown.bind(this);
     this.clickLink = this.clickLink.bind(this);
-
-
-    // const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
-    //   // perform a refetch every 15mins
-    //   pollingInterval: 900000,
-    // })
-
-    // console.log(data) // user object
-
-    //Auth
-
   }
 
   componentDidMount() {
@@ -39,6 +40,29 @@ class Header extends React.Component {
     urlMenuName = validator.toCapitalize(urlMenuName);
     console.log(this.state.permissions);
     this.setState({ navMenu: urlMenuName })
+    this.getNotification();
+    setInterval(() => { console.log('get notification'); this.getNotification(); }, 180000);
+
+  }
+
+
+  getNotification() {
+    dashboardService.getNotification({ limit: 5 })
+      .then(async (response) => {
+        let responseData = response.data;
+        console.log(responseData);
+        let notificationData = responseData.data;
+
+        if (notificationData.notifications.length > 0) {
+          let stateObj = { ...this.state };
+          stateObj.notifications = [...notificationData.notifications];
+          stateObj.notificationCount = notificationData.notifications_count;
+          this.setState({ ...stateObj }, () => { console.log(stateObj) });
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,6 +87,14 @@ class Header extends React.Component {
     this.props.categoryItemCategoryId("")
   }
 
+  clickDropDown(trigger) {
+    this.setState({ dropMenuOpen: trigger })
+  }
+
+  clickNotification(trigger) {
+    this.setState({ notificationOpen: trigger })
+  }
+
   render() {
     const navMenu = this.state.navMenu;
     return (
@@ -79,7 +111,7 @@ class Header extends React.Component {
             onClick={this.handleIsNavCollapsed}>
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className={`${this.state.isNavCollapsed ? 'collapse' : ''} navbar-collapse`}>
+          <div className={`${this.state.isNavCollapsed ? 'collapse' : ''} navbar-collapse`} onMouseLeave={(e) => this.clickNotification(false)}>
             <ul className="navbar-nav me-auto mb-auto">
               {/* <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#/">Home</a>
@@ -153,7 +185,7 @@ class Header extends React.Component {
                   className={"navMenu " + (navMenu == "Order" ? "navMenu-active" : "")}>Orders</Link>
               </li> */}
 
-              <li className="nav-item mx-3 mt-3">
+              <li className="nav-item ms-3 mt-3">
                 {(this.state.permissions.includes('dashboard')) ? <Link role="button" id="Dashboard" onClick={(e) => this.clickLink(e)} to="/dashboard"
                   className={"navMenu " + (navMenu == "Dashboard" ? "navMenu-active" : "")}>
                   Dashboard
@@ -178,25 +210,83 @@ class Header extends React.Component {
                 {(this.state.permissions.includes('task')) ? <Link role="button" id="Task" onClick={(e) => this.clickLink(e)} to="/task/list"
                   className={"navMenu " + (navMenu == "Task" ? "navMenu-active" : "")}>
                   Tasks</Link> : ""}
-                {(this.state.permissions.includes('order')) ? <Link role="button" id="Order" onClick={(e) => this.clickLink(e)} to="#/"
-                  className={"navMenu " + (navMenu == "Order" ? "navMenu-active" : "")}>
-                  Orders</Link> : ""}
-                {(this.state.permissions.includes('admin')) ? <Link role="button" id="Admin" onClick={(e) => this.clickLink(e)} to="/admin/list"
-                  className={"navMenu " + (navMenu == "Admin" ? "navMenu-active" : "")}>
-                  Admin</Link> : ""}
+                {/* {(this.state.permissions.includes('enquiry')) ? <Link role="button" id="Enquiry" onClick={(e) => this.clickLink(e)} to="/enquiry/list"
+                  className={"navMenu " + (navMenu == "Enquiry" ? "navMenu-active" : "")}>
+                  Enquiries</Link> : ""} */}
+                {(this.state.permissions.includes('admin')) ?
+                  <Link role="button" id="Admin" onClick={(e) => this.clickLink(e)} to="/admin/list"
+                    className={"navMenu " + (navMenu == "Admin" ? "navMenu-active" : "")}>
+                    Admin</Link> : ""}
+
+
+
               </li>
+              {(this.state.permissions.includes('enquiry')) ?
+                <li className=" nav-item dropdown mt-3" onMouseLeave={(e) => this.clickDropDown(false)} >
+                  <a
+                    className={"navMenu dropdown-toggle notextDecor brown " + ((navMenu == "Enquiry" ||
+                      navMenu == "Favourite" || navMenu == "Subscribe" || navMenu == "Message") ? "navMenu-active" : "")}
+                    onClick={(e) => this.clickDropDown(!this.state.dropMenuOpen)} role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Enquiries
+                  </a>
+                  <ul className={`dropdown-menu mt-2 ${(this.state.dropMenuOpen) ? "show" : "hide"}`}>
+                    {(this.state.permissions.includes('enquiry')) ?
+                      <li><Link id="Enquiry"
+                        className={"navMenu-dropdown dropdown-item " + (navMenu == "Enquiry" ? "navMenu-dropdown-active" : "")}
+                        to="/enquiry/list" onClick={(e) => { this.clickLink(e); this.clickDropDown(!this.state.dropMenuOpen); }}>Enquiry</Link></li> : ""}
+                    {(this.state.permissions.includes('enquiry')) ?
+                      <li><Link id="Favourite"
+                        className={"navMenu-dropdown dropdown-item " + (navMenu == "Favourite" ? "navMenu-dropdown-active" : "")}
+                        to="/favourite/list" onClick={(e) => { this.clickLink(e); this.clickDropDown(!this.state.dropMenuOpen); }}>Favourite</Link></li> : ""}
+                    {(this.state.permissions.includes('subscribe')) ? <li><Link id="Subscribe"
+                      className={"navMenu-dropdown dropdown-item " + (navMenu == "Subscribe" ? "navMenu-dropdown-active" : "")}
+                      to="/subscribe/list" onClick={(e) => { this.clickLink(e); this.clickDropDown(!this.state.dropMenuOpen); }}>Subscribe</Link></li> : ""}
+                    {(this.state.permissions.includes('message')) ? <li><Link id="Message"
+                      className={"navMenu-dropdown dropdown-item " + (navMenu == "Message" ? "navMenu-dropdown-active" : "")}
+                      to="/message/list" onClick={(e) => { this.clickLink(e); this.clickDropDown(!this.state.dropMenuOpen); }}>Message</Link></li> : ""}
+                  </ul>
+                </li> : ""}
             </ul>
 
             {/* <div className='mb-auto me-1 mt-1'>
             </div> */}
 
-            <div className='logo-div'>
+            <div className='bell-div mb-auto text-end' >
+              {/* <div> */}
+              <div className='pointer d-inline-block'
+                onClick={(e) => this.clickNotification(!this.state.notificationOpen)}
+              >
+                <i className="fa-solid fa-bell pt-2 fs-3 jewell-color badge-wrapper">
+                  <span class='badge badge-secondary'>{this.state.notificationCount}</span>
+                </i>
+              </div>
+              <ul className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
+                {
+                  (this.state.notificationCount == 0) ?
+
+                    <li className='fs-14 text-center pt-3 black'>No Records Found</li> :
+
+                    this.state.notifications.map((element, i) => {
+                      return (
+                        (element.message) ?
+                          <li><Link to={element.link}>{element.message}</Link></li> : ""
+                      )
+                    })
+                }
+
+                <li className='fs-14 text-center pt-3 black'><Link>See More</Link></li>
+              </ul>
+              {/* </div> */}
+            </div>
+
+            <div className='logo-div' onMouseLeave={(e) => this.clickNotification(false)}>
 
               {/* <div className="dropdown"
               // onBlur={() => { this.handleIsProfileDropdown(!this.state.isProfileDropdown) }}
               > */}
               {/* Bell notification */}
-              <a href="#/"><i className="fa-solid fa-bell pt-2 fs-3 jewell-color"></i></a>
+
 
               {/* Logo  */}
               {/* <a className="profile-div" href="#/" role="button" data-bs-toggle="dropdown" aria-expanded="false"
@@ -222,10 +312,10 @@ class Header extends React.Component {
               </Link>
 
 
-              <a href="" className='float-end'
+              <Link to={"/login"} className='float-end'
                 onClick={() => { this.props.logout() }}>
                 <i className="fa-solid fa-power-off grey pt-2 fs-5"></i>
-              </a>
+              </Link>
 
 
 

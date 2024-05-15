@@ -45,6 +45,7 @@ import { getAdmin } from "./features/auth/adminAuctions"
 import Authenticate from "./Authenticate"
 import Profile from "./pages/Profile"
 import CustomerForm from "./pages/customer"
+import Favourite from "./pages/Favourite"
 
 
 class App extends React.Component {
@@ -105,6 +106,7 @@ const Mainwrapper = () => {
                             <Route path=":site_url/login" element={<Login />} />
                             <Route path=":site_url/profile" element={<Profile />} />
                             <Route path=":site_url/enquiry" element={<Enquiry />} />
+                            <Route path=":site_url/favourite" element={<Favourite />} />
                             <Route path=":site_url/profile/edit/:encrypt_id" element={<CustomerForm action="form" />} />
                         </Route>
                         <Route path=":site_url/register" element={<Register />} />

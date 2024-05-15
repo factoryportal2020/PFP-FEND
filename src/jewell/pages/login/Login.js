@@ -114,6 +114,10 @@ class Login extends React.Component {
     async loginApiCall(params) {
         let stateObj = { ...this.state };
         stateObj.auth['preLoading'] = true;
+        let paramss = { ...stateObj.states.params };
+        paramss.email = "";
+        paramss.password = "";
+        stateObj.states.params = { ...paramss };
         this.setState({ ...stateObj }, () => {
             (async () => {
                 await this.props.userLogin(params)
@@ -134,7 +138,7 @@ class Login extends React.Component {
 
                                     <div className='login-small-round-content'>
                                         <a href="/">
-                                        Pocket<br />Poche<br />Admin
+                                            Pocket<br />Poche<br />Admin
                                         </a>
                                         {/* <h6 className='grey'>Task Management Portal</h6> */}
                                     </div>

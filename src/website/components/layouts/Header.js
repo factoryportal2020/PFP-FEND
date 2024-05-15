@@ -79,6 +79,7 @@ const Header = () => {
     const dispatch = useDispatch()
 
     const { userInfo } = useSelector((state) => state.websiteAuth)
+    const [curUserInfo, setCurUserInfo] = useState(userInfo)
 
     // automatically authenticate user if token is found
     const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
@@ -100,12 +101,22 @@ const Header = () => {
         changeNavMenu(menuName)
     }
 
+    useEffect(() => {
+        if (userInfo) {
+            console.log(userInfo);
+            setCurUserInfo(userInfo)
+        }
+    }, [userInfo])
+
 
     useEffect(() => {
         if (data) {
+            console.log(data.data);
             dispatch(setCredentials(data.data))
         }
     }, [data, dispatch])
+
+
     const [cusLogoImage, setCusLogoImage] = useState("");
     const [website, setWebsite] = useState("");
 
@@ -301,14 +312,18 @@ const Header = () => {
                                             <i className="zmdi zmdi-search"></i>
                                         </div>
 
-                                        <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2"
-                                            onClick={() => setCartModalTrigger(true)}>
-                                            <i className="zmdi zmdi-shopping-cart"></i>
+                                        <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart " data-notify={curUserInfo?.enquiry_count}
+                                            onClick={() => setCartModalTrigger(true)}
+                                        >
+                                            <i className="zmdi zmdi-shopping-cart tooltip100" data-tooltip="Enquiries"></i>
                                         </div>
 
-                                        <a href="/" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-                                            <i className="zmdi zmdi-favorite-outline"></i>
-                                        </a>
+                                        <Link to={`${adminInfo.site_url}/favourite`} 
+                                        className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" 
+                                        data-notify={curUserInfo?.favourite_count}
+                                        >
+                                            <i className="zmdi zmdi-favorite-outline tooltip100" data-tooltip="Favourites"></i>
+                                        </Link>
                                     </div>
                                 </nav>
                             </div>
@@ -328,14 +343,18 @@ const Header = () => {
                                     <i className="zmdi zmdi-search"></i>
                                 </div>
 
-                                <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2"
-                                    onClick={() => setCartModalTrigger(true)}>
-                                    <i className="zmdi zmdi-shopping-cart"></i>
+                                <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify={curUserInfo?.enquiry_count}
+                                    onClick={() => setCartModalTrigger(true)}
+                                >
+                                    <i className="zmdi zmdi-shopping-cart tooltip100" data-tooltip="Enquiries"></i>
                                 </div>
 
-                                <a href="/" className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
-                                    <i className="zmdi zmdi-favorite-outline"></i>
-                                </a>
+                                <Link to={`${adminInfo.site_url}/favourite`}
+                                    className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+                                    data-notify={curUserInfo?.favourite_count}
+                                >
+                                    <i className="zmdi zmdi-favorite-outline tooltip100" data-tooltip="Favourites"></i>
+                                </Link>
                             </div>
 
                             <div className={`btn-show-menu-mobile hamburger hamburger--squeeze ${btnShowMenuMobile}`} onClick={() => { clickBtnShowMenuMobile(); onToggle(); }}>
@@ -427,7 +446,7 @@ const Header = () => {
                 </>
                 : ""}
 
-            <CartModal showModalTrigger={cartModalTrigger}
+            <CartModal showModalTrigger={cartModalTrigger} pagination={true}
                 clickShowModalClose={() => setCartModalTrigger(false)} />
         </>
     )

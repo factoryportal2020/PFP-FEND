@@ -18,18 +18,19 @@ let menu = (window.location.pathname.split('/')[2]) ? window.location.pathname.s
 console.log(site_url);
 console.log(menu);
 
-let comp = (menu == "home" || menu == "shop" || menu == "about" || menu == "product" || menu == "category" 
-|| menu == "contact" || menu == "login" || menu == "register" || menu == "profile" || menu == "forget" || menu == "reset" 
-|| menu == "enquiry") ? <Website site_url={site_url} /> : <App />
+let comp = (menu == "home" || menu == "shop" || menu == "about" || menu == "product" || menu == "category"
+  || menu == "contact" || menu == "login" || menu == "register" || menu == "profile" || menu == "forget" || menu == "reset"
+  || menu == "enquiry" || menu == "favourite") ? <Website site_url={site_url} /> : <App />
 
-let store = (menu == "home" || menu == "shop" || menu == "about" || menu == "product" || menu == "category" 
-|| menu == "contact" || menu == "login" || menu == "register" || menu == "profile" || menu == "forget" || menu == "reset" 
-|| menu == "enquiry") ? storeWebsite : storeAdmin
+let store = (menu == "home" || menu == "shop" || menu == "about" || menu == "product" || menu == "category"
+  || menu == "contact" || menu == "login" || menu == "register" || menu == "profile" || menu == "forget" || menu == "reset"
+  || menu == "enquiry" || menu == "favourite") ? storeWebsite : storeAdmin
 
 
-if((site_url && menu==null && menu!="" && site_url!="login" && site_url!="home")){
- comp = <Website site_url={site_url} />
- store = storeWebsite
+if ((site_url && menu == null && menu != "" && site_url != "login"
+  && site_url != "home" && site_url != "dashboard" && site_url != "profile" && site_url != "website")) {
+  comp = <Website site_url={site_url} />
+  store = storeWebsite
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
