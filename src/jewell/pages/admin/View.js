@@ -134,7 +134,7 @@ class View extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="card w-auto mt-4">
+                            {/* <div className="card w-auto mt-4">
                                 <div className="card-body ps-3 pe-5">
                                     <div className="card-content">
                                         <h6>Order Detail:</h6>
@@ -168,7 +168,7 @@ class View extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div >
                 </div >

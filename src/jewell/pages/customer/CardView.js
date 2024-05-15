@@ -15,8 +15,8 @@ const CardView = React.forwardRef((props, ref) => {
             <h6 className="fs-16"><i title="Instagram" className="fa-solid fab fa-instagram fs-20 ps-2 me-2 purple wd-30"></i>&nbsp;{instagram_id}</h6>
             <div className="d-flex">
                 <div><i title="Address" className="fa-solid fa-globe fs-20 ps-2 me-1 color4 wd-30"></i></div>
-                <div className="ps-1 fs-16">{element.address},<br />
-                    {element.city},&nbsp;{element.state}</div>
+                <div className="ps-1 fs-16">{(element.address) ? element.address + "," : ""}<br />
+                    {(element.city) ? element.city + ", " + element.state : ""}</div>
             </div>
             <div className="d-flex pt-2">
                 <div><i title="Notes" className="fa-solid fa-sticky-note fs-20 ps-2 me-1 grey wd-30"></i></div>

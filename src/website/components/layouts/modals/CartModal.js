@@ -8,18 +8,32 @@ class CartModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            enquiryTrigger: false,
+            pagination: props.pagination,
             modalTrigger: (props.showModalTrigger) ? "show-header-cart" : "",
-            adminInfo: { ...props.adminAuth.adminInfo }
+            adminInfo: { ...props.adminAuth.adminInfo },
+            userInfo: { ...props.websiteAuth.userInfo }
         }
         this.clickClose = this.clickClose.bind(this);
         console.log(this.state.adminInfo);
     }
 
+    // componentDidMount() {
+    //     this.setState({
+    //         enquiryTrigger: true,
+    //         pagination: true,
+    //         forModal: true,
+    //     });
+    // }
+
+
     componentWillReceiveProps(newProps) {
         // console.log(newProps);
         this.setState({
             adminInfo: { ...newProps.adminAuth.adminInfo },
-            modalTrigger: (newProps.showModalTrigger) ? "show-header-cart" : ""
+            userInfo: { ...newProps.websiteAuth.userInfo },
+            modalTrigger: (newProps.showModalTrigger) ? "show-header-cart" : "",
+            pagination: { ...newProps.pagination }
         });
     }
 
@@ -46,7 +60,8 @@ class CartModal extends React.Component {
                         </div>
 
                         <div class="header-cart-content flex-w js-pscroll">
-                            <Enquiry pagination={true} />
+
+                            <Enquiry pagination={this.state.pagination} />
 
                             {/* <ul class="header-cart-wrapitem w-full">
                                 <li class="header-cart-item flex-w flex-t m-b-12">

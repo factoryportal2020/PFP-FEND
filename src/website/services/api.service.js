@@ -33,8 +33,8 @@ class ApiDataService {
         return http.post(`product`, data);
     }
 
-    getProduct(encrypt_id) {
-        return http.get(`/product/${encrypt_id}`);
+    getProduct(data) {
+        return http.post(`/product/${data.encrypt_id}`, data);
     }
 
     getProfile(encrypt_id) {
@@ -49,9 +49,26 @@ class ApiDataService {
         return http.post(`/enquiry/save/`, data);
     }
 
-    getEnquiryList(data){
+    getEnquiryList(data) {
         return http.post(`enquiry`, data);
     }
+
+    saveFavourite(data) {
+        return http.post(`/favourite/save/`, data);
+    }
+
+    getFavouriteList(data) {
+        return http.post(`favourite`, data);
+    }
+
+    saveSubscribe(data) {
+        return http.post(`/subscribe/save/`, data);
+    }
+
+    saveMessage(data) {
+        return http.post(`/message/save/`, data);
+    }
+
 }
 
 export default new ApiDataService();

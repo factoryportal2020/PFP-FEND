@@ -111,6 +111,8 @@ class Index extends React.Component {
         }
 
         this.getCategory(selectCondition);
+        this.getWorker(selectCondition);
+        this.getCustomer(selectCondition);
     }
 
     componentWillReceiveProps(nextProps) {

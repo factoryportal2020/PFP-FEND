@@ -112,6 +112,7 @@ class EnquiryModal extends React.Component {
     async saveDataApiCall(params) {
         this.setState({ preLoading: true });
         params.currentEncryptID = this.state.currentEncryptID
+        params.userEncryptID = this.state.userInfo?.user_encrypt_id
 
         let callApi = apiDataService.saveEnquiry(params)
         callApi.then(response => {

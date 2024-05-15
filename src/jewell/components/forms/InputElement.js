@@ -29,7 +29,8 @@ export const TextInput = (props) => {
             }
 
             <input type={props.type}
-                className={`form-control ${props.className}`} id={props.htmlFor} value={props.value} placeholder={props.placeholder}
+                className={`${(!props.noFormcontrolCls ? "form-control" : "")} ${props.className}`}
+                id={props.htmlFor} value={props.value} placeholder={props.placeholder}
                 readOnly={props.readonly}
                 pattern={`${(props.pattern) ? (props.pattern) : ""}`}
                 maxLength={props.maxLength}
@@ -39,6 +40,9 @@ export const TextInput = (props) => {
                 }}
                 onBlur={(e) => { }}
             />
+            {(props.iconImgCls && props.iconImg) ? <img className={props.iconImgCls} src={props.iconImg} alt="ICON" /> : ""}
+
+            {(props.noFormcontrolCls) ? <div className="focus-input1 trans-04"></div> : ""}
         </>
     )
 }
@@ -240,7 +244,9 @@ export const TextAreaInput = (props) => {
     return (
         <>
             <label htmlFor={props.htmlFor} className="form-label">{props.label}</label>
-            <textarea className="form-control" id={props.htmlFor} value={props.value}
+            <textarea
+                className={`${(!props.noFormcontrolCls ? "form-control" : "")} ${props.className}`}
+                id={props.htmlFor} value={props.value}
                 placeholder={props.placeholder}
                 maxLength={props.maxLength}
                 onChange={(e) => { props.onChange(e.target.value) }}
@@ -274,6 +280,22 @@ export const DateTimeInput = (props) => {
             <DateTimePicker
                 className="form-control w-70"
                 format={"dd MMM yyyy HH:mm"}
+                onChange={(date) => { props.onChange(date) }}
+                value={props.value}
+                clearIcon={null} />
+        </>
+    )
+
+}
+
+export const DateInput = (props) => {
+    return (
+        <>
+            <label htmlFor={props.htmlFor} className="form-label">{props.label}</label>
+            <br />
+            <DateTimePicker
+                className="form-control w-70"
+                format={"dd MMM yyyy"}
                 onChange={(date) => { props.onChange(date) }}
                 value={props.value}
                 clearIcon={null} />
@@ -459,19 +481,25 @@ export const InputElement = React.forwardRef((props, ref) => {
     let required = (props.element.required) ? props.element.required : false;
     let email = (props.element.email) ? props.element.email : false;
     let fileType = (props.element.fileType) ? props.element.fileType : "image";
+    let noFormcontrolCls = (props.element.noFormcontrolCls) ? true : false;
+    let iconImg = (props.element.iconImg) ? props.element.iconImg : "";
+    let iconImgCls = (props.element.iconImgCls) ? props.element.iconImgCls : "";
+
+
 
     let validateOptions = props.element.validateOptions;
     if (validate && label != "") {
         label = (validateOptions[0].rule === "required") ? <RequiredSpan label={label} /> : label;
     }
 
-    let element = { type, name, colClass, className, label, htmlFor, tab, value, placeholder, readonly, validate, required, email, options, fileType, pattern, maxLength };
+    let element = { type, name, colClass, className, label, htmlFor, tab, value, placeholder, readonly, validate, required, email, options, fileType, pattern, maxLength, noFormcontrolCls, iconImg, iconImgCls };
     switch (type) {
         case "select": return <SelectInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "checkbox": return <CheckBoxInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "radio": return <RadioInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "textarea": return <TextAreaInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "datetime": return <DateTimeInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
+        case "date": return <DateInput {...element} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />;
         case "button": return <ButtonInput {...element} onClick={(e) => { props.onClick(e) }} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />
         case "tinyMCE": return <TinyInput {...element} onClick={(e) => { props.onClick(e) }} onChange={(e) => { props.onChange(e) }} onBlur={(e) => { props.onChange(e) }} />
         case "file":

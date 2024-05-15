@@ -55,6 +55,9 @@ class Index extends React.Component {
                     profile_image: [],
                     status: 1,
                     old_username: "",
+                    enquiry_count: 0,
+                    favourite_count: 0,
+                    subscribed_email: "",
                 },
                 validations: {
                     hasFirst_nameRequired: true,
@@ -130,11 +133,17 @@ class Index extends React.Component {
 
                 let customerData = updateData.customer;
                 let userData = updateData.user;
+                let enquiriesData = updateData.enquiries;
+                let favouritesData = updateData.favourites;
+                let subscribeData = updateData.subscribe;
                 let profile_imageData = updateData.profile_image;
 
                 let params = { ...this.state.states.params };
 
-                let updatedData = { ...params, ...customerData, ...userData, ...profile_imageData };
+                let updatedData = {
+                    ...params, ...customerData, ...userData, ...profile_imageData,
+                    ...enquiriesData, ...favouritesData, ...subscribeData
+                };
                 let stateObj = { ...this.state };
 
                 let entitiesObjects = stateObj.entities;
@@ -305,6 +314,8 @@ class Index extends React.Component {
                                         states={this.state.states}
                                         action={this.state.action}
                                         viewEncryptId={this.state.viewEncryptId}
+                                        enquiryLink={`/${this.state.states.site_url}/enquiry`}
+                                        favouriteLink={`/${this.state.states.site_url}/favourite`}
                                         ref={this.child}
                                         preLoading={this.state.preLoading}
                                     />

@@ -12,6 +12,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
     var encrypt_id = element.encrypt_id;
 
     let status = (element.status) ? element.status : "Unassigned"
+    let overdue = (element.overdue) ? element.overdue : ""
     let name = element.title
 
     let profileImage = (element.gender == "female") ? femaleLogo : maleLogo;
@@ -55,11 +56,17 @@ export const TaskCard = React.forwardRef((props, ref) => {
                             <span className="grey fs-8">Due Date:</span><br></br>
                             {datetime.showDateTime(element.end_date)}
                         </div>
+
+                        {(overdue != "") ?
+                            <div className="fs-14 ">
+                                <span className="red fs-14">Overdue:</span><br></br>
+                            </div> : ""}
+
                         <div className="ribbon-wrapper">
                             <div className={`ribbon-green w-auto bg-color3 ${status}`}>{status}
                                 &nbsp;&nbsp;
                                 <a className="" href="#/" onClick={(event) => props.changeStatusModalTriggerClick(event)}>
-                                    <i id={encrypt_id}  title="Status Edit" className="fa-solid fa-pencil fs-16 jewell-color"></i>
+                                    <i id={encrypt_id} title="Status Edit" className="fa-solid fa-pencil fs-16 jewell-color"></i>
                                 </a>
                             </div>
                         </div>
@@ -112,22 +119,24 @@ export const TaskCard = React.forwardRef((props, ref) => {
                         </div>
 
                         <div className='d-flex justify-content-around'>
-                            <div className="worker_detail d-flex">
-                                <div className="img-container">
-                                    <div className="">
-                                        <img className="border-radius-50 worker-profile-image" src={workerImage} alt="Card image cap" />
-                                        <a href={workerImage} target='_blank'>
-                                            <i className="worker-preview-btn fa-solid fa-eye" /></a>
-                                    </div>
-                                </div>
+                            {(element.worker_name) ?
 
-                                <div className='ms-2'>
-                                    <h6 className='fs-12'>Worker:</h6>
-                                    <h6 className='fs-10'>{element.worker_name}</h6>
-                                    <h6 className='fs-10'>{element.worker_specialist}</h6>
-                                    <h6 className='fs-10'>{element.worker_phone_no}</h6>
-                                </div>
-                            </div>
+                                <div className="worker_detail d-flex">
+                                    <div className="img-container">
+                                        <div className="">
+                                            <img className="border-radius-50 worker-profile-image" src={workerImage} alt="Card image cap" />
+                                            <a href={workerImage} target='_blank'>
+                                                <i className="worker-preview-btn fa-solid fa-eye" /></a>
+                                        </div>
+                                    </div>
+
+                                    <div className='ms-2'>
+                                        <h6 className='fs-12'>Worker:</h6>
+                                        <h6 className='fs-10'>{element.worker_name}</h6>
+                                        <h6 className='fs-10'>{element.worker_specialist}</h6>
+                                        <h6 className='fs-10'>{element.worker_phone_no}</h6>
+                                    </div>
+                                </div> : ""}
 
                             {(element.customer_name) ?
                                 <div className="customer_detail d-flex">

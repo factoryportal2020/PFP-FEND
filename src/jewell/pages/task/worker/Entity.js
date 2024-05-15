@@ -108,6 +108,7 @@ export const listStates = {
                 customer_image: [{ "name": "dbc9a21512bf6a7b9988f41fe5c6d403.jpg" }],
                 worker_image: [{ "name": "dbc9a21512bf6a7b9988f41fe5c6d403.jpg" }],
                 status: "Unassigned",
+                overdue: "",
                 created_at: "",
                 updated_at: ""
             },

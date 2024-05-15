@@ -215,7 +215,7 @@ class Form extends React.Component {
             await this.allValidation();
             var validationsArr = [];
             var validations = this.state.states.validations;
-
+            console.log(validations);
             if (validations) {
                 Object.values(validations).forEach(val => {
                     validationsArr.push(val);

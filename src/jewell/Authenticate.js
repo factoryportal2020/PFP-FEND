@@ -36,8 +36,8 @@ const Authenticate = () => {
     // show unauthorized screen if no user is found in redux store
     if (!userInfo && !userToken) {
         return (
-            <Navigate to={'/login'} />
-            // <Login></Login>
+            // <Navigate to={'/login'} />
+            <Login></Login>
             // <div className='row login-row'>
             //     <div className='col-sm login-half-round vertical right'>
             //         <div className='login-half-round-content'>

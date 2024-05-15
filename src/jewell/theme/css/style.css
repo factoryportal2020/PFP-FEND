@@ -296,6 +296,39 @@
     outline: none;
 }
 
+.navMenu-dropdown {
+    font-size: 12px;
+    line-height: 3.5;
+    /* margin-top: 20px; */
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+    padding: 8px 15px;
+    border-radius: 25px;
+    border: 2px solid #fff200;
+    /* text-transform: uppercase; */
+    text-decoration: none;
+    font-weight: 400;
+    align-items: center;
+    width: auto;
+    background-color: #fff200;
+    color: brown;
+    /* box-shadow: 0px 1px 1px yellow; */
+    cursor: pointer;
+    transition: .2s;
+    display: inline;
+}
+
+.navMenu-dropdown:active,
+.navMenu-dropdown-active,
+.navMenu-dropdown:focus,
+.navMenu-dropdown:hover {
+    border-color: pink;
+    /* border-bottom: 5px solid brown; */
+    background-color: pink;
+    color: brown;
+    outline: none;
+}
+
 
 .view__btn {
     font-size: 16px;
@@ -327,9 +360,42 @@
 
 .logo-div {
     display: flex;
-    width: 150px;
+    /* width: 150px; */
+    width: 100px;
+    margin-left: 15px;
     justify-content: space-between;
 }
+
+.bell-div {
+    width: 200px;
+    /* position: absolute; */
+}
+
+.bell-dropdown {
+    border: 1px solid yellow;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    /* position: absolute; */
+}
+
+.bell-dropdown li {
+    border-bottom: 1px solid yellow;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-decoration: none;
+}
+
+.bell-dropdown li a {
+    color: brown;
+    text-decoration: none;
+}
+
+.bell-dropdown li a:hover {
+    color: blue;
+    text-decoration: none;
+}
+
 
 .profile-div .profile-logo {
     border-radius: 50%;
@@ -663,6 +729,10 @@ input:read-only {
 .pg-three-bounce a.pg-child {
     text-decoration: none;
     color: brown;
+}
+
+.notextDecor {
+    text-decoration: none;
 }
 
 .pg-three-bounce .pg-child.bg-white {
@@ -1228,7 +1298,7 @@ select-btn .created_at {
 }
 
 .ml-350 {
-margin-left: 350px;
+    margin-left: 350px;
 }
 
 /* Card */
@@ -1299,6 +1369,26 @@ margin-left: 350px;
     font-size: 16px;
     padding-left: 5px;
 }
+
+
+.badge-wrapper {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: 0;
+    right: -3px;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: brown;
+    /* border-radius: 50%;
+    background-color: #ddd; */
+}
+
 
 
 /* mobile */

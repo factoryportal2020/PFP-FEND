@@ -27,16 +27,10 @@ export const formEntities = [
     },
     {
         name: "worker_id", type: "select", colClass: 'col-md-3', className: "", htmlFor: "worker", value: "", label: "Worker", placeholder: "worker",
-        validate: true,
+        validate: false,
         tab: "details",
         options: [
             { value: '', label: 'Select Worker' },
-        ],
-        validateOptions: [
-            {
-                rule: "required",
-                msg: "Worker is Required"
-            },
         ]
     },
     {
@@ -289,6 +283,7 @@ export const listStates = {
                 title: "",
                 description: "",
                 specification: "",
+                overdue: "",
                 quantity: "",
                 price: "",
                 category_id: "",

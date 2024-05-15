@@ -8,7 +8,7 @@ import noImage from "../theme/images/jewell/no-image.jpg";
 import { Link } from "react-router-dom";
 
 
-const Enquiry = (props) => {
+const Favourite = (props) => {
 
     const { adminInfo, adminToken } = useSelector((state) => state.adminAuth)
 
@@ -16,13 +16,14 @@ const Enquiry = (props) => {
 
     const [curAdminInfo, setCurAdminInfo] = useState(adminInfo);
 
-    const [enquiries, setEnquiries] = useState([]);
+    const [favourites, setFavourites] = useState([]);
 
     const [preLoading, setPreLoading] = useState(false);
     // console.log(props);
     const [pagination, setPagination] = useState((props.pagination) ? true : false);
 
     const [totalCount, setTotalcount] = useState(0);
+
 
     const [productParams, setProductParams] = useState({
         search_word: "",
@@ -32,16 +33,8 @@ const Enquiry = (props) => {
     });
 
     useEffect(() => {
-        getEnquiry();
+        getFavourite();
     }, []);
-
-    useEffect(() => {
-        if (pagination) {
-            // console.log("test")
-            getEnquiry();
-        }
-    }, [pagination]);
-
 
     let perPageSelectEntity = {
         name: "perpage", type: "select", colClass: '',
@@ -63,33 +56,33 @@ const Enquiry = (props) => {
 
     function onPgClick() {
         setProductParams(productParams);
-        getEnquiry();
+        getFavourite();
     }
 
-    function getEnquiry() {
+    function getFavourite() {
         setPreLoading(true);
         let data = { ...productParams }
         console.log(userInfo);
         data.userEncryptID = userInfo?.user_encrypt_id
-        apiDataService.getEnquiryList(data)
+        apiDataService.getFavouriteList(data)
             .then(async (response) => {
                 console.log(response);
                 let responseData = response.data;
-                let enquiryData = responseData.data.data;
-                if (enquiryData.length > 0) {
-                    console.log(enquiryData);
-                    setEnquiries(enquiryData);
+                let favouriteData = responseData.data.data;
+                if (favouriteData.length > 0) {
+                    console.log(favouriteData);
+                    setFavourites(favouriteData);
                     setTotalcount(responseData.data.totalCount);
                     setPreLoading(false);
                 } else {
-                    setEnquiries([]);
+                    setFavourites([]);
                     setTotalcount(responseData.data.totalCount);
                     setPreLoading(false);
                 }
             })
             .catch(e => {
                 console.log(e);
-                setEnquiries([]);
+                setFavourites([]);
                 setPreLoading(false);
                 setStatus({ show: true, type: 'error', msg: 'Something went wrong' });
             });
@@ -106,7 +99,7 @@ const Enquiry = (props) => {
 
                     <div className="p-b-30">
                         <h3 className="ltext-103 cl4 fs-20">
-                            Enquiries
+                            Favourites
                         </h3>
                     </div>
                     <div className={'row mb-5'}>
@@ -115,18 +108,18 @@ const Enquiry = (props) => {
 
                                 <div className='fs-20 text-center mt-5'>No Records found</div> :
                                 // (pagination) ? <ul class="header-cart-wrapitem w-full"> :""
-                                enquiries.map((element, i) => {
+                                favourites.map((element, i) => {
                                     let pImage = (element.item_image && element.item_image.url) ? element.item_image.url : noImage;
                                     var count = 80;
                                     var comment = element.comment;
                                     comment = (element.comment) ? comment.slice(0, count) + (comment.length > count ? "..." : "") : "";
                                     return (
-                                        <div className='col-xl-4 mb-4'>
+                                        <div className='col-xl-2 mb-4'>
                                             <div className="card w-auto">
                                                 <div className="card-body">
                                                     <div className="card-content">
                                                         <div className="d-flex">
-                                                            <div className="w-50">
+                                                            <div className="w-90">
                                                                 <div className="card-image">
                                                                     <div className="col-sm mb-2 img-container">
                                                                         <img className="border-radius-50 card-profile-image" src={pImage} alt="Card image cap" />
@@ -139,17 +132,12 @@ const Enquiry = (props) => {
                                                                     <h5 className="card-title fs-16 textdoc-none">{element.product_name}</h5>
                                                                 </Link>
                                                                 <h6 className="fs-12">Code: {element.product_code}</h6>
+                                                                <div className='fs-10 pb-1'>Added At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>
 
                                                             </div>
-                                                            <div className='ms-2 me-2 mt-2 mb-2'>
-                                                                <h5 className="fs-16">Enquiry Id:&nbsp;{element.code}</h5>
-                                                                <h5 className="fs-14">Email:&nbsp;{element.email}</h5>
-                                                                <h5 className="fs-14">Count:&nbsp;{element.count}</h5>
-                                                                <h6 className="fs-14 pb-1">{comment}</h6>
-
-                                                                <div className="maxw-100">
-                                                                    <div className='fs-10 pb-1'>Enquiried At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>
-                                                                    <div className='fs-10'>Updated At: <span className="created_at" title="Created Date">{element.updated_at}</span></div>
+                                                            <div className='ms-0 me-4 mt-2 mb-2'>
+                                                                <div className="">
+                                                                    <i className={`zmdi zmdi-favorite cl2 fs-25`}></i>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -176,7 +164,7 @@ const Enquiry = (props) => {
                     <ul class="header-cart-wrapitem w-full">
                         {
                             (totalCount == 0) ? <div className='fs-20 text-center mt-5'>No Records found</div> :
-                                enquiries.slice(0, 2).map((element, i) => {
+                                setFavourites.slice(0, 2).map((element, i) => {
 
                                     let pImage = (element.item_image && element.item_image.url) ? element.item_image.url : noImage;
                                     var count = 80;
@@ -215,4 +203,4 @@ const Enquiry = (props) => {
         </>
     )
 }
-export default Enquiry
+export default Favourite
