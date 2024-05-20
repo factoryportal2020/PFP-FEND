@@ -16,7 +16,7 @@ class CustomerDataService {
   }
 
   update(data) {
-    return http.post(`/customer/update/`, data);
+    return http.post(`/customer/update`, data);
   }
 
   delete(encrypt_id) {

@@ -15,7 +15,7 @@ class ProfileDataService {
   }
 
   update(data) {
-    return http.post(`/profile/update/`, data);
+    return http.post(`/profile/update`, data);
   }
 
   delete(encrypt_id) {

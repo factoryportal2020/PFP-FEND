@@ -235,7 +235,7 @@ const Dashboard = () => {
                     {(dashboard?.userInfo?.role == "admin" || dashboard?.userInfo?.role == "worker") ?
                         <>
                             <div className="col-xl-8 col-xxl-8 col-lg-8 col-md-8">
-                                <div className='card-new card-new-shadow-yellow'>
+                                <div className='card-new'>
                                     <div className="card-new-header border-0 pb-0 d-sm-flex d-block">
                                         <div>
                                             <h4 className="card-new-title m-b-1">Task Summary</h4>
@@ -362,7 +362,7 @@ const Dashboard = () => {
                                     <>
                                         <div className='row'>
                                             <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
-                                                <div className="widget-stat card-new card-new-shadow-pink">
+                                                <div className="widget-stat card-new">
                                                     <div className="card-new-body p-4">
                                                         <div className="media ai-icon">
                                                             <Link to={"/message/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
@@ -378,7 +378,7 @@ const Dashboard = () => {
                                             </div>
 
                                             <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
-                                                <div className="widget-stat card-new card-new-shadow-pink">
+                                                <div className="widget-stat card-new">
                                                     <div className="card-new-body p-4">
                                                         <div className="media ai-icon">
                                                             <Link to={"/subscribe/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
@@ -400,7 +400,7 @@ const Dashboard = () => {
 
                                 <div className='row'>
                                     <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
-                                        <div className="widget-stat card-new card-new-shadow-pink">
+                                        <div className="widget-stat card-new">
                                             <div className="card-new-body p-4">
                                                 <div className="media ai-icon">
                                                     <Link to={"/favourite/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
@@ -416,7 +416,7 @@ const Dashboard = () => {
                                     </div>
 
                                     <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
-                                        <div className="widget-stat card-new card-new-shadow-pink">
+                                        <div className="widget-stat card-new">
                                             <div className="card-new-body p-4">
                                                 <div className="media ai-icon">
                                                     <Link to={"/enquiry/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">

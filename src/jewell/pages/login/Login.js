@@ -134,63 +134,102 @@ class Login extends React.Component {
                         <>
                             {this.state.auth.preLoading ? <Preloader /> : ""}
                             <div className='row login-row'>
-                                <div className='login-small-round vertical right'>
+                                {/* <div className='col-sm-2'>
+                                    <div className='login-small-round vertical right'>
 
-                                    <div className='login-small-round-content'>
-                                        <a href="/">
-                                            Pocket<br />Poche<br />Admin
-                                        </a>
-                                        {/* <h6 className='grey'>Task Management Portal</h6> */}
+                                        <div className='login-small-round-content'>
+                                            <a href="/">
+                                                Pocket<br />Poche<br />Admin
+                                            </a>
+                                            <h6 className='grey'>Task Management Portal</h6>
+                                        </div>
                                     </div>
+                                </div> */}
+                                <div className='col-sm-6'>
+                                    <h2 className='mt-5 ms-5 poppins-bold-family theme-yellow'>Pocket Ecommerce, Admin</h2>
+                                    <h5 className='mt-2 ms-5 brown'>Manage in your pocket </h5>
+                                    <div class="boxing">
+                                        <div class="box">
+                                            <div class="box-item color1">
+                                                {/* <div class="box-image">
+                                                    <img src="/nexware-learn/login_screen/images/customer.png" />
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="box-head">
+                                                        Customer
+                                                    </div>
+                                                    <div class="box-content">
+                                                        Manage your valid customers
+                                                    </div>
+                                                </div> */}
+                                            </div>
+                                            <div class="box-item color2"></div>
+                                            <div class="box-item color3"></div>
+                                        </div>
+                                        <div class="box">
+                                            <div class="box-item color4"></div>
+                                            <div class="box-item color5"></div>
+                                            <div class="box-item color6"></div>
+                                        </div>
+                                        <div class="box">
+                                            <div class="box-item color7"></div>
+                                            <div class="box-item color8"></div>
+                                            <div class="box-item color9"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
+                                <div className='col-sm-6'>
+
                                 <div className='login-form-card mt-5'>
-                                    <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
-                                    <div className="card login-card">
-                                        <div className="login-card-header">
-                                            Sigin into your account
-                                        </div>
-                                        <div className="card-body">
-                                            <form>
-                                                <>
-                                                    < Form
-                                                        entities={this.state.entities}
-                                                        states={this.state.states}
-                                                        action={this.state.action}
-                                                        saveDataApiCall={(params) => this.loginApiCall(params)}
-                                                        clickErrorModalClose={() => this.clickErrorModalClose()}
-                                                        ref={this.child}
-                                                        errorsModalTrigger={this.state.auth.errorsModalTrigger}
-                                                        errors={this.state.auth.errors}
-                                                    />
-                                                </>
-                                                {/* <div className='clearfix'></div> */}
-                                                <hr className='login-hr'></hr>
-                                                <div className='text-center'>
-                                                    <button type="submit" className="form-control login__submit">
-                                                        <i className='fa-solid fab fa-google red'></i>&nbsp;&nbsp;Login with Google
-                                                    </button>
+                                        <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
+                                        <div className="card login-card">
+                                            <div className="login-card-header">
+                                                Sign into your account
+                                            </div>
+                                            <div className="card-body">
+                                                <form>
+                                                    <>
+                                                        < Form
+                                                            entities={this.state.entities}
+                                                            states={this.state.states}
+                                                            action={this.state.action}
+                                                            saveDataApiCall={(params) => this.loginApiCall(params)}
+                                                            clickErrorModalClose={() => this.clickErrorModalClose()}
+                                                            ref={this.child}
+                                                            errorsModalTrigger={this.state.auth.errorsModalTrigger}
+                                                            errors={this.state.auth.errors}
+                                                        />
+                                                    </>
+                                                    {/* <div className='clearfix'></div> */}
+                                                    <hr className='login-hr'></hr>
+                                                    <div className='text-center'>
+                                                        <button type="submit" className="form-control login__submit">
+                                                            <i className='fa-solid fab fa-google red'></i>&nbsp;&nbsp;Login with Google
+                                                        </button>
 
 
-                                                    <button type="submit" className="form-control login__submit">
-                                                        <i className='fa-solid fab fa-facebook fb-blue'></i>&nbsp;&nbsp;Login with Facebook
-                                                    </button>
-                                                </div>
-                                                <hr className='login-hr'></hr>
-                                                <div className='d-flex justify-content-between fs-12 brown'>
-                                                    <Link to='/forget/password' className="brown">
-                                                        Forget Password
-                                                    </Link>&nbsp;&nbsp;
-                                                    <Link to='/' className="brown">
-                                                        Have a problem in login ?
-                                                    </Link>
-                                                </div>
-                                                <hr className='login-hr'></hr>
-                                                <div className='text-center'>
-                                                    <Link to='/register' className="login__submit">Signup</Link>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div >
+                                                        <button type="submit" className="form-control login__submit">
+                                                            <i className='fa-solid fab fa-facebook fb-blue'></i>&nbsp;&nbsp;Login with Facebook
+                                                        </button>
+                                                    </div>
+                                                    <hr className='login-hr'></hr>
+                                                    <div className='d-flex justify-content-between fs-12 brown'>
+                                                        <Link to='/forget/password' className="brown">
+                                                            Forget Password
+                                                        </Link>&nbsp;&nbsp;
+                                                        <Link to='/' className="brown">
+                                                            Have a problem in login ?
+                                                        </Link>
+                                                    </div>
+                                                    <hr className='login-hr'></hr>
+                                                    <div className='text-center'>
+                                                        <Link to='/register' className="login__submit">Signup</Link>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div >
+                                    </div>
                                 </div>
                             </div>
                         </>

@@ -15,7 +15,7 @@ class CategoryDataService {
   }
 
   update(data) {
-    return http.post(`/category/update/`, data);
+    return http.post(`/category/update`, data);
   }
 
   delete(encrypt_id) {

@@ -15,7 +15,7 @@ class ItemDataService {
   }
 
   update(data) {
-    return http.post(`/product/update/`, data);
+    return http.post(`/product/update`, data);
   }
 
   getCategory(selectCondition) {

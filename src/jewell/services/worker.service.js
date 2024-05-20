@@ -14,7 +14,7 @@ class WorkerDataService {
   }
 
   update(data) {
-    return http.post(`/worker/update/`, data);
+    return http.post(`/worker/update`, data);
   }
 
   delete(encrypt_id) {

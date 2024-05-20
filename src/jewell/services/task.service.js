@@ -14,7 +14,7 @@ class TaskDataService {
   }
 
   update(data) {
-    return http.post(`/task/update/`, data);
+    return http.post(`/task/update`, data);
   }
 
   updateStatus(data) {

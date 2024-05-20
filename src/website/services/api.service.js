@@ -42,11 +42,11 @@ class ApiDataService {
     }
 
     updateProfile(data) {
-        return http.post(`/profile/update/`, data);
+        return http.post(`/profile/update`, data);
     }
 
     saveEnquiry(data) {
-        return http.post(`/enquiry/save/`, data);
+        return http.post(`/enquiry/save`, data);
     }
 
     getEnquiryList(data) {
@@ -54,7 +54,7 @@ class ApiDataService {
     }
 
     saveFavourite(data) {
-        return http.post(`/favourite/save/`, data);
+        return http.post(`/favourite/save`, data);
     }
 
     getFavouriteList(data) {
@@ -62,11 +62,11 @@ class ApiDataService {
     }
 
     saveSubscribe(data) {
-        return http.post(`/subscribe/save/`, data);
+        return http.post(`/subscribe/save`, data);
     }
 
     saveMessage(data) {
-        return http.post(`/message/save/`, data);
+        return http.post(`/message/save`, data);
     }
 
 }
