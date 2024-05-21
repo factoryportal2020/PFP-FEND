@@ -275,7 +275,7 @@ class Header extends React.Component {
                     })
                 }
 
-                <li className='fs-14 text-center pt-3 black'><Link>See More</Link></li>
+                <li className='fs-14 text-center pt-3 black'><Link to="/notification/list">See More</Link></li>
               </ul>
               {/* </div> */}
             </div>

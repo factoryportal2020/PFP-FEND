@@ -88,7 +88,7 @@ const Header = () => {
 
 
     useEffect(() => {
-        let urlMenuName = (window.location.pathname.split('/')[2]) ? window.location.pathname.split('/')[2] : "Home";
+        let urlMenuName = (window.location.pathname.split('/')[2]) ? window.location.pathname.split('/')[2] : "home";
         urlMenuName = validator.toCapitalize(urlMenuName);
         console.log(urlMenuName);
         setCurNavMenu(urlMenuName);

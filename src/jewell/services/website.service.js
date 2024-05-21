@@ -10,7 +10,7 @@ class WebsiteDataService {
   }
 
   update(data) {
-    return http.post(`/website/update/`, data);
+    return http.post(`/website/update`, data);
   }
 
   updateLaunchAt(data) {

@@ -16,7 +16,7 @@ class AdminDataService {
   }
 
   update(data) {
-    return http.post(`/admin/update/`, data);
+    return http.post(`/admin/update`, data);
   }
 
   delete(encrypt_id) {

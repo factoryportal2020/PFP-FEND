@@ -142,57 +142,94 @@ class Register extends React.Component {
         return (
             <>
                 <div className='row login-row'>
-                    <div className='login-small-round vertical right'>
+                    {/* <div className='login-small-round vertical right'>
 
                         <div className='login-small-round-content'>
                             <a href="/">
                                 Pocket<br />Poche<br />Admin
                             </a>
-                            {/* <h6 className='grey'>Task Management Portal</h6> */}
+                            <h6 className='grey'>Task Management Portal</h6>
                         </div>
+                    </div> */}
+
+                    <div className='col-sm-6'>
+                        <h2 className='mt-5 ms-5 grey'>Pocket Ecommerce, Admin</h2>
+                        <h5 className='mt-2 ms-5 yellow'>Manage in your pocket </h5>
+                        <div class="boxing">
+                            <div class="box">
+                                <div class="box-item color1">
+                                    {/* <div class="box-image">
+                                                    <img src="/nexware-learn/login_screen/images/customer.png" />
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="box-head">
+                                                        Customer
+                                                    </div>
+                                                    <div class="box-content">
+                                                        Manage your valid customers
+                                                    </div>
+                                                </div> */}
+                                </div>
+                                <div class="box-item color2"></div>
+                                <div class="box-item color3"></div>
+                            </div>
+                            <div class="box">
+                                <div class="box-item color4"></div>
+                                <div class="box-item color5"></div>
+                                <div class="box-item color6"></div>
+                            </div>
+                            <div class="box">
+                                <div class="box-item color7"></div>
+                                <div class="box-item color8"></div>
+                                <div class="box-item color9"></div>
+                            </div>
+                        </div>
+
                     </div>
+                    <div className='col-sm-6'>
 
-                    <div className='col-sm login-form-card mt-5'>
-                        {(this.state.submitted) ?
-                            <Navigate to={'/login'} /> : ""
-                        }
-                        <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
+                        <div className='login-form-card mt-5'>
+                            {(this.state.submitted) ?
+                                <Navigate to={'/login'} /> : ""
+                            }
+                            <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
 
-                        {this.state.auth.preLoading ? <Preloader /> : ""}
-                        <div className="card login-card">
-                            <div className="login-card-header">
-                                Register New Account
-                            </div>
+                            {this.state.auth.preLoading ? <Preloader /> : ""}
+                            <div className="card login-card">
+                                <div className="login-card-header">
+                                    Register New Account
+                                </div>
 
-                            <div className="card-body">
-                                <form>
-                                    <>
-                                        < Form
-                                            entities={this.state.entities}
-                                            states={this.state.states}
-                                            action={this.state.action}
-                                            saveDataApiCall={(params) => this.saveDataApiCall(params)}
-                                            clickErrorModalClose={() => this.clickErrorModalClose()}
-                                            specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
-                                            ref={this.child}
+                                <div className="card-body">
+                                    <form>
+                                        <>
+                                            < Form
+                                                entities={this.state.entities}
+                                                states={this.state.states}
+                                                action={this.state.action}
+                                                saveDataApiCall={(params) => this.saveDataApiCall(params)}
+                                                clickErrorModalClose={() => this.clickErrorModalClose()}
+                                                specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
+                                                ref={this.child}
 
-                                            errorsModalTrigger={this.state.auth.errorsModalTrigger}
-                                            errors={this.state.auth.errors}
-                                        />
-                                    </>
-                                    <hr className='login-hr'></hr>
-                                    <div className='d-flex justify-content-between fs-14 brown'>
-                                        <Link to='/login' className="brown">
-                                            Login
-                                        </Link>
-                                        <Link to='/' className="brown">
-                                            Have a problem in Register ?
-                                        </Link>
-                                    </div>
-                                </form>
+                                                errorsModalTrigger={this.state.auth.errorsModalTrigger}
+                                                errors={this.state.auth.errors}
+                                            />
+                                        </>
+                                        <hr className='login-hr'></hr>
+                                        <div className='d-flex justify-content-between fs-14 brown'>
+                                            <Link to='/login' className="brown">
+                                                Login
+                                            </Link>
+                                            <Link to='/' className="brown">
+                                                Have a problem in Register ?
+                                            </Link>
+                                        </div>
+                                    </form>
 
-                            </div>
-                        </div >
+                                </div>
+                            </div >
+                        </div>
                     </div>
                 </div>
             </>

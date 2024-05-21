@@ -1,5 +1,17 @@
 /*//////////////////////////////////////////////////////////////////
 [ REBOOT ]*/
+@font-face {
+	font-family: 'Poppins';
+	src: url('../fonts/Poppins/Poppins-Regular.eot');
+	src: local('Poppins Regular'), local('Poppins-Regular'),
+	  url('../fonts/Poppins/Poppins-Regular.eot?#iefix') format('embedded-opentype'),
+	  url('../fonts/Poppins/Poppins-Regular.woff2') format('woff2'),
+	  url('../fonts/Poppins/Poppins-Regular.woff') format('woff'),
+	  url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+
 *,
 *:before,
 *:after {
@@ -12,7 +24,8 @@
 
 body,
 html {
-	font-family: Arial, sans-serif;
+	/* font-family: Arial, sans-serif; */
+	/* font-family: Poppins-Regular; */
 	font-size: 15px;
 	color: #666666;
 
@@ -18650,14 +18663,14 @@ iframe {
 	text-transform: capitalize;
 }
 
-.tiny-p{
+.tiny-p {
 	overflow-wrap: break-word;
 }
 
-.bggrey{
+.bggrey {
 	background-color: grey;
 }
 
-.ps-50{
+.ps-50 {
 	padding-left: 50px;
 }
