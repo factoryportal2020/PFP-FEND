@@ -4,7 +4,7 @@
   position: relative;
   border: 0px solid transparent;
   height: calc(100% - 30px);
-  background-color: #502e2d;
+  background-color: #1f081b;
   -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
@@ -45,7 +45,7 @@
 .card-new-title {
   font-size: 20px;
   font-weight: 500;
-  color: #eead53;
+  color: #B4835B;
   text-transform: capitalize;
 }
 
@@ -229,13 +229,13 @@
 }
 
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-  background-color: #eead53 !important;
-  border-color: #eead53;
+  background-color: #B4835B !important;
+  border-color: #B4835B;
   color: #fff;
 }
 
 .nav-tabs .nav-link {
-  color: #e4584b;
+  color: #AA5874;
 }
 
 .card-news-tabs .nav-news-tabs .nav-link {
@@ -295,8 +295,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #502e2d;
-  background-color: #eead53;
+  color: #1f081b;
+  background-color: #B4835B;
 }
 
 @media only screen and (max-width: 1400px) {
@@ -382,7 +382,7 @@
 .center_img {
   overflow: hidden;
   vertical-align: middle;
-  color: #502e2d
+  color: #1f081b
     /* width: 36;
   height: 28;
   fill: none; */
@@ -397,7 +397,7 @@
 }
 
 .jewell-bg-color {
-  background-color: #502e2d;
+  background-color: #1f081b;
 }
 
 
@@ -408,7 +408,7 @@
 
 .task_panel {
   display: flex;
-  background-color: #502e2d;
+  background-color: #1f081b;
   -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
