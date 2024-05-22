@@ -204,21 +204,21 @@ class Login extends React.Component {
                                                     {/* <div className='clearfix'></div> */}
                                                     <hr className='login-hr'></hr>
                                                     <div className='text-center'>
-                                                        <button type="submit" className="form-control login__submit">
+                                                        <button type="submit" className="login__submit">
                                                             <i className='fa-solid fab fa-google red'></i>&nbsp;&nbsp;Login with Google
                                                         </button>
 
 
-                                                        <button type="submit" className="form-control login__submit">
+                                                        <button type="submit" className="login__submit">
                                                             <i className='fa-solid fab fa-facebook fb-blue'></i>&nbsp;&nbsp;Login with Facebook
                                                         </button>
                                                     </div>
                                                     <hr className='login-hr'></hr>
-                                                    <div className='d-flex justify-content-between fs-12 brown'>
-                                                        <Link to='/forget/password' className="brown">
+                                                    <div className='d-flex justify-content-between fs-13'>
+                                                        <Link to='/forget/password' className="theme-red notextDecor">
                                                             Forget Password
                                                         </Link>&nbsp;&nbsp;
-                                                        <Link to='/' className="brown">
+                                                        <Link to='/' className="theme-red notextDecor">
                                                             Have a problem in login ?
                                                         </Link>
                                                     </div>

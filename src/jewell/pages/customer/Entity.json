@@ -369,7 +369,7 @@
             "name": "change_password",
             "type": "button",
             "colClass": "hide",
-            "className": "btn btn-light jewell-bg-color brown",
+            "className": "normal__btn",
             "htmlFor": "Change Password",
             "value": "",
             "disabled": "",

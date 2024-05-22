@@ -398,7 +398,7 @@ class Form extends React.Component {
                 <button type="button"
                     onClick={(e) => { this.handleSubmit(e) }}
                     disabled={this.state.states.submitDisabled}
-                    className="form-control login__submit">{this.state.states.title}
+                    className="login__submit">{this.state.states.title}
                 </button>
                 </div>
             </>

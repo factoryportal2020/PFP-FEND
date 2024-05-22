@@ -94,8 +94,8 @@ const Dashboard = () => {
                         <div className="col-sm">
                             <div className='d-flex justify-content-between brown fw-normal'>
                                 <div>
-                                    <h2 className="text-black font-w600 mb-0">Dashboard</h2>
-                                    <p className="mb-0">Welcome to Pocket Admin!</p>
+                                    <h2 className="font-w600 mb-0 theme-yellow">Dashboard</h2>
+                                    <p className="mb-0 theme-red">Welcome to Pocket Admin!</p>
                                 </div>
 
                                 <div className="dropdown custom-dropdown d-flex">
@@ -113,14 +113,14 @@ const Dashboard = () => {
                                 <div className="row">
 
                                     <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <div className="widget-stat card-new card-new-shadow-yellow">
+                                        <div className="widget-stat card-new">
                                             <div className="card-new-body p-4">
                                                 <div className="media ai-icon">
                                                     <Link to={"/customer/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary ">
                                                         <i className="fa-solid fa-users center_img"></i>
                                                     </Link>
                                                     <div className="media-body">
-                                                        <h3 className="mb-0 text-black">
+                                                        <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.customers?.count} /></span>
                                                         </h3>
                                                         <p className="mb-0">Total Customers</p>
@@ -132,14 +132,14 @@ const Dashboard = () => {
                                     </div>
 
                                     <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <div className="widget-stat  card-new card-new-shadow-yellow">
+                                        <div className="widget-stat  card-new">
                                             <div className="card-new-body p-4">
                                                 <div className="media ai-icon">
                                                     <Link to={"/worker/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-users-cog center_img"></i>
                                                     </Link>
                                                     <div className="media-body">
-                                                        <h3 className="mb-0 text-black">
+                                                        <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.workers?.count} /></span>
                                                         </h3>
                                                         <p className="mb-0">Total Workers</p>
@@ -151,14 +151,14 @@ const Dashboard = () => {
                                     </div>
 
                                     <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <div className="widget-stat  card-new card-new-shadow-yellow">
+                                        <div className="widget-stat  card-new ">
                                             <div className="card-new-body p-4">
                                                 <div className="media ai-icon">
                                                     <Link to={"/category/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-table-cells center_img"></i>
                                                     </Link>
                                                     <div className="media-body">
-                                                        <h3 className="mb-0 text-black">
+                                                        <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.categories?.count} /></span>
                                                         </h3>
                                                         <p className="mb-0">Total Categories</p>
@@ -170,14 +170,14 @@ const Dashboard = () => {
                                     </div>
 
                                     <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <div className="widget-stat  card-new card-new-shadow-yellow">
+                                        <div className="widget-stat  card-new ">
                                             <div className="card-new-body p-4">
                                                 <div className="media ai-icon">
                                                     <Link to={"/product/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-image center_img"></i>
                                                     </Link>
                                                     <div className="media-body">
-                                                        <h3 className="mb-0 text-black">
+                                                        <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.products?.count} /></span>
                                                         </h3>
                                                         <p className="mb-0">Total Products</p>
@@ -202,9 +202,9 @@ const Dashboard = () => {
                                                 style={{ backgroundImage: `url(${dashboard?.website?.bannerImages.url})` }}
                                             >
                                                 <div className="card-new-body p-5 green">
-                                                    <h4 className="text-white mb-3">Active <br />Website <Link target="_blank" to={`/${dashboard?.website?.website?.site_url}/home`} >{dashboard?.website?.website?.site_url}</Link></h4>
+                                                    <h4 className="theme-yellow mb-3">Active <br />Website <Link target="_blank" to={`/${dashboard?.website?.website?.site_url}/home`} >{dashboard?.website?.website?.site_url}</Link></h4>
                                                     <Link to={"/website"}
-                                                        className="d-flex text-light align-items-center justify-content-between">
+                                                        className="d-flex align-items-center justify-content-between notextDecor theme-red">
                                                         <small>Edit Your Webiste and <b>Re-Launch It</b></small>
                                                         <i className="ti-arrow-right"></i>
                                                     </Link>
@@ -238,8 +238,8 @@ const Dashboard = () => {
                                 <div className='card-new'>
                                     <div className="card-new-header border-0 pb-0 d-sm-flex d-block">
                                         <div>
-                                            <h4 className="card-new-title m-b-1">Task Summary</h4>
-                                            <small className="mb-0">All Assigned and not started tasks</small>
+                                            <h4 className="card-new-title m-b-1 theme-yellow">Task Summary</h4>
+                                            <small className="mb-0 theme-red">All Assigned and not started tasks</small>
                                         </div>
                                         <div className="card-new-action card-new-tabs mt-3 mt-sm-0">
                                             <ul className="nav nav-tabs nav-news-tabs" role="tablist">
@@ -296,56 +296,56 @@ const Dashboard = () => {
                                             <a href="javascript:void(0);" className="btn fs-22 py-1 btn-danger px-4 m-l-6 mob-m-b-20"><CountUp end={dashboard?.tasks?.overdue_tasks} /></a>
 
                                             <div className='m-l-auto'>
-                                            <Link to={"/task/list"} className=" text-primary font-w500">Manage Tasks <i className="ti-angle-right m-l-1"></i></Link>
+                                            <Link to={"/task/list"} className=" theme-yellow notextDecor font-w500">Manage Tasks <i className="ti-angle-right m-l-1"></i></Link>
                                             </div>
                                         </div>
 
                                         <div className="row m-t-20">
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Unassigned} /></h2>
+                                                <div className="task-box px-3 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Unassigned} /></h2>
                                                     <p className="fs-12 mb-0">Unassigned</p>
                                                 </div>
                                             </div>
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Inprogress} /></h2>
+                                                <div className="task-box px-2 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Inprogress} /></h2>
                                                     <p className="fs-12 mb-0">Inprogress</p>
                                                 </div>
                                             </div>
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Holding} /></h2>
+                                                <div className="task-box px-2 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Holding} /></h2>
                                                     <p className="fs-12 mb-0">Holding</p>
                                                 </div>
                                             </div>
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Restarted} /></h2>
+                                                <div className="task-box px-2 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Restarted} /></h2>
                                                     <p className="fs-12 mb-0">Restarted</p>
                                                 </div>
                                             </div>
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Cancelled} /></h2>
+                                                <div className="task-box px-2 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Cancelled} /></h2>
                                                     <p className="fs-12 mb-0">Cancelled</p>
                                                 </div>
                                             </div>
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Pending} /></h2>
+                                                <div className="task-box px-2 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Pending} /></h2>
                                                     <p className="fs-12 mb-0">Pending</p>
                                                 </div>
                                             </div>
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Completed} /></h2>
+                                                <div className="task-box px-2 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Completed} /></h2>
                                                     <p className="fs-12 mb-0">Completed</p>
                                                 </div>
                                             </div>
                                             <div className="col-sm m-b-1 mob-m-b-10">
-                                                <div className="border px-2 py-1 rounded-xl">
-                                                    <h2 className="fs-26 font-w600 counter"><CountUp end={dashboard?.tasks?.Delivered} /></h2>
+                                                <div className="task-box px-2 py-1 rounded-xl">
+                                                    <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Delivered} /></h2>
                                                     <p className="fs-12 mb-0">Delivered</p>
                                                 </div>
                                             </div>
@@ -369,7 +369,7 @@ const Dashboard = () => {
                                                                 <i className="fa-solid fa-envelope center_img"></i>
                                                             </Link>
                                                             <div className="media-body">
-                                                                <h3 className="mb-0 text-black"><span className="counter ml-0"><CountUp end={dashboard?.messages?.count} /></span></h3>
+                                                                <h3 className="mb-0 grey"><span className="counter ml-0"><CountUp end={dashboard?.messages?.count} /></span></h3>
                                                                 <p className="mb-0">Messages</p>
                                                             </div>
                                                         </div>
@@ -385,7 +385,7 @@ const Dashboard = () => {
                                                                 <i className="fa-solid fa-bell center_img"></i>
                                                             </Link>
                                                             <div className="media-body">
-                                                                <h3 className="mb-0 text-black"><span className="counter ml-0"><CountUp end={dashboard?.subscribes?.count} /></span></h3>
+                                                                <h3 className="mb-0 grey"><span className="counter ml-0"><CountUp end={dashboard?.subscribes?.count} /></span></h3>
                                                                 <p className="mb-0">Subscribes</p>
                                                             </div>
                                                         </div>
@@ -407,7 +407,7 @@ const Dashboard = () => {
                                                         <i className="fa-solid fa-heart center_img"></i>
                                                     </Link>
                                                     <div className="media-body">
-                                                        <h3 className="mb-0 text-black"><span className="counter ml-0"><CountUp end={dashboard?.favourites?.count} /></span></h3>
+                                                        <h3 className="mb-0 grey"><span className="counter ml-0"><CountUp end={dashboard?.favourites?.count} /></span></h3>
                                                         <p className="mb-0">Favourite</p>
                                                     </div>
                                                 </div>
@@ -423,7 +423,7 @@ const Dashboard = () => {
                                                         <i className="fa-solid fa-sticky-note center_img"></i>
                                                     </Link>
                                                     <div className="media-body">
-                                                        <h3 className="mb-0 text-black"><span className="counter ml-0"><CountUp end={dashboard?.enquiries?.count} /></span></h3>
+                                                        <h3 className="mb-0 grey"><span className="counter ml-0"><CountUp end={dashboard?.enquiries?.count} /></span></h3>
                                                         <p className="mb-0">Enquiries</p>
                                                     </div>
                                                 </div>
