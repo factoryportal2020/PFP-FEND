@@ -8,6 +8,7 @@
         url('../fonts/Poppins/Poppins-ExtraLight.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-ExtraLight.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-ExtraLight.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-ExtraLight.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-ExtraLight.ttf') format('truetype');
     font-weight: 200;
     font-style: normal;
@@ -20,6 +21,7 @@
         url('../fonts/Poppins/Poppins-Medium.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Medium.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Medium.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-ExtraLight.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
@@ -32,6 +34,7 @@
         url('../fonts/Poppins/Poppins-LightItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-LightItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-LightItalic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-ExtraLight.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-LightItalic.ttf') format('truetype');
     font-weight: 300;
     font-style: italic;
@@ -44,7 +47,8 @@
         url('../fonts/Poppins/Poppins-ExtraLightItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-ExtraLightItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-ExtraLightItalic.woff') format('woff'),
-        url('../fonts/Poppins/Poppins-ExtraLightItalic.ttf') format('truetype');
+        url('../fonts/Poppins/Poppins-ExtraLightItalic.ttf') format('truetype'),
+        url('../fonts/Poppins/Poppins-ExtraLightItalic.otf') format('opentype');
     font-weight: 200;
     font-style: italic;
 }
@@ -56,6 +60,7 @@
         url('../fonts/Poppins/Poppins-Regular.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Regular.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Regular.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-Regular.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
@@ -68,6 +73,7 @@
         url('../fonts/Poppins/Poppins-SemiBold.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-SemiBold.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-SemiBold.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-SemiBold.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
@@ -80,6 +86,7 @@
         url('../fonts/Poppins/Poppins-Black.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Black.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Black.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-Black.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Black.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
@@ -92,6 +99,7 @@
         url('../fonts/Poppins/Poppins-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-ExtraBoldItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-ExtraBoldItalic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-ExtraBoldItalic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-ExtraBoldItalic.ttf') format('truetype');
     font-weight: 800;
     font-style: italic;
@@ -104,6 +112,7 @@
         url('../fonts/Poppins/Poppins-MediumItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-MediumItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-MediumItalic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-MediumItalic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-MediumItalic.ttf') format('truetype');
     font-weight: 500;
     font-style: italic;
@@ -116,6 +125,7 @@
         url('../fonts/Poppins/Poppins-Light.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Light.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Light.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-Light.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
@@ -128,6 +138,7 @@
         url('../fonts/Poppins/Poppins-Bold.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Bold.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Bold.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-Bold.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Bold.ttf') format('truetype');
     font-weight: Bold;
     font-style: normal;
@@ -140,6 +151,7 @@
         url('../fonts/Poppins/Poppins-Thin.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Thin.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Thin.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-Thin.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Thin.ttf') format('truetype');
     font-weight: 100;
     font-style: normal;
@@ -152,6 +164,7 @@
         url('../fonts/Poppins/Poppins-Italic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Italic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Italic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-Italic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Italic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
@@ -164,6 +177,7 @@
         url('../fonts/Poppins/Poppins-ThinItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-ThinItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-ThinItalic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-ThinItalic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-ThinItalic.ttf') format('truetype');
     font-weight: 100;
     font-style: italic;
@@ -176,6 +190,7 @@
         url('../fonts/Poppins/Poppins-BlackItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-BlackItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-BlackItalic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-BlackItalic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-BlackItalic.ttf') format('truetype');
     font-weight: 900;
     font-style: italic;
@@ -188,6 +203,7 @@
         url('../fonts/Poppins/Poppins-BoldItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-BoldItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-BoldItalic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-BoldItalic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-BoldItalic.ttf') format('truetype');
     font-weight: bold;
     font-style: italic;
@@ -200,6 +216,7 @@
         url('../fonts/Poppins/Poppins-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-SemiBoldItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-SemiBoldItalic.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-SemiBoldItalic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-SemiBoldItalic.ttf') format('truetype');
     font-weight: 600;
     font-style: italic;
@@ -212,6 +229,7 @@
         url('../fonts/Poppins/Poppins-ExtraBold.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-ExtraBold.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-ExtraBold.woff') format('woff'),
+        url('../fonts/Poppins/Poppins-ExtraBold.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-ExtraBold.ttf') format('truetype');
     font-weight: 800;
     font-style: normal;
@@ -1815,7 +1833,7 @@ select-btn .created_at {
     /* background-position: fixed; */
     background: url("../images/theme-bg-top.png") left top no-repeat,
         url("../images/theme-bg-bottom.png") right bottom no-repeat;
-        /* url("../images/theme-bg.png") left top no-repeat; */
+    /* url("../images/theme-bg.png") left top no-repeat; */
     background-size: 200px, 300px;
     /* background-repeat: no-repeat; */
     width: 25rem;
