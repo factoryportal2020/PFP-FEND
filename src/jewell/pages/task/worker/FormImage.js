@@ -451,7 +451,7 @@ class FormImage extends React.Component {
                             <button type="button"
                                 onClick={(e) => { this.handleSubmit(e) }}
                                 disabled={this.state.states.submitDisabled}
-                                className="btn btn-light jewell-bg-color brown float-end">Submit</button>
+                                className="normal__btn float-end">Submit</button>
                         </div> : ""
                     }
 

@@ -200,7 +200,7 @@ export const formEntities = [
     },
     {
         name: "change_password", type: "button", colClass: 'hide',
-        className: "btn btn-light jewell-bg-color brown", htmlFor: "Change Password",
+        className: "normal__btn", htmlFor: "Change Password",
         value: "",
         disabled: "",
         toggle: "hide",
@@ -214,7 +214,7 @@ export const formEntities = [
 export const buttonStates = [
     {
         name: "change_password", type: "button", colClass: 'col-md-3',
-        className: "btn btn-light jewell-bg-color brown", htmlFor: "Change Password",
+        className: "normal__btn", htmlFor: "Change Password",
         value: "",
         label: "Change Password", placeholder: "",
         validate: false,

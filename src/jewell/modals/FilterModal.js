@@ -157,7 +157,7 @@ class Filter extends React.Component {
                                         onClick={this.clearFilter}>Clear Filter</button>
                                     {(this.state.applyFilterBtn) ?
 
-                                        <button type="button" className="btn btn-light jewell-bg-color brown float-end"
+                                        <button type="button" className="normal__btn float-end"
                                             onClick={this.applyFilter}>Apply filter</button> : ""}
                                 </>                            </div>
                         </div>

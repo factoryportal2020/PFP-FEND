@@ -216,16 +216,16 @@ export const RadioInput = (props) => {
     return (
         <>
             <label htmlFor={props.htmlFor} className="form-label">{props.label}</label>
-            {/* <br /> */}
+            <br />
             <>
                 <div className="btn-group btn-group-toggle" data-toggle="buttons">
 
-                    <label className={"btn " + (props.value == 1 ? "btn-success active" : "btn-light")}>
+                    <label className={"btn " + (props.value == 1 ? "btn-success active " : "btn-light theme-bg-brown theme-bodrer-brown")}>
                         <input
                             onChange={(e) => { props.onChange(e.target.value) }}
                             type="radio" name={props.name} value={props.options[0].value} id={props.options[0].label} autoComplete="off" checked={(props.value == 1) ? "checked" : ""} /> {props.options[0].label}
                     </label>
-                    <label className={"btn " + (props.value == 0 ? "btn-success active" : "btn-light")}>
+                    <label className={"btn " + (props.value == 0 ? "btn-success active" : "btn-light theme-bg-brown theme-bodrer-brown")}>
                         <input
                             onChange={(e) => { props.onChange(e.target.value) }}
                             type="radio" name={props.name} value={props.options[1].value} id={props.options[1].label} autoComplete="off" checked={(props.value == 0) ? "checked" : ""} /> {props.options[1].label}

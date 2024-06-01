@@ -569,7 +569,7 @@ class FormImage extends React.Component {
                                     {this.state.preLoading ? <Preloader /> : ""}
 
                                     <div className='d-flex justify-content-between'>
-                                        <div><h4 className='brown'>{this.state.states.title}</h4></div>
+                                        <div><h4 className='theme-yellow'>{this.state.states.title}</h4></div>
                                         {(this.state.states.tabs.length > 1) ?
                                             <Tab state={this.state} onClick={(e) => this.clickTab(e)} /> : ""}
 
@@ -582,13 +582,13 @@ class FormImage extends React.Component {
                                                         <Link target="_blank" type="button"
                                                             to={`/${this.state.states.params.oldsite_url}/home`}
                                                             // onClick={(e) => { this.props.handlePreview(e) }}
-                                                            className="btn btn-light jewell-bg-color brown ">
+                                                            className="normal__btn">
                                                             <i className='fa fa-eye'></i> Preview
                                                         </Link>
 
                                                         <button type="button"
                                                             onClick={(e) => { this.props.handleLaunch(e) }}
-                                                            className="btn btn-light jewell-bg-color brown ms-2">
+                                                            className="normal__btn">
                                                             <i className='fa fa-rocket'></i> Launch Website
                                                         </button>
                                                     </>
@@ -721,7 +721,7 @@ class FormImage extends React.Component {
                                             <button type="button"
                                                 onClick={(e) => { this.handleSubmit(e) }}
                                                 disabled={this.state.states.submitDisabled}
-                                                className="btn btn-light jewell-bg-color brown float-end">Submit</button>
+                                                className="normal__btn float-end">Submit</button>
                                         </div> : ""
                                     }
 

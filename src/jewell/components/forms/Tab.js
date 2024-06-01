@@ -9,14 +9,14 @@ export const Tab = React.forwardRef((props, ref) => {
                 <ul className='navbar-nav ms-0 mr-auto'>
                     {
                         state.states.tabs.map((element, i) => {
-                            var selectedTabClass = (state.clickedTabId == i) ? "border-2-brown" : "";
+                            var selectedTabClass = (state.clickedTabId == i) ? "tab__btn-active" : "";
                             return (
                                 <>
                                     <li className='nav-item tabLabel' key={i} id={element.id}>
                                         <a
-                                            className={`btn btn-light fs-12 bg-color6 brown tabLink border-radius-25 mx-2 ${selectedTabClass}`}
+                                            className={`tab__btn ${selectedTabClass}`}
                                             onClick={(e) => props.onClick(e)} id={i}>
-                                            <span className="numberCircle">{i + 1}</span>&nbsp;&nbsp;
+                                            {/* <span className="numberCircle">{i + 1}</span>&nbsp;&nbsp; */}
                                             {element.tab}
                                         </a>
                                     </li>

@@ -101,7 +101,7 @@ class Header extends React.Component {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           {/* <div className="corner-background"> */}
-          <Link className="navbar-brand brown fw-normal" to="/">Jewell<br />Pocket Factory<br />Poche</Link>
+          <Link className="navbar-brand theme-yellow fw-normal" to="/">Jewell<br />Pocket Factory<br />Poche</Link>
           {/* </div> */}
           <button className="navbar-toggler" type="button"
             data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -307,7 +307,7 @@ class Header extends React.Component {
                 <img className="profile-logo" alt={profileLogo} src={profileLogo}
                 // onClick={() => { this.handleIsProfileDropdown(!this.state.isProfileDropdown) }}
                 ></img><br></br>
-                <div className='brown fw-normal fs-6 text-center'>Hi, {this.state.userInfo.username}</div>
+                <div className='theme-yellow fw-normal fs-6 text-center'>Hi, {this.state.userInfo.username}</div>
 
               </Link>
 

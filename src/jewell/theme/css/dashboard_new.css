@@ -1,11 +1,14 @@
 .card-new {
   margin-bottom: 1.875rem;
-  background-color: #fff;
   transition: all .5s ease-in-out;
   position: relative;
   border: 0px solid transparent;
-  border-radius: 20px;
   height: calc(100% - 30px);
+  background-color: #1f081b;
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
 }
 
 .card-new-shadow-yellow {
@@ -42,7 +45,7 @@
 .card-new-title {
   font-size: 20px;
   font-weight: 500;
-  color: #000;
+  color: #B4835B;
   text-transform: capitalize;
 }
 
@@ -221,9 +224,18 @@
 
 .card-news-tabs .nav-news-tabs {
   border-bottom: 0px;
-  background: #f4f6fd;
   padding: 5px;
   border-radius: 6px;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background-color: #B4835B !important;
+  border-color: #B4835B;
+  color: #fff;
+}
+
+.nav-tabs .nav-link {
+  color: #AA5874;
 }
 
 .card-news-tabs .nav-news-tabs .nav-link {
@@ -234,16 +246,19 @@
   border: 0;
 }
 
-.card-news-tabs .nav-news-tabs .nav-link.active {
-  background: #fff;
-  color: #000000;
-}
 
 .order-manage {
   background: #e7faec;
   border-radius: 12px;
 }
 
+
+.task-box{
+  -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);
+  border-radius: 8px;
+}
 
 
 .rotate-refresh {
@@ -280,7 +295,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #464a53;
+  color: #1f081b;
+  background-color: #B4835B;
 }
 
 @media only screen and (max-width: 1400px) {
@@ -366,7 +382,8 @@
 .center_img {
   overflow: hidden;
   vertical-align: middle;
-  /* width: 36;
+  color: #1f081b
+    /* width: 36;
   height: 28;
   fill: none; */
 }
@@ -380,7 +397,7 @@
 }
 
 .jewell-bg-color {
-  background-color: #FFF200;
+  background-color: #1f081b;
 }
 
 
@@ -389,17 +406,27 @@
 }
 
 
-.task_panel {display: flex;}
+.task_panel {
+  display: flex;
+  background-color: #1f081b;
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+  border-radius: 10px;
+}
 
 
 /* Mobile */
 @media only screen and (max-width: 920px) {
-  .task_panel {display: block;}
+  .task_panel {
+    display: block;
+  }
 
-  .mob-m-b-10{
+  .mob-m-b-10 {
     margin-bottom: 10px;
   }
-  .mob-m-b-20{
+
+  .mob-m-b-20 {
     margin-bottom: 20px;
   }
 }

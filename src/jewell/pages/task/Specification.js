@@ -97,14 +97,14 @@ export const SpecificationComponent = React.forwardRef((props, ref) => {
                         <div className="col-sm" style={{ justifyContent: "flex-end" }}>
                             <div className="form-group" style={{ paddingTop: "32px" }}>
                                 <div style={{ display: "inline" }}>
-                                    < button id={key} onClick={(e) => addItemComponent(e)} type="button" className="btn btn-light jewell-bg-color brown">Add Item</button >
+                                    < button id={key} onClick={(e) => addItemComponent(e)} type="button" className="normal__btn">Add Item</button >
                                     {/* < button onClick={addItemComponent} type="button" className="btn btn-secondary">Add Item</button > */}
                                     {key != 0 ?
                                         < button id={key + "-" + id}
                                             onClick={(e) => deleteItemComponent(e)}
                                             style={{ marginLeft: "10px" }}
                                             type="button"
-                                            className="btn btn-danger">Delete</button >
+                                            className="normal__btn">Delete</button >
                                         : ""}
                                 </div>
                             </div>

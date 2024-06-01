@@ -251,7 +251,7 @@ class Filter extends React.Component {
                         {/* Item Per Page */}
 
                         <div className="col-sm">
-                            <div className='d-flex fs-10 brown fw-normal'>
+                            <div className='d-flex fs-10 theme-yellow fw-normal'>
                                 <div className='me-1 p-1 fs-14'>{this.state.states.title} Per Page:</div>
                                 <InputElement element={this.state.perPageSelectEntity}
                                     // onChange={() => {}}
@@ -312,7 +312,7 @@ class Filter extends React.Component {
                             {(this.state.entities.length > 0) ?
                                 <div className="d-flex float-end">
                                     <div>
-                                        <div className='d-flex fw-normal p-1'>
+                                        <div className='d-flex fw-normal'>
                                             {this.state.entities.map((element, i) => {
                                                 let new_element = { ...element }
                                                 let fieldName = `${element.name}`
@@ -334,12 +334,12 @@ class Filter extends React.Component {
                                     <div className='ms-2 p-0'>
                                         <button type="button"
                                             onClick={this.filterClick}
-                                            className="btn btn-light jewell-bg-color brown">{FilterCap}</button>
+                                            className="normal__btn">{FilterCap}</button>
                                     </div>
 
                                     <div className='ms-2 p-0'>
-                                        <Link to={`/${this.state.states.addLink}/add`}
-                                            className="btn btn-light jewell-bg-color brown">Add {this.state.states.addLink}</Link>
+                                        <Link type="button" to={`/${this.state.states.addLink}/add`}
+                                            className="normal__btn">Add {this.state.states.addLink}</Link>
                                     </div>
 
                                 </div> : ""}

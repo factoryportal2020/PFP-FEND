@@ -306,7 +306,7 @@ class Filter extends React.Component {
                                 <div className='ms-2 p-0'>
                                     <button type="button"
                                         onClick={this.filterClick}
-                                        className="btn btn-light jewell-bg-color brown">Filter
+                                        className="normal__btn">Filter
                                     </button>
                                 </div>
 
