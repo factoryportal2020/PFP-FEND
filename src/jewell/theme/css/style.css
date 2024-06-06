@@ -2,7 +2,7 @@
 [ FONT ]*/
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins ExtraLight';
     src: url('../fonts/Poppins/Poppins-ExtraLight.eot');
     src: local('Poppins ExtraLight'), local('Poppins-ExtraLight'),
         url('../fonts/Poppins/Poppins-ExtraLight.eot?#iefix') format('embedded-opentype'),
@@ -15,33 +15,33 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Medium';
     src: url('../fonts/Poppins/Poppins-Medium.eot');
     src: local('Poppins Medium'), local('Poppins-Medium'),
         url('../fonts/Poppins/Poppins-Medium.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-Medium.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-Medium.woff') format('woff'),
-        url('../fonts/Poppins/Poppins-ExtraLight.otf') format('opentype'),
+        url('../fonts/Poppins/Poppins-Medium.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Light Italic';
     src: url('../fonts/Poppins/Poppins-LightItalic.eot');
     src: local('Poppins Light Italic'), local('Poppins-LightItalic'),
         url('../fonts/Poppins/Poppins-LightItalic.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Poppins/Poppins-LightItalic.woff2') format('woff2'),
         url('../fonts/Poppins/Poppins-LightItalic.woff') format('woff'),
-        url('../fonts/Poppins/Poppins-ExtraLight.otf') format('opentype'),
+        url('../fonts/Poppins/Poppins-LightItalic.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-LightItalic.ttf') format('truetype');
     font-weight: 300;
     font-style: italic;
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins ExtraLight Italic';
     src: url('../fonts/Poppins/Poppins-ExtraLightItalic.eot');
     src: local('Poppins ExtraLight Italic'), local('Poppins-ExtraLightItalic'),
         url('../fonts/Poppins/Poppins-ExtraLightItalic.eot?#iefix') format('embedded-opentype'),
@@ -54,7 +54,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Regular';
     src: url('../fonts/Poppins/Poppins-Regular.eot');
     src: local('Poppins Regular'), local('Poppins-Regular'),
         url('../fonts/Poppins/Poppins-Regular.eot?#iefix') format('embedded-opentype'),
@@ -67,7 +67,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins SemiBold';
     src: url('../fonts/Poppins/Poppins-SemiBold.eot');
     src: local('Poppins SemiBold'), local('Poppins-SemiBold'),
         url('../fonts/Poppins/Poppins-SemiBold.eot?#iefix') format('embedded-opentype'),
@@ -80,7 +80,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Black';
     src: url('../fonts/Poppins/Poppins-Black.eot');
     src: local('Poppins Black'), local('Poppins-Black'),
         url('../fonts/Poppins/Poppins-Black.eot?#iefix') format('embedded-opentype'),
@@ -93,7 +93,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins ExtraBold Italic';
     src: url('../fonts/Poppins/Poppins-ExtraBoldItalic.eot');
     src: local('Poppins ExtraBold Italic'), local('Poppins-ExtraBoldItalic'),
         url('../fonts/Poppins/Poppins-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -106,7 +106,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Medium Italic';
     src: url('../fonts/Poppins/Poppins-MediumItalic.eot');
     src: local('Poppins Medium Italic'), local('Poppins-MediumItalic'),
         url('../fonts/Poppins/Poppins-MediumItalic.eot?#iefix') format('embedded-opentype'),
@@ -119,7 +119,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Light';
     src: url('../fonts/Poppins/Poppins-Light.eot');
     src: local('Poppins Light'), local('Poppins-Light'),
         url('../fonts/Poppins/Poppins-Light.eot?#iefix') format('embedded-opentype'),
@@ -132,7 +132,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Bold';
     src: url('../fonts/Poppins/Poppins-Bold.eot');
     src: local('Poppins Bold'), local('Poppins-Bold'),
         url('../fonts/Poppins/Poppins-Bold.eot?#iefix') format('embedded-opentype'),
@@ -140,12 +140,13 @@
         url('../fonts/Poppins/Poppins-Bold.woff') format('woff'),
         url('../fonts/Poppins/Poppins-Bold.otf') format('opentype'),
         url('../fonts/Poppins/Poppins-Bold.ttf') format('truetype');
-    font-weight: Bold;
+    font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Thin';
     src: url('../fonts/Poppins/Poppins-Thin.eot');
     src: local('Poppins Thin'), local('Poppins-Thin'),
         url('../fonts/Poppins/Poppins-Thin.eot?#iefix') format('embedded-opentype'),
@@ -158,7 +159,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Italic';
     src: url('../fonts/Poppins/Poppins-Italic.eot');
     src: local('Poppins Italic'), local('Poppins-Italic'),
         url('../fonts/Poppins/Poppins-Italic.eot?#iefix') format('embedded-opentype'),
@@ -171,7 +172,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Thin Italic';
     src: url('../fonts/Poppins/Poppins-ThinItalic.eot');
     src: local('Poppins Thin Italic'), local('Poppins-ThinItalic'),
         url('../fonts/Poppins/Poppins-ThinItalic.eot?#iefix') format('embedded-opentype'),
@@ -184,7 +185,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Black Italic';
     src: url('../fonts/Poppins/Poppins-BlackItalic.eot');
     src: local('Poppins Black Italic'), local('Poppins-BlackItalic'),
         url('../fonts/Poppins/Poppins-BlackItalic.eot?#iefix') format('embedded-opentype'),
@@ -197,7 +198,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins Bold Italic';
     src: url('../fonts/Poppins/Poppins-BoldItalic.eot');
     src: local('Poppins Bold Italic'), local('Poppins-BoldItalic'),
         url('../fonts/Poppins/Poppins-BoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -210,7 +211,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins SemiBold Italic';
     src: url('../fonts/Poppins/Poppins-SemiBoldItalic.eot');
     src: local('Poppins SemiBold Italic'), local('Poppins-SemiBoldItalic'),
         url('../fonts/Poppins/Poppins-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -223,7 +224,7 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins ExtraBold';
     src: url('../fonts/Poppins/Poppins-ExtraBold.eot');
     src: local('Poppins ExtraBold'), local('Poppins-ExtraBold'),
         url('../fonts/Poppins/Poppins-ExtraBold.eot?#iefix') format('embedded-opentype'),
@@ -238,7 +239,7 @@
 
 /*---------------------------------------------*/
 @font-face {
-    font-family: 'Playfair Display';
+    font-family: 'Playfair Display Black';
     src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Black.eot');
     src: local('Playfair Display Black'), local('PlayfairDisplay-Black'),
         url('../fonts/PlayfairDisplay/PlayfairDisplay-Black.eot?#iefix') format('embedded-opentype'),
@@ -250,7 +251,7 @@
 }
 
 @font-face {
-    font-family: 'Playfair Display';
+    font-family: 'Playfair Display Regular';
     src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Regular.eot');
     src: local('Playfair Display Regular'), local('PlayfairDisplay-Regular'),
         url('../fonts/PlayfairDisplay/PlayfairDisplay-Regular.eot?#iefix') format('embedded-opentype'),
@@ -262,7 +263,7 @@
 }
 
 @font-face {
-    font-family: 'Playfair Display';
+    font-family: 'Playfair Display Bold';
     src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Bold.eot');
     src: local('Playfair Display Bold'), local('PlayfairDisplay-Bold'),
         url('../fonts/PlayfairDisplay/PlayfairDisplay-Bold.eot?#iefix') format('embedded-opentype'),
@@ -274,7 +275,7 @@
 }
 
 @font-face {
-    font-family: 'Playfair Display';
+    font-family: 'Playfair Display Italic';
     src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Italic.eot');
     src: local('Playfair Display Italic'), local('PlayfairDisplay-Italic'),
         url('../fonts/PlayfairDisplay/PlayfairDisplay-Italic.eot?#iefix') format('embedded-opentype'),
@@ -286,7 +287,7 @@
 }
 
 @font-face {
-    font-family: 'Playfair Display';
+    font-family: 'Playfair Display Black Italic';
     src: url('../fonts/PlayfairDisplay/PlayfairDisplay-BlackItalic.eot');
     src: local('Playfair Display Black Italic'), local('PlayfairDisplay-BlackItalic'),
         url('../fonts/PlayfairDisplay/PlayfairDisplay-BlackItalic.eot?#iefix') format('embedded-opentype'),
@@ -298,7 +299,7 @@
 }
 
 @font-face {
-    font-family: 'Playfair Display';
+    font-family: 'Playfair Display Bold Italic';
     src: url('../fonts/PlayfairDisplay/PlayfairDisplay-BoldItalic.eot');
     src: local('Playfair Display Bold Italic'), local('PlayfairDisplay-BoldItalic'),
         url('../fonts/PlayfairDisplay/PlayfairDisplay-BoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -311,7 +312,7 @@
 
 /*---------------------------------------------*/
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat ExtraLight';
     src: url('../fonts/Montserrat/Montserrat-ExtraLight.eot');
     src: local('Montserrat ExtraLight'), local('Montserrat-ExtraLight'),
         url('../fonts/Montserrat/Montserrat-ExtraLight.eot?#iefix') format('embedded-opentype'),
@@ -323,7 +324,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Medium Italic';
     src: url('../fonts/Montserrat/Montserrat-MediumItalic.eot');
     src: local('Montserrat Medium Italic'), local('Montserrat-MediumItalic'),
         url('../fonts/Montserrat/Montserrat-MediumItalic.eot?#iefix') format('embedded-opentype'),
@@ -335,7 +336,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Italic';
     src: url('../fonts/Montserrat/Montserrat-Italic.eot');
     src: local('Montserrat Italic'), local('Montserrat-Italic'),
         url('../fonts/Montserrat/Montserrat-Italic.eot?#iefix') format('embedded-opentype'),
@@ -347,7 +348,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Regular';
     src: url('../fonts/Montserrat/Montserrat-Regular.eot');
     src: local('Montserrat Regular'), local('Montserrat-Regular'),
         url('../fonts/Montserrat/Montserrat-Regular.eot?#iefix') format('embedded-opentype'),
@@ -359,7 +360,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Thin Italic';
     src: url('../fonts/Montserrat/Montserrat-ThinItalic.eot');
     src: local('Montserrat Thin Italic'), local('Montserrat-ThinItalic'),
         url('../fonts/Montserrat/Montserrat-ThinItalic.eot?#iefix') format('embedded-opentype'),
@@ -371,7 +372,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Bold';
     src: url('../fonts/Montserrat/Montserrat-Bold.eot');
     src: local('Montserrat Bold'), local('Montserrat-Bold'),
         url('../fonts/Montserrat/Montserrat-Bold.eot?#iefix') format('embedded-opentype'),
@@ -383,7 +384,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Light';
     src: url('../fonts/Montserrat/Montserrat-Light.eot');
     src: local('Montserrat Light'), local('Montserrat-Light'),
         url('../fonts/Montserrat/Montserrat-Light.eot?#iefix') format('embedded-opentype'),
@@ -395,7 +396,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Black';
     src: url('../fonts/Montserrat/Montserrat-Black.eot');
     src: local('Montserrat Black'), local('Montserrat-Black'),
         url('../fonts/Montserrat/Montserrat-Black.eot?#iefix') format('embedded-opentype'),
@@ -407,7 +408,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Medium';
     src: url('../fonts/Montserrat/Montserrat-Medium.eot');
     src: local('Montserrat Medium'), local('Montserrat-Medium'),
         url('../fonts/Montserrat/Montserrat-Medium.eot?#iefix') format('embedded-opentype'),
@@ -419,7 +420,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat ExtraLight Italic';
     src: url('../fonts/Montserrat/Montserrat-ExtraLightItalic.eot');
     src: local('Montserrat ExtraLight Italic'), local('Montserrat-ExtraLightItalic'),
         url('../fonts/Montserrat/Montserrat-ExtraLightItalic.eot?#iefix') format('embedded-opentype'),
@@ -431,7 +432,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Black Italic';
     src: url('../fonts/Montserrat/Montserrat-BlackItalic.eot');
     src: local('Montserrat Black Italic'), local('Montserrat-BlackItalic'),
         url('../fonts/Montserrat/Montserrat-BlackItalic.eot?#iefix') format('embedded-opentype'),
@@ -443,7 +444,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat ExtraBold Italic';
     src: url('../fonts/Montserrat/Montserrat-ExtraBoldItalic.eot');
     src: local('Montserrat ExtraBold Italic'), local('Montserrat-ExtraBoldItalic'),
         url('../fonts/Montserrat/Montserrat-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -455,7 +456,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat SemiBold Italic';
     src: url('../fonts/Montserrat/Montserrat-SemiBoldItalic.eot');
     src: local('Montserrat SemiBold Italic'), local('Montserrat-SemiBoldItalic'),
         url('../fonts/Montserrat/Montserrat-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -467,7 +468,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat ExtraBold';
     src: url('../fonts/Montserrat/Montserrat-ExtraBold.eot');
     src: local('Montserrat ExtraBold'), local('Montserrat-ExtraBold'),
         url('../fonts/Montserrat/Montserrat-ExtraBold.eot?#iefix') format('embedded-opentype'),
@@ -479,7 +480,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Bold Italic';
     src: url('../fonts/Montserrat/Montserrat-BoldItalic.eot');
     src: local('Montserrat Bold Italic'), local('Montserrat-BoldItalic'),
         url('../fonts/Montserrat/Montserrat-BoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -491,7 +492,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Light Italic';
     src: url('../fonts/Montserrat/Montserrat-LightItalic.eot');
     src: local('Montserrat Light Italic'), local('Montserrat-LightItalic'),
         url('../fonts/Montserrat/Montserrat-LightItalic.eot?#iefix') format('embedded-opentype'),
@@ -503,7 +504,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat SemiBold';
     src: url('../fonts/Montserrat/Montserrat-SemiBold.eot');
     src: local('Montserrat SemiBold'), local('Montserrat-SemiBold'),
         url('../fonts/Montserrat/Montserrat-SemiBold.eot?#iefix') format('embedded-opentype'),
@@ -515,7 +516,7 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat Thin';
     src: url('../fonts/Montserrat/Montserrat-Thin.eot');
     src: local('Montserrat Thin'), local('Montserrat-Thin'),
         url('../fonts/Montserrat/Montserrat-Thin.eot?#iefix') format('embedded-opentype'),
@@ -530,41 +531,23 @@
 /* [data-page-version="admin"] body { */
 [data-page-version="admin"] {
     margin: 0;
-    /* font-family: 'poppins', sans-serif; */
     font-family: 'Poppins Regular', sans-serif;
     font-size: 12px;
-    font-weight: 500;
     line-height: 1.5;
     color: #AA5874;
-    /* color: #7e7e7e; */
-    /* text-align: left; */
-    /* background-image: url("../images/yellow-bg-1920-1000.png"); */
-    background-repeat: no-repeat;
-    /* background-color: #fbfbfb; */
-    /* background-color: #ffffeb; */
-    /* background-color: white; */
-    /* background-size: cover; */
-    /* #B4835B-color: #B4835B */
     background-color: #1f081b;
-
 }
-
 
 /* [data-page-version="login"] body { */
 [data-page-version="login"] {
     margin: 0;
-    /* font-family: 'poppins', sans-serif; */
-    font-family: 'Poppins Light', sans-serif;
+    font-family: 'Poppins Regular', sans-serif;
     font-size: 14px;
-    /* font-weight: 500; */
     line-height: 1.5;
-    color: #7e7e7e;
+    color: #AA5874;
     text-align: left;
     background-color: #1f081b;
-    /* background-size: contain; */
 }
-
-
 
 .login-row .login-half-round {
     background-color: #B4835B;
@@ -634,17 +617,6 @@
     font-size: 32px;
     font-weight: 500;
 }
-
-@media (min-width: 992px) {
-    .login-row .login-form-card {
-        margin-top: 100px;
-        display: block;
-        padding-left: 50px;
-        width: auto;
-        /* margin-left: 300px; */
-    }
-}
-
 
 .login-hr {
     float: none;
@@ -808,7 +780,7 @@
 }
 
 
-.dropdown-menu{
+.dropdown-menu {
     background-color: #1f081b;
     -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
     -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
@@ -1013,7 +985,7 @@
     border-radius: 25px;
     /* border: 1px solid #B4835B; */
     padding: 15px;
-    /* height: 600px; */
+    /* height: 100vh; */
 }
 
 .content-div label {
@@ -1423,7 +1395,7 @@ input:read-only {
 }
 
 
-.css-13cymwt-control{
+.css-13cymwt-control {
     background-color: #1f081b !important;
     color: #fff !important;
     border-color: #B4835B !important;
@@ -2077,18 +2049,44 @@ select-btn .created_at {
         left: 100px; */
         position: relative;
     }
+
+    .mob-text-center {
+        text-align: center;
+    }
+
+    .mob-main_head{
+        margin: 0;
+        text-align: center;
+    }
+
+    .mob-main_subhead{
+        margin: 0;
+        text-align: center;
+    }
 }
 
-/* Login Box */
+
+/* Web Desktop */
 @media (min-width: 992px) {
 
+    /* Login Box */
     .boxing {
         top: 0px;
         left: 100px;
         position: relative;
     }
 
+    .login-row .login-form-card {
+        margin-top: 100px;
+        display: block;
+        padding-left: 50px;
+        width: auto;
+        /* margin-left: 300px; */
+    }
+
 }
+
+
 
 .box {
     display: flex;
@@ -2100,8 +2098,6 @@ select-btn .created_at {
     height: 150px;
     margin: 10px;
 }
-
-
 
 .box-image img {
     display: block;

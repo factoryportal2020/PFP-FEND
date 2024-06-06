@@ -95,7 +95,7 @@ const Dashboard = () => {
                             <div className='d-flex justify-content-between brown fw-normal'>
                                 <div>
                                     <h2 className="font-w600 mb-0 theme-yellow">Dashboard</h2>
-                                    <p className="mb-0 theme-red">Welcome to Pocket Admin!</p>
+                                    <p className="mb-0 theme-red">Welcome to Pocket admin!</p>
                                 </div>
 
                                 <div className="dropdown custom-dropdown d-flex">

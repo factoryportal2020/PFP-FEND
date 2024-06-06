@@ -153,8 +153,8 @@ class Register extends React.Component {
                     </div> */}
 
                     <div className='col-sm-6'>
-                        <h2 className='mt-5 ms-5 grey'>Pocket Ecommerce, Admin</h2>
-                        <h5 className='mt-2 ms-5 yellow'>Manage in your pocket </h5>
+                        <h2 className='mt-5 ms-5 theme-yellow'>Pocket Ecommerce, Admin</h2>
+                        <h5 className='mt-2 ms-5 theme-red'>Manage in your pocket </h5>
                         <div class="boxing">
                             <div class="box">
                                 <div class="box-item color1">
@@ -218,10 +218,10 @@ class Register extends React.Component {
                                         </>
                                         <hr className='login-hr'></hr>
                                         <div className='d-flex justify-content-between fs-14 brown'>
-                                            <Link to='/login' className="brown">
+                                            <Link to='/login' className="theme-red notextDecor">
                                                 Login
                                             </Link>
-                                            <Link to='/' className="brown">
+                                            <Link to='/' className="theme-red notextDecor">
                                                 Have a problem in Register ?
                                             </Link>
                                         </div>
