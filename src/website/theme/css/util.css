@@ -1,16 +1,5 @@
 /*//////////////////////////////////////////////////////////////////
 [ REBOOT ]*/
-@font-face {
-	font-family: 'Poppins';
-	src: url('../fonts/Poppins/Poppins-Regular.eot');
-	src: local('Poppins Regular'), local('Poppins-Regular'),
-	  url('../fonts/Poppins/Poppins-Regular.eot?#iefix') format('embedded-opentype'),
-	  url('../fonts/Poppins/Poppins-Regular.woff2') format('woff2'),
-	  url('../fonts/Poppins/Poppins-Regular.woff') format('woff'),
-	  url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-  }
 
 *,
 *:before,
@@ -22,15 +11,15 @@
 	box-sizing: border-box;
 }
 
-body,
 html {
-	/* font-family: Arial, sans-serif; */
-	/* font-family: Poppins-Regular; */
+	height: 100%;
+}
+
+body {
+	font-family: 'Poppins Regular', sans-serif;
 	font-size: 15px;
 	color: #666666;
-
-	height: 100%;
-	background-color: #fff;
+	background-color: #1f081b;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -18656,7 +18645,7 @@ iframe {
 
 .company_name {
 	font-size: 20px;
-	font-family: Poppins-Regular;
+	font-family: 'Poppins Regular', sans-serif;
 	color: orange;
 	padding-left: 15px;
 	padding-right: 0px;

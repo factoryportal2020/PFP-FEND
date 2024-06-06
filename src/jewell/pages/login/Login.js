@@ -146,8 +146,8 @@ class Login extends React.Component {
                                     </div>
                                 </div> */}
                                 <div className='col-sm-6'>
-                                    <h2 className='mt-5 ms-5 poppins-bold-family theme-yellow'>Pocket Ecommerce, Admin</h2>
-                                    <h5 className='mt-2 ms-5 brown'>Manage in your pocket </h5>
+                                    <h2 className='mt-5 ms-5 theme-yellow mob-main_head'>Pocket Ecommerce, admin</h2>
+                                    <h5 className='mt-2 ms-5 theme-red mob-main_subhead'>Manage in your pocket </h5>
                                     <div class="boxing">
                                         <div class="box">
                                             <div class="box-item color1">
