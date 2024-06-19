@@ -19,7 +19,7 @@ export const Card = React.forwardRef((props, ref) => {
 
     var title = props.title;
     let status = (element.status == 1) ? "Active" : "Deactive"
-    
+
     let profileImage = maleLogo;
 
     if (element.gender == "female") {
@@ -87,9 +87,9 @@ export const Card = React.forwardRef((props, ref) => {
                         </div>
                     </div>
                     <div className="card-content">
-                        <div className="d-flex justify-content-between">
-                            <div className="w-75"><h5 className="card-title fs-16">{name}</h5></div>
-                            <div className="w-25 ms-2">
+                        <div className="card-title">
+                            <div className="w-70"><h5 className="card-title fs-16">{name}</h5></div>
+                            <div className="card-action">
                                 <a href="#/" onClick={(event) => props.deleteModalTriggerClick(event)}>
                                     <i id={encrypt_id} data-title={`${name}`} title="delete" className="fa-solid fa-trash fs-20 light-red"></i>
                                 </a>
@@ -106,17 +106,29 @@ export const Card = React.forwardRef((props, ref) => {
 
                         {card}
 
-                        <div className='d-flex justify-content-between'>
-                            
-                            <div className="fs-16 maxw-60">
-                                {(username) ? <span className='fs-10 grey'>Username: </span> : ""}
-                                {username}
+
+                        {(username) ?
+                            <div className='d-flex justify-content-between'>
+
+                                <div className="fs-10 grey maxw-60">
+                                    {(username) ? <>Username: <br /> <span className='fs-14 theme-red'> {username}</span></> : ""}
+
+                                </div>
+                                <div className="maxw-40  mob-m-t-1">
+                                    <div className='fs-8 pb-1'>Created At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>
+                                    <div className='fs-8'>Updated At: <span className="created_at" title="Created Date">{element.updated_at}</span></div>
+                                </div>
                             </div>
-                            <div className="maxw-40">
-                                <div className='fs-8 pb-1'>Created At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>
-                                <div className='fs-8'>Updated At: <span className="created_at" title="Created Date">{element.updated_at}</span></div>
+                            :
+                            <div className='d-flex justify-content-end'>
+
+                                <div className="mob-maxw-80 mob-m-t-1">
+                                    <div className='fs-8 pb-1'>Created At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>
+                                    <div className='fs-8'>Updated At: <span className="created_at" title="Created Date">{element.updated_at}</span></div>
+                                </div>
                             </div>
-                        </div>
+                        }
+
                     </div>
                     <div className="ribbon-wrapper">
                         <div className={`ribbon-green ${status.toLowerCase()}`}>{status}</div>

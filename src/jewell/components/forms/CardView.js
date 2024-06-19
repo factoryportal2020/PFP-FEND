@@ -1,6 +1,9 @@
 import React from 'react';
 import maleLogo from "../../theme/images/profile/male1.png";
 import femaleLogo from "../../theme/images/profile/female.jpg";
+
+import categoryLogo from "../../theme/images/profile/no-image.jpg";
+import NewProductLogo from "../../theme/images/profile/no-image.jpg";
 import CustomerCard from '../../pages/customer/CardView';
 import WorkerCard from '../../pages/worker/CardView';
 import CategoryCard from '../../pages/category/CardView';
@@ -47,6 +50,8 @@ export const CardView = React.forwardRef((props, ref) => {
     if (addLink == "category") {
         if (element.category_image.length > 0 && element.category_image[0].url != "") {
             profileImage = element.category_image[0].url;
+        }else {
+            profileImage = categoryLogo
         }
         card = <CategoryCard element={element} />;
         name = element.name
@@ -55,6 +60,8 @@ export const CardView = React.forwardRef((props, ref) => {
     if (addLink == "product") {
         if (element.item_image.url != "") {
             profileImage = element.item_image.url;
+        }else {
+            profileImage = NewProductLogo
         }
         card = <ItemCard element={element} />;
         name = element.name

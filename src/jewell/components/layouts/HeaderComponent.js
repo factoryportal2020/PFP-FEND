@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import validator from '../forms/validate';
 import { workerTaskWorkerId, categoryTaskCategoryId, categoryItemCategoryId } from '../../features/auth/viewSlice';
 import dashboardService from '../../services/dashboard.service';
+import pocketMob from "../../theme/images/jewell/pocket-mob.png";
 
 //disptach
 import { logout, changeNavMenu } from '../../features/auth/authSlice';
@@ -85,6 +86,7 @@ class Header extends React.Component {
     this.props.workerTaskWorkerId("")
     this.props.categoryTaskCategoryId("")
     this.props.categoryItemCategoryId("")
+    this.handleIsNavCollapsed();
   }
 
   clickDropDown(trigger) {
@@ -100,9 +102,50 @@ class Header extends React.Component {
     return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          {/* <div className="corner-background"> */}
-          <Link className="navbar-brand theme-yellow fw-normal" to="/">Jewell<br />Pocket Factory<br />Poche</Link>
-          {/* </div> */}
+          <div className='small-corner-logo'>
+            <Link className="" to="/"> <img src={pocketMob} /></Link>
+          </div>
+
+          <div className='bell-div logo-div-web'>
+            <div className='pointer d-inline-block'
+              onClick={(e) => this.clickNotification(!this.state.notificationOpen)}
+              onMouseLeave={(e) => this.clickNotification(false)}
+            >
+              <i className="fa-solid fa-bell pt-2 fs-3 theme-yellow badge-wrapper">
+                <span class='badge badge-secondary theme-red'>{this.state.notificationCount}</span>
+              </i>
+            </div>
+            <ul
+              onBlur={(e) => this.clickNotification(false)}
+              className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
+              {
+                (this.state.notificationCount == 0) ?
+                  <li className='fs-14 text-center pt-3 theme-red'>No Records Found</li> :
+                  this.state.notifications.map((element, i) => {
+                    return (
+                      (element.message) ?
+                        <li className=' theme-red'><Link to={element.link} onClick={(e) => this.clickNotification(false)}>{element.message}</Link></li> : ""
+                    )
+                  })
+              }
+              <li className='fs-14 text-center pt-3 black'><Link to="/notification/list">See More</Link></li>
+            </ul>
+          </div>
+
+          <div className='logo-div logo-div-web' onMouseLeave={(e) => this.clickNotification(false)}>
+            <Link role="button" id="profile" onClick={(e) => this.clickLink(e)} to="/profile"
+              className='profile-div text-decoration-none text-center'>
+              <img className="profile-logo" alt={profileLogo} src={profileLogo}
+              ></img><br></br>
+              <div className='theme-yellow fw-normal fs-6 text-center'>Hi, {this.state.userInfo.username}</div>
+
+            </Link>
+            <Link to={"/login"} className='float-end'
+              onClick={() => { this.props.logout() }}>
+              <i className="fa-solid fa-power-off grey pt-2 fs-5"></i>
+            </Link>
+          </div>
+
           <button className="navbar-toggler" type="button"
             data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
@@ -111,8 +154,12 @@ class Header extends React.Component {
             onClick={this.handleIsNavCollapsed}>
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className={`${this.state.isNavCollapsed ? 'collapse' : ''} navbar-collapse`} onMouseLeave={(e) => this.clickNotification(false)}>
-            <ul className="navbar-nav me-auto mb-auto">
+
+          <div className={`${this.state.isNavCollapsed ? 'collapse' : ''} navbar-collapse`}
+            onMouseLeave={(e) => this.clickNotification(false)}
+            onBlur={(e) => this.handleIsNavCollapsed}>
+
+            <ul className="navbar-nav menu-navbar-nav me-auto mb-auto animated fadeInRight">
               {/* <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#/">Home</a>
               </li>
@@ -249,19 +296,15 @@ class Header extends React.Component {
                 </li> : ""}
             </ul>
 
-            {/* <div className='mb-auto me-1 mt-1'>
-            </div> */}
-
-            <div className='bell-div mb-auto text-end' >
-              {/* <div> */}
-              <div className='pointer d-inline-block'
-                onClick={(e) => this.clickNotification(!this.state.notificationOpen)}
-              >
-                <i className="fa-solid fa-bell pt-2 fs-3 jewell-color badge-wrapper">
-                  <span class='badge badge-secondary'>{this.state.notificationCount}</span>
+            <div className='bell-div mb-auto text-end logo-div-mob'
+            >
+              <div className='pointer d-inline-block' onClick={(e) => this.clickNotification(!this.state.notificationOpen)}>
+                <i className="fa-solid fa-bell pt-2 fs-3 theme-yellow badge-wrapper">
+                  <span class='badge badge-secondary theme-red'>{this.state.notificationCount}</span>
                 </i>
               </div>
-              <ul className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
+              <ul
+                className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
                 {
                   (this.state.notificationCount == 0) ?
 
@@ -270,17 +313,16 @@ class Header extends React.Component {
                     this.state.notifications.map((element, i) => {
                       return (
                         (element.message) ?
-                          <li><Link to={element.link}>{element.message}</Link></li> : ""
+                          <li><Link to={element.link} onClick={(e) => this.clickNotification(false)}>{element.message}</Link></li> : ""
                       )
                     })
                 }
 
                 <li className='fs-14 text-center pt-3 black'><Link to="/notification/list">See More</Link></li>
               </ul>
-              {/* </div> */}
             </div>
 
-            <div className='logo-div' onMouseLeave={(e) => this.clickNotification(false)}>
+            <div className='logo-div logo-div-mob' onMouseLeave={(e) => this.clickNotification(false)}>
 
               {/* <div className="dropdown"
               // onBlur={() => { this.handleIsProfileDropdown(!this.state.isProfileDropdown) }}

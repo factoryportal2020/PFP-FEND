@@ -42,7 +42,7 @@ const Category = () => {
 
     return (
         <>
-            <div className="sec-banner bg0 mob-p-t-80 p-b-20">
+            <div className="sec-banner bg0 mob-m-t-20 p-b-20">
                 <div className="container">
                     <div className="row">
 

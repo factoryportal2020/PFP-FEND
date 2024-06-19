@@ -1,0 +1,325 @@
+$white: #FCFCFC;
+$gray: #CBCDD3;
+$dark: #777777;
+$error: #EF8D9C;
+$orange: #FFC39E;
+$success: #B0DB7D;
+$secondary: #99DBB4;
+
+
+$font: 'Poppins-Regular', sans-serif;
+
+// html {
+//   display: grid;
+//   min-height: 100%;
+// }
+
+// body {
+//   display: grid;
+//   overflow: hidden;
+//   font-family: $font;
+//   text-transform: uppercase;
+//   text-align: center;
+// }
+
+
+// Web Desktop
+@media (min-width: 992px) {
+    #status-container {
+        position: fixed;
+        overflow: hidden;
+        z-index: 1;
+        width: 500px;
+        height: 100%;
+        animation: righttobottom 1s 1;
+        animation-direction: normal;
+    }
+
+    #success-box {
+        width: 100%;
+        margin-top: 30%;
+        height: 50%;
+    }
+
+    // #status-container #success-box {
+    //     left: 12%;
+    // }
+}
+
+/* mobile */
+@media (max-width: 992px) {
+    #status-container {
+        position: fixed;
+        overflow: hidden;
+        z-index: 1;
+        width: 100vw;
+        height: 100%;
+        animation: righttobottom 1s 1;
+        animation-direction: normal;
+    }
+
+    #success-box {
+        width: 100%;
+        margin-top: 30%;
+        height: 50%;
+    }
+
+    .modal-content {
+        width: 20%;
+        left: 40%;
+    }
+
+    @media (max-height: 850px) {
+        // #status-container #success-box {
+        //     width: 80%;
+        // }
+    }
+}
+
+#status-container .message h1 {
+    font-size: 0.9em;
+    font-weight: 100;
+    letter-spacing: 3px;
+    padding-top: 5px;
+    color: $white;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+#status-container h1 {
+    font-size: 0.9em;
+    font-weight: 100;
+    letter-spacing: 3px;
+    padding-top: 5px;
+    color: $white;
+    // padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+#status-container .green {
+    color: darken($secondary, 20%);
+}
+
+#status-container .red {
+    color: darken($error, 10%);
+}
+
+#status-container #status-container .alert {
+    font-weight: 700;
+    letter-spacing: 5px;
+}
+
+#status-container p {
+    margin-top: -5px;
+    font-size: 14px;
+    font-weight: 100;
+    color: darken($dark, 10%);
+    letter-spacing: 1px;
+}
+
+#status-container button,
+#status-container .dot {
+    cursor: pointer;
+}
+
+#status-container #success-box {
+    // position: absolute;
+
+
+
+    display: block;
+    background: linear-gradient(to bottom right, $success 40%, $secondary 100%);
+    border-radius: 20px;
+    box-shadow: 5px 5px 20px rgba($gray, 10%);
+    perspective: 40px;
+}
+
+#status-container #error-box {
+    // position: absolute;
+    // width: 35%;
+    // height: 100%;
+    // right: 12%;
+    // background: linear-gradient(to bottom left, $error 40%, $orange 100%);
+    // border-radius: 20px;
+    // box-shadow: 5px 5px 20px rgba($gray, 10%);
+
+
+    display: block;
+    background: linear-gradient(to bottom left, $error 40%, $orange 100%);
+    border-radius: 20px;
+    box-shadow: 5px 5px 20px rgba($gray, 10%);
+    perspective: 40px;
+}
+
+#status-container .dot {
+    width: 8px;
+    height: 8px;
+    background: $white;
+    border-radius: 50%;
+    position: absolute;
+    top: 4%;
+    right: 6%;
+
+    &:hover {
+        background: darken($white, 20%);
+    }
+}
+
+#status-container .two {
+    right: 12%;
+    opacity: .5;
+}
+
+#status-container .face {
+    position: absolute;
+    width: 22%;
+    height: 22%;
+    background: $white;
+    border-radius: 50%;
+    border: 1px solid $dark;
+    top: 21%;
+    left: 37.5%;
+    z-index: 2;
+    animation: bounce 1s ease-in infinite;
+}
+
+#status-container .face2 {
+    position: absolute;
+    width: 22%;
+    height: 22%;
+    background: $white;
+    border-radius: 50%;
+    border: 1px solid $dark;
+    top: 21%;
+    left: 37.5%;
+    z-index: 2;
+    animation: roll 3s ease-in-out infinite;
+}
+
+#status-container .eye {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: $dark;
+    border-radius: 50%;
+    top: 40%;
+    left: 20%;
+}
+
+#status-container .right {
+    left: 68%;
+}
+
+#status-container .mouth {
+    position: absolute;
+    top: 43%;
+    left: 41%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+#status-container .happy {
+    border: 2px solid;
+    border-color: transparent $dark $dark transparent;
+    transform: rotate(45deg);
+}
+
+#status-container .sad {
+    top: 49%;
+    border: 2px solid;
+    border-color: $dark transparent transparent $dark;
+    transform: rotate(45deg);
+}
+
+#status-container .shadow {
+    position: absolute;
+    width: 21%;
+    height: 3%;
+    opacity: .5;
+    background: $dark;
+    left: 40%;
+    top: 43%;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+#status-container .scale {
+    animation: scale 1s ease-in infinite;
+}
+
+#status-container .move {
+    animation: move 3s ease-in-out infinite;
+}
+
+
+#status-container .message {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    height: 40%;
+    top: 47%;
+}
+
+#status-container .button-box {
+    position: absolute;
+    background: $white;
+    width: 50%;
+    height: 15%;
+    border-radius: 20px;
+    top: 73%;
+    left: 25%;
+    outline: 0;
+    border: none;
+    box-shadow: 2px 2px 10px rgba($dark, .5);
+    transition: all .5s ease-in-out;
+
+    &:hover {
+        background: darken($white, 5%);
+        transform: scale(1.05);
+        transition: all .3s ease-in-out;
+    }
+}
+
+@keyframes bounce {
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes scale {
+    50% {
+        transform: scale(0.9);
+    }
+}
+
+@keyframes roll {
+    0% {
+        transform: rotate(0deg);
+        left: 25%;
+    }
+
+    50% {
+        left: 60%;
+        transform: rotate(168deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+        left: 25%;
+    }
+}
+
+@keyframes move {
+    0% {
+        left: 25%;
+    }
+
+    50% {
+        left: 60%;
+    }
+
+    100% {
+        left: 25%;
+    }
+}

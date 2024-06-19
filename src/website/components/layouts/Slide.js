@@ -171,7 +171,6 @@ const Slide = () => {
         <>
             <section className="section-slide">
                 <Slider {...slideSettings}>
-
                     {
                         (banners.length > 0) ?
                             banners.map((b, i) => {

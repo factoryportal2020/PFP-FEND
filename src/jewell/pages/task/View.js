@@ -172,7 +172,7 @@ class View extends React.Component {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='col-md'>
+                        <div className='col-md mob-m-t-2'>
                             <div className="card w-auto">
                                 <div className="card-body ps-1 pe-3">
                                     <div className="card-content">
@@ -200,7 +200,7 @@ class View extends React.Component {
                             </div>
                         </div>
 
-                        <div className='col-md'>
+                        <div className='col-md mob-m-t-2'>
                         <div className="card w-auto">
                                 <div className="card-body ps-1 pe-3">
                                     <div className="card-content">
@@ -230,7 +230,7 @@ class View extends React.Component {
                     </div>
 
                     <div className='row mt-2'>
-                        <div className='col-md'>
+                        <div className='col-md mob-m-t-2'>
                             <div className="card w-auto">
                                 <div className="card-body ps-1 pe-3">
                                     <div className="card-content">
@@ -258,7 +258,7 @@ class View extends React.Component {
                             </div>
                         </div>
 
-                        <div className='col-md'>
+                        <div className='col-md mob-m-t-2'>
                         <div className="card w-auto">
                                 <div className="card-body ps-1 pe-3">
                                     <div className="card-content">

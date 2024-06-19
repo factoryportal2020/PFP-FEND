@@ -371,11 +371,11 @@ export const FileInput = React.forwardRef((props, ref) => {
                     <label htmlFor={props.htmlFor} className="form-label">{props.label}
                         <span className='fs-6 light-green ps-1'>{(datas.length > 0) ? datas.length + " uploaded" : ""} </span>
                     </label>
-                </> : <h6>Choose {props.tab} Image from App</h6>}
+                </> : <h6 className='theme-red mt-4'>Choose {props.tab} Image from App</h6>}
 
 
             {(datas.length > 0) ?
-                <div className="row">
+                <div className="row img-container-row">
                     {datas.map((file, j) => {
                         let ahref = "";
                         if (isFile(file)) {
@@ -388,7 +388,7 @@ export const FileInput = React.forwardRef((props, ref) => {
                         return (
                             <>
                                 {/* <div className="col-lg-3 col-6 mt-3 mb-3 img-container"> */}
-                                <div key={`image${j}`} className="col-sm mt-1 mb-2 img-container">
+                                <div key={`image${j}`} className="col mt-1 mb-2 img-container">
                                     {(!props.filecheckbox) ?
                                         <>
                                             <img
@@ -416,12 +416,14 @@ export const FileInput = React.forwardRef((props, ref) => {
                                                 alt={file.name}
                                                 onClick={(e) => { props.onSelectImage(e) }}
                                             />
-                                            <button type="button"
+                                            {/* <button type="button"
 
-                                                className={`${selectBtnClassname}`}
+                                                className={`${selectBtnClassname} theme-red`}
                                             >
                                                 {/* <i className='fa fa-check fs-20'></i> */}
-                                            </button> </>}
+                                            {/*</button>  */}
+                                            </>
+                                            }
                                     {/* <br></br> */}
                                     <p className='fs-8 text-left grey mb-0'>{file.name}</p>
                                 </div>

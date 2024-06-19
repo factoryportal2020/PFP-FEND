@@ -18,8 +18,8 @@ html {
 body {
 	font-family: 'Poppins Regular', sans-serif;
 	font-size: 15px;
-	color: #666666;
-	background-color: #1f081b;
+	color: #AC3B61;
+	background-color: #EDC7B7;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -18644,10 +18644,10 @@ iframe {
 }
 
 .company_name {
-	font-size: 20px;
+	font-size: 24px;
 	font-family: 'Poppins Regular', sans-serif;
 	color: orange;
-	padding-left: 15px;
+	padding-left: 25px;
 	padding-right: 0px;
 	text-transform: capitalize;
 }

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Form from '../../components/forms/Form';
 import StatusBar from '../../components/layouts/StatusBar';
 import Preloader from '../../components/layouts/Preloader';
+import pocketMob from "../../theme/images/jewell/pocket-mob.png";
 
 // import { emptyStatus } from '../../features/auth/authSlice';
 
@@ -13,6 +14,22 @@ import Preloader from '../../components/layouts/Preloader';
 import { userLogin } from '../../features/auth/authAuctions';
 import { emptyStatus } from '../../features/auth/authSlice';
 
+import Slider from "react-slick";
+import Footer from '../../components/layouts/Footer';
+
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        ""
+    );
+}
+
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        ""
+    );
+}
 
 class Login extends React.Component {
 
@@ -29,8 +46,55 @@ class Login extends React.Component {
             entities: formEntities,
 
             //Auth
-            auth: { ...props.auth }
+            auth: { ...props.auth },
+
+            //slick
+            settings: {
+                arrows: true,
+                // dotsClass: 'slick1-dots',
+                dots: false,
+                nextArrow: <NextArrow />,
+                prevArrow: <PrevArrow />,
+                settings: 'unslick',
+                slidesToShow: 2,
+                slidesToScroll: 2,
+
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            infinite: true,
+                            speed: 500,
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            // autoplay: true,
+                            // autoplaySpeed: 3000,
+                            arrows: true,
+                            dots: true,
+                            dotsClass: 'slick-dots',
+                            // appendDots: dots => (
+                            //     <div
+                            //         style={{
+                            //             textAlign: "center",
+                            //             display: 'inline-block'
+                            //             // borderRadius: "10px",
+                            //             // padding: "10px"
+                            //         }}
+                            //     >
+                            //         <ul style={{ margin: "0px" }}> {dots} </ul>
+                            //     </div>
+                            // ),
+
+                            nextArrow: <NextArrow />,
+                            prevArrow: <PrevArrow />,
+                        }
+                    }
+                ]
+            },
+
         }
+
+
 
         this.onStatusClose = this.onStatusClose.bind(this);
 
@@ -48,7 +112,7 @@ class Login extends React.Component {
         if ((!auth.success) && (auth.errorsModalTrigger == "fade") && (auth.message != "")) { //single success message display
             (async () => {
                 await this.setStatusMsg("success", auth, false, false);
-                setInterval(() => { this.onStatusClose() }, 3000);
+                // setInterval(() => { this.onStatusClose() }, 6000);
             })();
         }
 
@@ -133,105 +197,91 @@ class Login extends React.Component {
                         <Navigate to={'/profile'} replace="true" /> :
                         <>
                             {this.state.auth.preLoading ? <Preloader /> : ""}
-                            <div className='row login-row'>
-                                {/* <div className='col-sm-2'>
-                                    <div className='login-small-round vertical right'>
 
-                                        <div className='login-small-round-content'>
-                                            <a href="/">
-                                                Pocket<br />Poche<br />Admin
-                                            </a>
-                                            <h6 className='grey'>Task Management Portal</h6>
-                                        </div>
-                                    </div>
-                                </div> */}
-                                <div className='col-sm-6'>
-                                    <h2 className='mt-5 ms-5 theme-yellow mob-main_head'>Pocket Ecommerce, admin</h2>
-                                    <h5 className='mt-2 ms-5 theme-red mob-main_subhead'>Manage in your pocket </h5>
-                                    <div class="boxing">
-                                        <div class="box">
-                                            <div class="box-item color1">
-                                                {/* <div class="box-image">
-                                                    <img src="/nexware-learn/login_screen/images/customer.png" />
-                                                </div>
-                                                <div class="box-body">
-                                                    <div class="box-head">
-                                                        Customer
-                                                    </div>
-                                                    <div class="box-content">
-                                                        Manage your valid customers
-                                                    </div>
-                                                </div> */}
+                            <div className="content-div">
+
+                                <div className='row login-row'>
+
+
+                                    <Slider {...this.state.settings}>
+
+                                        <div className='col-sm-6 col-xs-12 title-div'>
+                                            <div className='logo-corner'>
+                                                <img src={pocketMob} />
                                             </div>
-                                            <div class="box-item color2"></div>
-                                            <div class="box-item color3"></div>
-                                        </div>
-                                        <div class="box">
-                                            <div class="box-item color4"></div>
-                                            <div class="box-item color5"></div>
-                                            <div class="box-item color6"></div>
-                                        </div>
-                                        <div class="box">
-                                            <div class="box-item color7"></div>
-                                            <div class="box-item color8"></div>
-                                            <div class="box-item color9"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div className='col-sm-6'>
-
-                                <div className='login-form-card mt-5'>
-                                        <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
-                                        <div className="card login-card">
-                                            <div className="login-card-header">
-                                                Sign into your account
+                                            <div className='vertical-center'>
+                                                {/* E&#8209;com */}
+                                                <h2 className='main_head animated zoomIn'>Admin&nbsp;<span className='grey animated slideInUp'>FOR</span></h2>
+                                                <h5 className='sub_main_head animated flipInY pink'>Website </h5>
+                                                <h5 className='sub_main_head animated flipInX'>Tasks </h5>
+                                                <h5 className='sub_main_head animated flipInY'>Billing </h5>
+                                                <h5 className='sub_main_head animated flipInX'>Branding </h5>
+                                                <h5 className='sub_main_head animated flipInY'>Digitial Marketing </h5>
+                                                <h6 className='sub_main_content animated jackInTheBox'>Make Business Easy</h6>
                                             </div>
-                                            <div className="card-body">
-                                                <form>
-                                                    <>
-                                                        < Form
-                                                            entities={this.state.entities}
-                                                            states={this.state.states}
-                                                            action={this.state.action}
-                                                            saveDataApiCall={(params) => this.loginApiCall(params)}
-                                                            clickErrorModalClose={() => this.clickErrorModalClose()}
-                                                            ref={this.child}
-                                                            errorsModalTrigger={this.state.auth.errorsModalTrigger}
-                                                            errors={this.state.auth.errors}
-                                                        />
-                                                    </>
-                                                    {/* <div className='clearfix'></div> */}
-                                                    <hr className='login-hr'></hr>
-                                                    <div className='text-center'>
-                                                        <button type="submit" className="login__submit">
-                                                            <i className='fa-solid fab fa-google red'></i>&nbsp;&nbsp;Login with Google
-                                                        </button>
 
+                                        </div>
 
-                                                        <button type="submit" className="login__submit">
-                                                            <i className='fa-solid fab fa-facebook fb-blue'></i>&nbsp;&nbsp;Login with Facebook
-                                                        </button>
-                                                    </div>
-                                                    <hr className='login-hr'></hr>
-                                                    <div className='d-flex justify-content-between fs-13'>
-                                                        <Link to='/forget/password' className="theme-red notextDecor">
-                                                            Forget Password
-                                                        </Link>&nbsp;&nbsp;
-                                                        <Link to='/' className="theme-red notextDecor">
-                                                            Have a problem in login ?
-                                                        </Link>
-                                                    </div>
-                                                    <hr className='login-hr'></hr>
-                                                    <div className='text-center'>
-                                                        <Link to='/register' className="login__submit">Signup</Link>
-                                                    </div>
-                                                </form>
+                                        <div className='col-sm-6 col-xs-12'>
+
+                                            <div className='small-corner-logo'>
+                                                <img src={pocketMob} />
                                             </div>
-                                        </div >
-                                    </div>
+                                            <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
+                                            <div className='login-form-card'>
+                                                <div className="card login-card">
+                                                    <div className="login-card-header">
+                                                        Sign into your account
+                                                    </div>
+                                                    <div className="card-body">
+                                                        <form>
+                                                            <>
+                                                                < Form
+                                                                    entities={this.state.entities}
+                                                                    states={this.state.states}
+                                                                    action={this.state.action}
+                                                                    saveDataApiCall={(params) => this.loginApiCall(params)}
+                                                                    clickErrorModalClose={() => this.clickErrorModalClose()}
+                                                                    ref={this.child}
+                                                                    errorsModalTrigger={this.state.auth.errorsModalTrigger}
+                                                                    errors={this.state.auth.errors}
+                                                                />
+                                                            </>
+                                                            {/* <div className='clearfix'></div> */}
+                                                            <hr className='login-hr'></hr>
+                                                            {/* <div className='text-center'>
+                                                            <button type="submit" className="login__submit">
+                                                                <i className='fa-solid fab fa-google red'></i>&nbsp;&nbsp;Login with Google
+                                                            </button>
+
+
+                                                            <button type="submit" className="login__submit">
+                                                                <i className='fa-solid fab fa-facebook fb-blue'></i>&nbsp;&nbsp;Login with Facebook
+                                                            </button>
+                                                        </div> */}
+                                                            {/* <hr className='login-hr'></hr> */}
+                                                            <div className='d-flex justify-content-between fs-13'>
+                                                                <Link to='/forget/password' className="theme-red notextDecor">
+                                                                    Forget Password
+                                                                </Link>&nbsp;&nbsp;
+                                                                <Link to='/' className="theme-red notextDecor">
+                                                                    Have a problem in login ?
+                                                                </Link>
+                                                            </div>
+                                                            <hr className='login-hr'></hr>
+                                                            <div className='text-center'>
+                                                                <Link to='/register' className="login__submit">Signup</Link>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div >
+                                            </div>
+                                        </div>
+                                    </Slider>
+
                                 </div>
                             </div>
+                            <Footer />
                         </>
                 }
             </>

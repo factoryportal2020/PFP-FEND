@@ -75,14 +75,14 @@ export const TaskCard = React.forwardRef((props, ref) => {
 
 
                     <div className="card-content">
-                        <div className="d-flex justify-content-between">
+                        <div className="card-title">
                             <div><h5 className="card-title fs-16">{name}</h5></div>
-                            <div className="ms-2">
+                            <div className="card-action">
                                 <a href="#/" onClick={(event) => props.deleteModalTriggerClick(event)}>
                                     <i id={encrypt_id} data-title={`${name}`} title="delete" className="fa-solid fa-trash fs-20 light-red"></i>
                                 </a>
                                 <Link to={`/${addLink}/edit/${element.encrypt_id}`}>
-                                    <i title="Edit" className="fa-solid fa-pencil fs-20 ps-2 jewell-color"></i>
+                                    <i title="Edit" className="fa-solid fa-pencil fs-20 ps-2  light-green"></i>
                                 </Link>
                                 <a href="#/" onClick={(event) => props.viewModalTriggerClick(event)}>
                                     <i id={encrypt_id} title="View" className="fa-solid fa-eye fs-20 ps-2 jewell-color"></i>
@@ -118,7 +118,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
                             <div className="ps-2">{description}</div>
                         </div>
 
-                        <div className='d-flex justify-content-around'>
+                        <div className='worker-customer-div'>
                             {(element.worker_name) ?
 
                                 <div className="worker_detail d-flex">
@@ -139,7 +139,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
                                 </div> : ""}
 
                             {(element.customer_name) ?
-                                <div className="customer_detail d-flex">
+                                <div className="customer_detail d-flex mob-m-t-2">
                                     <div className="img-container">
                                         <div className="">
                                             <img className="border-radius-50 worker-profile-image" src={customerImage} alt="Card image cap" />
@@ -157,7 +157,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
 
                         </div>
 
-                        <div className={"maxw-40 float-end pt-1"}>
+                        <div className={"maxw-40 float-end pt-1 mob-m-t-1 mob-maxw-80"}>
                             <div className='fs-8 pb-1'>Created At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>
                             <div className='fs-8'>Updated At: <span className="created_at" title="Created Date">{element.updated_at}</span></div>
                         </div>

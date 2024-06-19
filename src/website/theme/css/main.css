@@ -63,7 +63,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   outline: none !important;
 }
 
-.animsition{
+.animsition {
   background-color: #fff;
 }
 
@@ -287,9 +287,13 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   text-decoration: none;
 }
 
-.logo img {
+
+
+.wrap-menu-desktop .logo img {
   max-width: 100%;
   max-height: 100%;
+  width: 100px;
+  height: 100px;
 }
 
 
@@ -447,7 +451,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 .icon-header-item {
   position: relative;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
   cursor: pointer;
 }
@@ -457,19 +461,20 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 .icon-header-noti::after {
   content: attr(data-notify);
   font-family: 'Poppins Regular', sans-serif;
-  font-size: 12px;
-  color: #fff;
+  font-size: 14px;
+  /* color: #fff; */
+  color: darkred;
   line-height: 15px;
   text-align: center;
 
   display: block;
   position: absolute;
-  top: -7px;
+  top: -5px;
   right: 0;
   min-width: 15px;
   height: 15px;
   padding: 0 3px;
-  background-color: #717fe0;
+  /* background-color: #717fe0; */
 }
 
 /*---------------------------------------------*/
@@ -635,17 +640,32 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 /*------------------------------------------------------------------
 [ Logo mobile ]*/
 .logo-mobile {
+  max-width: 60px;
   display: block;
   position: relative;
-  height: 80%;
-  padding-right: 25px;
+  height: 100%;
+  width: 100%;
+  /* padding-right: 25px; */
   -webkit-flex-grow: 1;
   -moz-flex-grow: 1;
   flex-grow: 1;
+
+  /* border: #fff200;
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 50%; */
 }
 
+.logo-mobile .logo {
+
+  margin-right: 0px;
+}
+
+
+
 .logo-mobile img {
-  max-width: calc(100% - 20px);
+  /* max-width: calc(100% - 20px); */
+  max-width: 50px;
   max-height: 100%;
   position: absolute;
   top: 0;
@@ -654,6 +674,25 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   margin: auto;
 }
 
+.company-name-mobile {
+  display: block;
+  width: auto;
+  margin-left: 10px;
+}
+
+.company-name-mobile .company-name {
+  font-size: 24px;
+}
+
+@media (max-width: 380px) {
+  .company-name-mobile .company-name {
+    font-size: 18px;
+  }
+
+  .fs-6 {
+    font-size: 12px !important;
+  }
+}
 
 
 /*------------------------------------------------------------------
@@ -701,26 +740,39 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 .main-menu-m {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   /* background-color: #717fe0; */
-  background-color: grey;
+  /* background-color: grey; */
+  background-color: #222;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+}
+
+
+.main-menu-m>li {
+  display: inline-block;
+  position: relative;
+
 }
 
 .main-menu-m>li>a {
   font-family: 'Poppins Medium', sans-serif;
   font-size: 14px;
   /* color: white; */
-  color: #fff200;
+  color: #fff;
   text-decoration: none;
-  line-height: 2.8;
-  padding: 8px 20px 8px 20px;
+  line-height: 2.0;
+  padding: 8px 8px 8px 8px;
 }
 
-.main-menu-m>li {
-  color: white;
-  position: relative;
+.main-menu-m .active-menu a {
+  font-family: 'Poppins Medium', sans-serif;
+  color: #fff200;
 }
+
+
 
 .arrow-main-menu-m {
   font-size: 14px;
@@ -2201,6 +2253,14 @@ input.num-product::-webkit-inner-spin-button {
 
 .cl13 {
   color: #fff200;
+}
+
+.cl-darked {
+  color: darkred;
+}
+
+.fs-22 {
+  font-size: 22px;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -3764,8 +3824,27 @@ input.num-product::-webkit-inner-spin-button {
   .mob-p-t-80 {
     padding-top: 20px;
   }
+
+  .mob-m-t-20 {
+    margin-top: 20px;
+  }
+
+  .mob-p-t-10 {
+    padding-top: 10px;
+  }
+
+  .animsition .slick-list {
+    padding-bottom: 10px !important;
+  }
+  .p-t-104{
+    padding-top: 20px !important;
+  }
+  .p-b-116{
+    padding-bottom: 20px !important;
+  }
 }
 
+/* Web */
 @media (min-width: 992px) {
   .shop_div {
     margin-top: 100px;
@@ -3778,5 +3857,9 @@ input.num-product::-webkit-inner-spin-button {
 
   .mob-p-t-80 {
     padding-top: 80px;
+  }
+
+  .mob-m-t-20 {
+    margin-top: 20px;
   }
 }
