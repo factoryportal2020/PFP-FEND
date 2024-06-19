@@ -6,7 +6,7 @@ export const Tab = React.forwardRef((props, ref) => {
     return (
         <div className='navbar-expand-lg navbar-light mx-auto'>
             <div className="navbar-collapse" id="navbarSupportedContent">
-                <ul className='navbar-nav ms-0 mr-auto'>
+                <ul className='navbar-nav tab-navbar-nav ms-0 mr-auto'>
                     {
                         state.states.tabs.map((element, i) => {
                             var selectedTabClass = (state.clickedTabId == i) ? "tab__btn-active" : "";

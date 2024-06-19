@@ -83,7 +83,7 @@ class ViewModal extends React.Component {
                                 </div>
 
                                 <div className='w-100 text-center'>
-                                    <h5 class="modal-title brown">{validator.toCapitalize(this.state.title)} Detail</h5>
+                                    <h5 class="modal-title  theme-red">{validator.toCapitalize(this.state.title)} Detail</h5>
                                 </div>
                                 <div className='w-100 text-end'>
 

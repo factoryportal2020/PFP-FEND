@@ -10,8 +10,24 @@ import { SpecificationComponent } from '../../pages/product/Specification';
 import imageCompression from 'browser-image-compression';
 import { Link } from 'react-router-dom';
 
+import Slider from "react-slick";
+import Footer from '../../components/layouts/Footer';
 
-class FormImage extends React.Component {
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        ""
+    );
+}
+
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        ""
+    );
+}
+
+class FormWebsite extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +44,51 @@ class FormImage extends React.Component {
             progressMessage: [{ className: "", msg: "" }],
             progressTitle: [],
             progress: [],
+            subtables: [1, 2, 3],
+            //slick
+            settings: {
+                arrows: true,
+                // dotsClass: 'slick1-dots',
+                dots: false,
+                nextArrow: <NextArrow />,
+                prevArrow: <PrevArrow />,
+                settings: 'unslick',
+                slidesToShow: 3,
+                slidesToScroll: 3,
+
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            infinite: true,
+                            speed: 500,
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            // autoplay: true,
+                            // autoplaySpeed: 3000,
+                            arrows: true,
+                            dots: true,
+                            dotsClass: 'slick-dots',
+                            // appendDots: dots => (
+                            //     <div
+                            //         style={{
+                            //             textAlign: "center",
+                            //             display: 'inline-block'
+                            //             // borderRadius: "10px",
+                            //             // padding: "10px"
+                            //         }}
+                            //     >
+                            //         <ul style={{ margin: "0px" }}> {dots} </ul>
+                            //     </div>
+                            // ),
+
+                            nextArrow: <NextArrow />,
+                            prevArrow: <PrevArrow />,
+                        }
+                    }
+                ]
+            },
+
         }
         this.onStatusClose = this.onStatusClose.bind(this);
         this.handleChangeValue = this.handleChangeValue.bind(this);
@@ -563,7 +624,7 @@ class FormImage extends React.Component {
 
                         (!this.props.forSubscribe && !this.props.forMessage) ?
                             <>
-                                <div className='content-div'>
+                                <div className='content-div website-page'>
                                     <StatusBar status={this.state.states.status} onStatusClose={this.onStatusClose} />
 
                                     {this.state.preLoading ? <Preloader /> : ""}
@@ -601,7 +662,6 @@ class FormImage extends React.Component {
                                         {
                                             this.state.states.tabs.map((tab, j) => {
                                                 var tabShow = (j == this.state.clickedTabId) ? "" : "hide";
-                                                var forTask = (j > 0 && this.state.states.listLink == "task") ? true : false;
                                                 var forWebsite = (j > 0 && this.state.states.listLink == "website") ? true : false;
                                                 return (
                                                     <>
@@ -622,90 +682,85 @@ class FormImage extends React.Component {
                                                             clickProgressModalClose={() => this.clickProgressModalClose()} />
 
                                                         <div key={j} className={`row mt-2 brown ${tabShow}`}>
+                                                            {(tab.id != "banner") ?
+                                                                <>
+                                                                    <div className={(forWebsite && (tab.id == "about")) ? "col-md-6" : "col-md-9"}>
+                                                                        <div className={`row g-3`}>
+                                                                            <Field
+                                                                                key={`fieldForm${tab.id}${j}`}
+                                                                                state={this.state}
+                                                                                tab={tab}
+                                                                                isFile={false}
+                                                                                onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                                onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
 
-                                                            <div className={"" + ((forTask || (forWebsite && (tab.id == "banner"))) ? "col-md-3" :
-                                                                (forWebsite && (tab.id == "feature")) ? "" :
-                                                                    (forWebsite && (tab.id == "about")) ? "col-md-6" : "col-md-9")}>
-                                                                <div className={`row g-3`}>
-                                                                    <Field
-                                                                        key={`fieldForm${j}`}
-                                                                        state={this.state}
-                                                                        tab={tab}
-                                                                        isFile={false}
-                                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                                    />
-                                                                    {/* Product */}
-                                                                    {
-                                                                        (this.state.states.params.other_specifications && j == 0) ?
-                                                                            <>
-                                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-4'>
-                                                                                    <legend className='fs-18'>Other Descriptions:</legend>
-                                                                                    <SpecificationComponent
-                                                                                        ref={this.OtherSpecificationsRef}
-                                                                                        forField="OtherDescription"
-                                                                                        specifications={this.state.states.params.other_specifications}
-                                                                                        deletedIds={this.state.states.params.delete_specifications_ids}
-                                                                                    />
-                                                                                </fieldset>
-                                                                            </> : ""
-                                                                    }
-                                                                    {
-                                                                        (this.state.states.params.price_breakdowns && j == 0) ?
-                                                                            <>
-                                                                                <fieldset className='border-1-brown border-radius-25 p-3 mt-5'>
-                                                                                    <legend className='fs-18'>Price Breakdowns:</legend>
-                                                                                    <SpecificationComponent
-                                                                                        ref={this.PricebreakdownsRef}
-                                                                                        forField="PriceBreakDown"
-                                                                                        specifications={this.state.states.params.price_breakdowns}
-                                                                                        deletedIds={this.state.states.params.delete_pricebreakdowns_ids}
-                                                                                    />
-                                                                                </fieldset>
-                                                                            </> : ""
-                                                                    }
-                                                                    {/* End Product */}
-
-                                                                </div>
-                                                            </div>
-
-
-
-                                                            <div className={((forTask) ? "mb-4" : ((forWebsite && tab.id == "banner")) ? "col-md" :
-                                                                (forWebsite && (tab.id == "feature")) ? "" : "col-md-3")}>
-                                                                <div className={((forTask || (forWebsite && tab.id == "feature")) ? "row" : "") + " "}>
-                                                                    <Field
-                                                                        key={`fieldImages${j}`}
-                                                                        state={this.state}
-                                                                        tab={tab}
-                                                                        isFile={true}
-                                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                                                    // ref={this.fileImage}
-                                                                    />
-                                                                </div>
-                                                            </div>
-
-                                                            {((forWebsite && (tab.id == "banner" || tab.id == "about" || tab.id == "feature"))) ?
-                                                                <div className={("img-modal-head")}>
-                                                                    <div className={(forWebsite && tab.id == "feature") ? "row" : ""}>
+                                                                    <div className={"col-md-3"}>
                                                                         <Field
-                                                                            key={`fieldImages${j}`}
+                                                                            key={`fieldImages${tab.id}${j}`}
+                                                                            state={this.state}
+                                                                            tab={tab}
+                                                                            isFile={true}
+                                                                            onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                            onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                        />
+                                                                    </div>
+
+                                                                    <div className={("col-md-3")}>
+                                                                        <Field
+                                                                            key={`fieldImages${tab.id}${j}`}
                                                                             state={this.state}
                                                                             tab={tab}
                                                                             isFileCheckbox={true}
                                                                             onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
                                                                             onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
                                                                             onSelectImage={(e, fieldName, new_element) => { this.handleSelectImage(e, fieldName, new_element) }}
-
-                                                                        // ref={this.fileImage}
                                                                         />
                                                                     </div>
-                                                                </div> : ""}
+                                                                </> :
+                                                                <Slider {...this.state.settings}>
 
+                                                                    {this.state.subtables.map((sub, j) => {
 
-
-
+                                                                        return (
+                                                                            <>
+                                                                                <div className={"col-sm-4"}>
+                                                                                    <Field
+                                                                                        key={`form${sub}${j}`}
+                                                                                        state={this.state}
+                                                                                        tab={tab}
+                                                                                        subtableIndex={sub}
+                                                                                        isFile={false}
+                                                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                                    />
+                                                                                    <Field
+                                                                                        key={`images${sub}${j}`}
+                                                                                        state={this.state}
+                                                                                        tab={tab}
+                                                                                        isFile={true}
+                                                                                        subtableIndex={sub}
+                                                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                                    />
+                                                                                    <Field
+                                                                                        key={`checks${sub}${j}`}
+                                                                                        state={this.state}
+                                                                                        tab={tab}
+                                                                                        isFileCheckbox={true}
+                                                                                        subtableIndex={sub}
+                                                                                        onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
+                                                                                        onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
+                                                                                        onSelectImage={(e, fieldName, new_element) => { this.handleSelectImage(e, fieldName, new_element) }}
+                                                                                    />
+                                                                                </div>
+                                                                            </>
+                                                                        )
+                                                                    })}
+                                                                </Slider>
+                                                            }
                                                         </div>
                                                     </>
                                                 )
@@ -726,63 +781,7 @@ class FormImage extends React.Component {
                                 </div >
                             </> : ""}
 
-                {
-                    (this.props.forSubscribe && !this.props.forMessage) ?
-                        <>
-                            <form>
 
-                                <Field
-                                    key={`fieldForm${0}`}
-                                    state={this.state}
-                                    tab={this.state.states.tabs[0]}
-                                    isFile={false}
-                                    onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                    onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                />
-
-
-                                <div className="p-t-18 text-end">
-                                    <button type="button"
-                                        onClick={(e) => { this.handleSubmit(e) }}
-                                        disabled={this.state.states.submitDisabled}
-                                        className="submit__btn">
-                                        Subscribe
-                                    </button>
-                                </div>
-                            </form>
-                        </>
-                        :
-                        ""
-                }
-
-                {
-                    (this.props.forMessage) ?
-                        <>
-                            <form>
-
-                                <Field
-                                    key={`fieldForm${0}`}
-                                    state={this.state}
-                                    tab={this.state.states.tabs[0]}
-                                    isFile={false}
-                                    onChange={(newValue, fieldName, new_element) => { this.handleChangeValue(newValue, fieldName, new_element) }}
-                                    onClick={(e, fieldName, new_element) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                />
-
-
-                                <div className="p-t-18 text-end">
-                                    <button type="button"
-                                        onClick={(e) => { this.handleSubmit(e) }}
-                                        disabled={this.state.states.submitDisabled}
-                                        className="submit__btn">
-                                        Submit
-                                    </button>
-                                </div>
-                            </form>
-                        </>
-                        :
-                        ""
-                }
 
             </>
         )
@@ -790,7 +789,7 @@ class FormImage extends React.Component {
 }
 
 export default React.forwardRef((props, ref) =>
-    <FormImage
+    <FormWebsite
         innerRef={ref} {...props}
     />);
 

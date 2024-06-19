@@ -8,6 +8,7 @@ export const Field = React.forwardRef((props, ref) => {
     var tab = props.tab;
     var isFile = props.isFile;
     var isFileCheckbox = props.isFileCheckbox;
+    var subtableIndex = props.subtableIndex;
     return (
         state.entities.map((element, i) => {
             var tabShow = "hide";
@@ -44,6 +45,10 @@ export const Field = React.forwardRef((props, ref) => {
                 }
             }
 
+
+            if ((subtableIndex) && element.subTabIndex != subtableIndex) {
+                return;
+            }
 
             if (isFile && (element.type != "file")) { return; }
             if (isFileCheckbox && (element.type != "fileCheckbox")) { return; }

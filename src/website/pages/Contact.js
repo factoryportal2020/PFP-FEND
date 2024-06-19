@@ -190,7 +190,7 @@ const Contact = () => {
                             </form>
                         </div>
 
-                        <div className="size-210 bor10 flex-w flex-col-m p-lr-93 p-tb-30 p-lr-15-lg w-full-md">
+                        <div className="size-210 bor10 flex-w flex-col-m p-lr-93 p-tb-30 p-lr-15-lg w-full-md mob-m-t-20">
 
                             <div className="flex-w w-full p-b-25">
                                 <span className="fs-18 cl5 txt-center size-211">

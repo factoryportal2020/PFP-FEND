@@ -318,9 +318,9 @@ const Header = () => {
                                             <i className="zmdi zmdi-shopping-cart tooltip100" data-tooltip="Enquiries"></i>
                                         </div>
 
-                                        <Link to={`${adminInfo.site_url}/favourite`} 
-                                        className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" 
-                                        data-notify={curUserInfo?.favourite_count}
+                                        <Link to={`${adminInfo.site_url}/favourite`}
+                                            className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                                            data-notify={curUserInfo?.favourite_count}
                                         >
                                             <i className="zmdi zmdi-favorite-outline tooltip100" data-tooltip="Favourites"></i>
                                         </Link>
@@ -333,28 +333,18 @@ const Header = () => {
                             <div className="logo-mobile">
                                 <Link to={`${adminInfo.site_url}/home`} className="logo">
                                     <img src={cusLogoImage} alt="IMG-LOGO" />
-                                    {(website) ? <span className="company_name m-l-25 m-t-10">{website.company_name}</span> : ""}
+
                                 </Link>
                             </div>
-
-                            <div className="wrap-icon-header flex-w flex-r-m m-r-15">
-                                <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search"
+                            <div className="company-name-mobile">
+                                {(website) ? <span className="company-name m-t-10">{website.company_name}</span> : ""}
+                            </div>
+                            <div className="wrap-icon-header flex-w flex-r-m m-r-15 m-l-auto">
+                                <div className="icon-header-item cl2 hov-cl1 trans-04 js-show-modal-search"
                                     onClick={() => setSearchModalTrigger(true)}>
                                     <i className="zmdi zmdi-search"></i>
                                 </div>
 
-                                <div className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify={curUserInfo?.enquiry_count}
-                                    onClick={() => setCartModalTrigger(true)}
-                                >
-                                    <i className="zmdi zmdi-shopping-cart tooltip100" data-tooltip="Enquiries"></i>
-                                </div>
-
-                                <Link to={`${adminInfo.site_url}/favourite`}
-                                    className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
-                                    data-notify={curUserInfo?.favourite_count}
-                                >
-                                    <i className="zmdi zmdi-favorite-outline tooltip100" data-tooltip="Favourites"></i>
-                                </Link>
                             </div>
 
                             <div className={`btn-show-menu-mobile hamburger hamburger--squeeze ${btnShowMenuMobile}`} onClick={() => { clickBtnShowMenuMobile(); onToggle(); }}>
@@ -376,7 +366,7 @@ const Header = () => {
                                         </li> */}
 
                                         <li>
-                                            <div className="right-top-bar flex-w h-full justify-content-end">
+                                            <div className="right-top-bar flex-w h-full justify-content-between">
                                                 {(adminInfo) ?
 
                                                     (!userInfo) ?
@@ -390,21 +380,36 @@ const Header = () => {
                                                                 Sign Up
                                                             </Link>
                                                         </> :
+
                                                         <>
-                                                            <Link onClick={(e) => clickLink(e)} id="Profile" to={`/${adminInfo.site_url}/profile`} className="flex-c-m trans-04 p-lr-25">
+                                                            <Link onClick={(e) => clickLink(e)} id="Profile" to={`/${adminInfo.site_url}/profile`} className="flex-c-m trans-04 p-lr-25 fs-6">
                                                                 My Account
+                                                            </Link>
+
+                                                            <div className="icon-header-item cl-darked hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart  mt-1" data-notify={curUserInfo?.enquiry_count}
+                                                                onClick={() => setCartModalTrigger(true)}
+                                                            >
+                                                                <i className="zmdi zmdi-shopping-cart tooltip100" data-tooltip="Enquiries"></i>
+                                                            </div>
+
+                                                            <Link to={`${adminInfo.site_url}/favourite`}
+                                                                className="dis-block icon-header-item cl-darked hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti  mt-1"
+                                                                data-notify={curUserInfo?.favourite_count}
+                                                            >
+                                                                <i className="zmdi zmdi-favorite-outline tooltip100 fs-22" data-tooltip="Favourites"></i>
                                                             </Link>
                                                             {(userInfo.username) ?
                                                                 <>
-                                                                    <span className="flex-c-m trans-04 p-lr-25">Hi,&nbsp;<span className="fs-6">{userInfo.username}</span></span>
+                                                                    <span className="flex-c-m trans-04 p-lr-25 fs-6">Hi,&nbsp;<span className="">{userInfo.username}</span></span>
 
-                                                                    <Link className='float-end'
+                                                                    <Link className='float-end mt-1'
                                                                         onClick={logOut}>
-                                                                        <i className="fa-solid fa-power-off grey pt-3 fs-6"></i>
+                                                                        <i className="fa-solid fa-power-off grey pe-3 fs-22"></i>
                                                                     </Link>
                                                                 </>
 
                                                                 : ""}
+
                                                         </>
                                                     : ""}
                                             </div>
@@ -413,23 +418,23 @@ const Header = () => {
 
                                     <ul className="main-menu-m">
                                         <li className={(curNavMenu == "Home" ? "active-menu" : "")}>
-                                            <Link role="button" onClick={(e) => clickLink(e)} id="Home" to={`${adminInfo.site_url}/home`}>Home</Link>
+                                            <Link role="button" onClick={(e) => { clickLink(e); clickBtnShowMenuMobile(); onToggle(); }} id="Home" to={`${adminInfo.site_url}/home`}>Home</Link>
                                         </li>
 
                                         <li className={(curNavMenu == "About" ? "active-menu" : "")}>
-                                            <Link role="button" onClick={(e) => clickLink(e)} id="About" to={`${adminInfo.site_url}/about`}>About</Link>
+                                            <Link role="button" onClick={(e) => { clickLink(e); clickBtnShowMenuMobile(); onToggle(); }} id="About" to={`${adminInfo.site_url}/about`}>About</Link>
                                         </li>
 
                                         <li className={(curNavMenu == "Category" ? "active-menu" : "")}>
-                                            <Link role="button" onClick={(e) => clickLink(e)} id="Category" to={`${adminInfo.site_url}/category`}>Category</Link>
+                                            <Link role="button" onClick={(e) => { clickLink(e); clickBtnShowMenuMobile(); onToggle(); }} id="Category" to={`${adminInfo.site_url}/category`}>Category</Link>
                                         </li>
 
                                         <li className={(curNavMenu == "Shop" ? "active-menu" : "")}>
-                                            <Link role="button" onClick={(e) => clickLink(e)} id="Shop" to={`${adminInfo.site_url}/shop`}>Shop</Link>
+                                            <Link role="button" onClick={(e) => { clickLink(e); clickBtnShowMenuMobile(); onToggle(); }} id="Shop" to={`${adminInfo.site_url}/shop`}>Shop</Link>
                                         </li>
 
                                         <li className={(curNavMenu == "Contact" ? "active-menu" : "")}>
-                                            <Link role="button" onClick={(e) => clickLink(e)} id="Contact" to={`${adminInfo.site_url}/contact`}>Contact</Link>
+                                            <Link role="button" onClick={(e) => { clickLink(e); clickBtnShowMenuMobile(); onToggle(); }} id="Contact" to={`${adminInfo.site_url}/contact`}>Contact</Link>
                                         </li>
                                     </ul>
                                 </div>

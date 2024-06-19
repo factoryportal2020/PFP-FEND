@@ -40,7 +40,7 @@ class DeleteConfirm extends React.Component {
                             <div className="modal-footer">
                                 < button type="button" className="btn btn-secondary" data-dismiss="modal"
                                     onClick={this.props.closeDeleteModal}>No</button>
-                                <button type="button" className="btn btn-light jewell-bg-color"
+                                <button type="button" className="btn btn-light"
                                     onClick={this.props.deleteRecord}>Yes</button>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { formEntities } from './Entity';
-import FormImage from '../../components/forms/FormImage';
+import FormWebsite from '../../components/forms/FormWebsite';
 import websiteService from '../../services/website.service';
 import { Navigate } from 'react-router-dom';
 import View from './View';
@@ -313,7 +313,7 @@ class Index extends React.Component {
                                     preLoading={this.state.preLoading}
                                 />
                                 :
-                                < FormImage
+                                < FormWebsite
                                     entities={this.state.entities}
                                     states={this.state.states}
                                     action={this.state.action}

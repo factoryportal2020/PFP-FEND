@@ -341,7 +341,7 @@ export const formEntities = [
         name: "banner_image1",
         type: "file",
         fileType: "image",
-        colClass: 'col-md-6',
+        colClass: 'mt-3',
         className: "banner-file",
         htmlFor: "BannerImage1",
         value: "",
@@ -350,6 +350,7 @@ export const formEntities = [
         placeholder: "",
         validate: true,
         tab: "banner",
+        subTabIndex: 1,
         maxWidthOrHeight: "500",
         width: 500,
         height: 250,
@@ -359,19 +360,6 @@ export const formEntities = [
                 msg: "Only upload image format ",
             }
         ]
-    },
-
-    {
-        name: "banner_title1", type: "text", colClass: '', className: "", htmlFor: "banner_title1", value: "",
-        label: "Banner Title - 1", placeholder: "", maxLength: 70,
-        validate: false,
-        tab: "banner",
-    },
-    {
-        name: "banner_caption1", type: "text", colClass: '', className: "", htmlFor: "banner_caption1", value: "",
-        label: "Banner Caption - 1", placeholder: "", maxLength: 30,
-        validate: false,
-        tab: "banner",
     },
     {
         name: "defaultBanners",
@@ -386,15 +374,32 @@ export const formEntities = [
         placeholder: "",
         validate: false,
         tab: "banner",
+        subTabIndex: 1,
         maxWidthOrHeight: "100",
         width: 100,
         height: 50,
     },
+
+    {
+        name: "banner_title1", type: "text", colClass: '', className: "", htmlFor: "banner_title1", value: "",
+        label: "Banner Title - 1", placeholder: "", maxLength: 70,
+        validate: false,
+        tab: "banner",
+        subTabIndex: 1,
+    },
+    {
+        name: "banner_caption1", type: "text", colClass: 'mt-3', className: "", htmlFor: "banner_caption1", value: "",
+        label: "Banner Caption - 1", placeholder: "", maxLength: 30,
+        validate: false,
+        tab: "banner",
+        subTabIndex: 1,
+    },
+
     {
         name: "banner_image2",
         type: "file",
         fileType: "image",
-        colClass: 'col-md-6 mt-5',
+        colClass: 'mt-3',
         className: "banner-file",
         htmlFor: "BannerImage2",
         value: "",
@@ -403,6 +408,7 @@ export const formEntities = [
         placeholder: "",
         validate: true,
         tab: "banner",
+        subTabIndex: 2,
         validateOptions: [
             {
                 rule: "image",
@@ -411,22 +417,24 @@ export const formEntities = [
         ]
     },
     {
-        name: "banner_title2", type: "text", colClass: 'mt-240', className: "", htmlFor: "banner_title2", value: "",
+        name: "banner_title2", type: "text", colClass: '', className: "", htmlFor: "banner_title2", value: "",
         label: "Banner Title - 2", placeholder: "", maxLength: 70,
         validate: false,
         tab: "banner",
+        subTabIndex: 2,
     },
     {
-        name: "banner_caption2", type: "text", colClass: '', className: "", htmlFor: "banner_caption2", value: "",
+        name: "banner_caption2", type: "text", colClass: 'mt-3', className: "", htmlFor: "banner_caption2", value: "",
         label: "Banner Caption - 2", placeholder: "", maxLength: 30,
         validate: false,
         tab: "banner",
+        subTabIndex: 2,
     },
     {
         name: "defaultBanners",
         type: "fileCheckbox",
         fileType: "image",
-        colClass: 'col-md mt-5',
+        colClass: 'col-md',
         className: "default-banner-file",
         htmlFor: "banner_image2",
         value: "",
@@ -438,12 +446,13 @@ export const formEntities = [
         maxWidthOrHeight: "100",
         width: 100,
         height: 50,
+        subTabIndex: 2,
     },
     {
         name: "banner_image3",
         type: "file",
         fileType: "image",
-        colClass: 'col-md-6 mt-5',
+        colClass: 'mt-3',
         className: "banner-file",
         htmlFor: "BannerImage3",
         value: "",
@@ -452,6 +461,7 @@ export const formEntities = [
         placeholder: "",
         validate: true,
         tab: "banner",
+        subTabIndex: 3,
         validateOptions: [
             {
                 rule: "image",
@@ -460,22 +470,24 @@ export const formEntities = [
         ]
     },
     {
-        name: "banner_title3", type: "text", colClass: 'mt-240', className: "", htmlFor: "banner_title3", value: "",
+        name: "banner_title3", type: "text", colClass: '', className: "", htmlFor: "banner_title3", value: "",
         label: "Banner Title - 3", placeholder: "", maxLength: 70,
         validate: false,
         tab: "banner",
+        subTabIndex: 3,
     },
     {
-        name: "banner_caption3", type: "text", colClass: '', className: "", htmlFor: "banner_caption3", value: "",
+        name: "banner_caption3", type: "text", colClass: 'mt-3', className: "", htmlFor: "banner_caption3", value: "",
         label: "Banner Caption - 3", placeholder: "", maxLength: 30,
         validate: false,
         tab: "banner",
+        subTabIndex: 3,
     },
     {
         name: "defaultBanners",
         type: "fileCheckbox",
         fileType: "image",
-        colClass: 'col-md mt-5',
+        colClass: 'col-md',
         className: "default-banner-file",
         htmlFor: "banner_image3",
         value: "",
@@ -487,5 +499,6 @@ export const formEntities = [
         maxWidthOrHeight: "100",
         width: 100,
         height: 50,
+        subTabIndex: 3,
     },
 ];
