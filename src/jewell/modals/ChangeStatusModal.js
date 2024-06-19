@@ -47,7 +47,7 @@ class ChangeStatusModal extends React.Component {
                         <div className="modal-content border-1-brown">
                             <div className="modal-header">
                                 <div className='w-100 text-center'>
-                                    <h5 class="modal-title brown">{validator.toCapitalize(this.state.title)} Status Change</h5>
+                                    <h5 class="modal-title theme-red">{validator.toCapitalize(this.state.title)} Status Change</h5>
                                 </div>
                             </div>
 

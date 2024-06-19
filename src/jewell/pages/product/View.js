@@ -3,7 +3,9 @@ import StatusBar from '../../components/layouts/StatusBar';
 import Preloader from '../../components/layouts/Preloader';
 import { Link } from 'react-router-dom';
 import maleLogo from "../../theme/images/profile/male1.png";
-import femaleLogo from "../../theme/images/profile/female.jpg";
+import NewProductLogo from "../../theme/images/profile/no-image.jpg";
+
+
 
 class View extends React.Component {
     constructor(props) {
@@ -41,7 +43,7 @@ class View extends React.Component {
 
         let price = (param.price) ? "$" + param.price : "-"
 
-        let profileImage = maleLogo;
+        let profileImage = NewProductLogo;
 
         let otherImages = param.other_image;
 

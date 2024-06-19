@@ -13,7 +13,10 @@ const SweetAlertLayout = (props) => {
             title={propsTitle}
             // onConfirm={props.closeNotification}
             onConfirm={props.closeNotification}
-        //  onCancel={onCancel}
+            //  onCancel={onCancel}
+            customClass={props.customClass}
+            confirmBtnCssClass="white-color"
+            confirmBtnText={props.confirmBtnText}
 
             // onCancel={onCancel}
             // showCancel={true}

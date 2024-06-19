@@ -84,7 +84,7 @@ class Filter extends React.Component {
                     <div className="modal-dialog modal-xl" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title brown">{this.state.states.title} Filter</h5>
+                                <h5 className="modal-title theme-red">{this.state.states.title} Filter</h5>
                                 <a href="#/">
                                     <i className="fa-solid fa-close fs-4" onClick={this.clickClose} />
                                 </a>

@@ -8,9 +8,28 @@ import Preloader from '../../components/layouts/Preloader';
 import { Navigate } from 'react-router-dom';
 import Login from './Login';
 import { Link } from 'react-router-dom';
+import pocketMob from "../../theme/images/jewell/pocket-mob.png"
+
 // auth
 import { registerUser } from '../../features/auth/authAuctions';
 import { emptyStatus } from '../../features/auth/authSlice';
+
+import Slider from "react-slick";
+import Footer from '../../components/layouts/Footer';
+
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        ""
+    );
+}
+
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        ""
+    );
+}
 
 class Register extends React.Component {
     constructor(props) {
@@ -51,7 +70,50 @@ class Register extends React.Component {
             entities: formEntities,
             action: "Edit",
 
-            auth: { ...props.auth }
+            auth: { ...props.auth },
+
+            settings: {
+                arrows: true,
+                // dotsClass: 'slick1-dots',
+                dots: false,
+                nextArrow: <NextArrow />,
+                prevArrow: <PrevArrow />,
+                settings: 'unslick',
+                slidesToShow: 2,
+                slidesToScroll: 2,
+
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            infinite: true,
+                            speed: 500,
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            // autoplay: true,
+                            // autoplaySpeed: 3000,
+                            arrows: true,
+                            dots: true,
+                            dotsClass: 'slick-dots',
+                            // appendDots: dots => (
+                            //     <div
+                            //         style={{
+                            //             textAlign: "center",
+                            //             display: 'inline-block'
+                            //             // borderRadius: "10px",
+                            //             // padding: "10px"
+                            //         }}
+                            //     >
+                            //         <ul style={{ margin: "0px" }}> {dots} </ul>
+                            //     </div>
+                            // ),
+
+                            nextArrow: <NextArrow />,
+                            prevArrow: <PrevArrow />,
+                        }
+                    }
+                ]
+            },
 
         }
 
@@ -141,97 +203,79 @@ class Register extends React.Component {
     render() {
         return (
             <>
-                <div className='row login-row'>
-                    {/* <div className='login-small-round vertical right'>
+                <div className="content-div">
 
-                        <div className='login-small-round-content'>
-                            <a href="/">
-                                Pocket<br />Poche<br />Admin
-                            </a>
-                            <h6 className='grey'>Task Management Portal</h6>
-                        </div>
-                    </div> */}
+                    <div className='row login-row register-page'>
 
-                    <div className='col-sm-6'>
-                        <h2 className='mt-5 ms-5 theme-yellow'>Pocket Ecommerce, Admin</h2>
-                        <h5 className='mt-2 ms-5 theme-red'>Manage in your pocket </h5>
-                        <div class="boxing">
-                            <div class="box">
-                                <div class="box-item color1">
-                                    {/* <div class="box-image">
-                                                    <img src="/nexware-learn/login_screen/images/customer.png" />
-                                                </div>
-                                                <div class="box-body">
-                                                    <div class="box-head">
-                                                        Customer
-                                                    </div>
-                                                    <div class="box-content">
-                                                        Manage your valid customers
-                                                    </div>
-                                                </div> */}
+                        <Slider {...this.state.settings}>
+
+                            <div className='col-sm-6 col-xs-12 title-div'>
+                                <div className='logo-corner'>
+                                    <img src={pocketMob} />
                                 </div>
-                                <div class="box-item color2"></div>
-                                <div class="box-item color3"></div>
-                            </div>
-                            <div class="box">
-                                <div class="box-item color4"></div>
-                                <div class="box-item color5"></div>
-                                <div class="box-item color6"></div>
-                            </div>
-                            <div class="box">
-                                <div class="box-item color7"></div>
-                                <div class="box-item color8"></div>
-                                <div class="box-item color9"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className='col-sm-6'>
-
-                        <div className='login-form-card mt-5'>
-                            {(this.state.submitted) ?
-                                <Navigate to={'/login'} /> : ""
-                            }
-                            <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
-
-                            {this.state.auth.preLoading ? <Preloader /> : ""}
-                            <div className="card login-card">
-                                <div className="login-card-header">
-                                    Register New Account
+                                <div className='vertical-center'>
+                                    {/* E&#8209;com */}
+                                    <h2 className='main_head animated zoomIn'>Admin&nbsp;<span className='grey animated slideInUp'>FOR</span></h2>
+                                    <h5 className='sub_main_head animated flipInY pink'>Website </h5>
+                                    <h5 className='sub_main_head animated flipInX'>Tasks </h5>
+                                    <h5 className='sub_main_head animated flipInY'>Billing </h5>
+                                    <h5 className='sub_main_head animated flipInX'>Branding </h5>
+                                    <h5 className='sub_main_head animated flipInY'>Digitial Marketing </h5>
+                                    <h6 className='sub_main_content animated jackInTheBox'>Make Business Easy</h6>
                                 </div>
 
-                                <div className="card-body">
-                                    <form>
-                                        <>
-                                            < Form
-                                                entities={this.state.entities}
-                                                states={this.state.states}
-                                                action={this.state.action}
-                                                saveDataApiCall={(params) => this.saveDataApiCall(params)}
-                                                clickErrorModalClose={() => this.clickErrorModalClose()}
-                                                specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
-                                                ref={this.child}
+                            </div>
+                            <div className='col-sm-6 col-xs-12'>
+                                <div className='small-corner-logo'>
+                                    <img src={pocketMob} />
+                                </div>
+                                <div className='login-form-card'>
+                                    {(this.state.submitted) ?
+                                        <Navigate to={'/login'} /> : ""
+                                    }
+                                    <StatusBar status={this.state.status} onStatusClose={this.onStatusClose} />
 
-                                                errorsModalTrigger={this.state.auth.errorsModalTrigger}
-                                                errors={this.state.auth.errors}
-                                            />
-                                        </>
-                                        <hr className='login-hr'></hr>
-                                        <div className='d-flex justify-content-between fs-14 brown'>
-                                            <Link to='/login' className="theme-red notextDecor">
-                                                Login
-                                            </Link>
-                                            <Link to='/' className="theme-red notextDecor">
-                                                Have a problem in Register ?
-                                            </Link>
+                                    {this.state.auth.preLoading ? <Preloader /> : ""}
+                                    <div className="card login-card">
+                                        <div className="login-card-header">
+                                            Register New Account
                                         </div>
-                                    </form>
 
+                                        <div className="card-body">
+                                            <form>
+                                                <>
+                                                    < Form
+                                                        entities={this.state.entities}
+                                                        states={this.state.states}
+                                                        action={this.state.action}
+                                                        saveDataApiCall={(params) => this.saveDataApiCall(params)}
+                                                        clickErrorModalClose={() => this.clickErrorModalClose()}
+                                                        specialValidationforUpdate={(fieldName, hasErr) => this.specialValidationforUpdate(fieldName, hasErr)}
+                                                        ref={this.child}
+
+                                                        errorsModalTrigger={this.state.auth.errorsModalTrigger}
+                                                        errors={this.state.auth.errors}
+                                                    />
+                                                </>
+                                                <hr className='login-hr'></hr>
+                                                <div className='d-flex justify-content-between fs-14 brown'>
+                                                    <Link to='/login' className="theme-red notextDecor">
+                                                        Login
+                                                    </Link>
+                                                    <Link to='/' className="theme-red notextDecor">
+                                                        Have a problem in Register ?
+                                                    </Link>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div >
                                 </div>
-                            </div >
-                        </div>
+                            </div>
+                        </Slider>
                     </div>
                 </div>
+                <Footer />
             </>
         )
     }

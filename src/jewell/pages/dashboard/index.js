@@ -95,7 +95,7 @@ const Dashboard = () => {
                             <div className='d-flex justify-content-between brown fw-normal'>
                                 <div>
                                     <h2 className="font-w600 mb-0 theme-yellow">Dashboard</h2>
-                                    <p className="mb-0 theme-red">Welcome to Pocket admin!</p>
+                                    <p className="mb-0 theme-red">Welcome to Pocket Admin!</p>
                                 </div>
 
                                 <div className="dropdown custom-dropdown d-flex">
@@ -109,12 +109,13 @@ const Dashboard = () => {
                 {(dashboard?.userInfo?.role == "admin") ?
                     <>
                         <div className="row">
-                            <div className="col-xl-8 col-xxl-8 col-lg-8 col-md-8 col-sm-8">
+
+                            <div className="col-xs-8 col-sm-8">
                                 <div className="row">
 
-                                    <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col">
                                         <div className="widget-stat card-new">
-                                            <div className="card-new-body p-4">
+                                            <div className="card-new-body">
                                                 <div className="media ai-icon">
                                                     <Link to={"/customer/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary ">
                                                         <i className="fa-solid fa-users center_img"></i>
@@ -123,7 +124,7 @@ const Dashboard = () => {
                                                         <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.customers?.count} /></span>
                                                         </h3>
-                                                        <p className="mb-0">Total Customers</p>
+                                                        <p className="mb-0">Customers</p>
                                                         {/* <small>4% (30 days)</small> */}
                                                     </div>
                                                 </div>
@@ -131,9 +132,9 @@ const Dashboard = () => {
                                         </div>
                                     </div>
 
-                                    <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <div className="widget-stat  card-new">
-                                            <div className="card-new-body p-4">
+                                    <div className="col">
+                                        <div className="widget-stat card-new">
+                                            <div className="card-new-body">
                                                 <div className="media ai-icon">
                                                     <Link to={"/worker/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-users-cog center_img"></i>
@@ -142,7 +143,7 @@ const Dashboard = () => {
                                                         <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.workers?.count} /></span>
                                                         </h3>
-                                                        <p className="mb-0">Total Workers</p>
+                                                        <p className="mb-0">Workers</p>
                                                         {/* <small>4% (30 days)</small> */}
                                                     </div>
                                                 </div>
@@ -150,9 +151,9 @@ const Dashboard = () => {
                                         </div>
                                     </div>
 
-                                    <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col">
                                         <div className="widget-stat  card-new ">
-                                            <div className="card-new-body p-4">
+                                            <div className="card-new-body">
                                                 <div className="media ai-icon">
                                                     <Link to={"/category/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-table-cells center_img"></i>
@@ -161,7 +162,7 @@ const Dashboard = () => {
                                                         <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.categories?.count} /></span>
                                                         </h3>
-                                                        <p className="mb-0">Total Categories</p>
+                                                        <p className="mb-0">Categories</p>
                                                         {/* <small>4% (30 days)</small> */}
                                                     </div>
                                                 </div>
@@ -169,9 +170,9 @@ const Dashboard = () => {
                                         </div>
                                     </div>
 
-                                    <div className="col-xl-3 col-xxl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <div className="col">
                                         <div className="widget-stat  card-new ">
-                                            <div className="card-new-body p-4">
+                                            <div className="card-new-body">
                                                 <div className="media ai-icon">
                                                     <Link to={"/product/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-image center_img"></i>
@@ -180,7 +181,7 @@ const Dashboard = () => {
                                                         <h3 className="mb-0 grey">
                                                             <span className="counter ml-0"><CountUp end={dashboard?.products?.count} /></span>
                                                         </h3>
-                                                        <p className="mb-0">Total Products</p>
+                                                        <p className="mb-0">Products</p>
                                                         {/* <small>4% (30 days)</small> */}
                                                     </div>
                                                 </div>
@@ -296,54 +297,55 @@ const Dashboard = () => {
                                             <a href="javascript:void(0);" className="btn fs-22 py-1 btn-danger px-4 m-l-6 mob-m-b-20"><CountUp end={dashboard?.tasks?.overdue_tasks} /></a>
 
                                             <div className='m-l-auto'>
-                                            <Link to={"/task/list"} className=" theme-yellow notextDecor font-w500">Manage Tasks <i className="ti-angle-right m-l-1"></i></Link>
+                                                <Link to={"/task/list"} className=" theme-yellow notextDecor font-w500">Manage Tasks <i className="ti-angle-right m-l-1"></i></Link>
                                             </div>
                                         </div>
 
                                         <div className="row m-t-20">
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            {/* <div className="col m-b-1 mob-m-p-20"> */}
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-3 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Unassigned} /></h2>
                                                     <p className="fs-12 mb-0">Unassigned</p>
                                                 </div>
                                             </div>
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-2 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Inprogress} /></h2>
                                                     <p className="fs-12 mb-0">Inprogress</p>
                                                 </div>
                                             </div>
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-2 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Holding} /></h2>
                                                     <p className="fs-12 mb-0">Holding</p>
                                                 </div>
                                             </div>
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-2 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Restarted} /></h2>
                                                     <p className="fs-12 mb-0">Restarted</p>
                                                 </div>
                                             </div>
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-2 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Cancelled} /></h2>
                                                     <p className="fs-12 mb-0">Cancelled</p>
                                                 </div>
                                             </div>
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-2 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Pending} /></h2>
                                                     <p className="fs-12 mb-0">Pending</p>
                                                 </div>
                                             </div>
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-2 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Completed} /></h2>
                                                     <p className="fs-12 mb-0">Completed</p>
                                                 </div>
                                             </div>
-                                            <div className="col-sm m-b-1 mob-m-b-10">
+                                            <div className="col m-b-1 mob-m-p-20">
                                                 <div className="task-box px-2 py-1 rounded-xl">
                                                     <h2 className="fs-26 font-w600 counter theme-yellow"><CountUp end={dashboard?.tasks?.Delivered} /></h2>
                                                     <p className="fs-12 mb-0">Delivered</p>
@@ -361,9 +363,9 @@ const Dashboard = () => {
                                 {(dashboard?.userInfo?.role == "admin") ?
                                     <>
                                         <div className='row'>
-                                            <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
+                                            <div className="col">
                                                 <div className="widget-stat card-new">
-                                                    <div className="card-new-body p-4">
+                                                    <div className="card-new-body">
                                                         <div className="media ai-icon">
                                                             <Link to={"/message/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                                 <i className="fa-solid fa-envelope center_img"></i>
@@ -377,9 +379,9 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
+                                            <div className="col">
                                                 <div className="widget-stat card-new">
-                                                    <div className="card-new-body p-4">
+                                                    <div className="card-new-body">
                                                         <div className="media ai-icon">
                                                             <Link to={"/subscribe/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                                 <i className="fa-solid fa-bell center_img"></i>
@@ -392,16 +394,14 @@ const Dashboard = () => {
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                         </div>
                                     </>
                                     : ""}
 
                                 <div className='row'>
-                                    <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
+                                    <div className="col">
                                         <div className="widget-stat card-new">
-                                            <div className="card-new-body p-4">
+                                            <div className="card-new-body">
                                                 <div className="media ai-icon">
                                                     <Link to={"/favourite/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-heart center_img"></i>
@@ -414,10 +414,10 @@ const Dashboard = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6">
+                                    {/* <div className="col-xl-6 col-xxl-6 col-lg-6 col-md-6"> */}
+                                    <div className="col">
                                         <div className="widget-stat card-new">
-                                            <div className="card-new-body p-4">
+                                            <div className="card-new-body">
                                                 <div className="media ai-icon">
                                                     <Link to={"/enquiry/list"} className="spanLink notextDecor m-r-6 bgl-primary text-primary">
                                                         <i className="fa-solid fa-sticky-note center_img"></i>
@@ -430,13 +430,9 @@ const Dashboard = () => {
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
-
                             </div>
                         </> : ""}
-
                 </div>
 
                 {/* End Second Row                 */}

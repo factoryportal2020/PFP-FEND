@@ -286,7 +286,7 @@ class Filter extends React.Component {
                                         }
                                         return (
                                             <>
-                                                <a className={`pg-child ${currentPageClass} ${dotClass}`}
+                                                <a className={`pg-child ${currentPageClass} ${dotClass} ${disabled}`}
                                                     disabled={disabled}
                                                     id={val}
                                                     onClick={(e) => this.pgChildClick(e)}>

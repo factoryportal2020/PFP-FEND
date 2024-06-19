@@ -59,7 +59,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
                     </div>
 
                     <div className="card-content">
-                        <div className="d-flex justify-content-between">
+                        <div className="card-title">
                             <div><h5 className="card-title fs-18">Title: {name}</h5></div>
                             <div className="ms-2">
                                 <Link to={`/${addLink}/edit/${element.encrypt_id}`}>

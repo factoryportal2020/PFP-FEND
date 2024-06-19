@@ -85,7 +85,7 @@ class View extends React.Component {
                             </div>
                         </div>
                         <div className='col-md'>
-                            <div className="card w-auto">
+                            <div className="card w-auto mob-m-t-4">
                                 <div className="card-body ps-3 pe-5">
                                     <div className="card-content">
                                         <h6>Login Detail:</h6>

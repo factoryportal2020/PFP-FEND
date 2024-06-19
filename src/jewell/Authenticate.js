@@ -10,6 +10,7 @@ import { useGetUserDetailsQuery } from './app/services/auth/authService'
 import StatusBar from './components/layouts/StatusBar'
 import validator from './components/forms/validate'
 import Login from './pages/login/Login'
+import Footer from './components/layouts/Footer'
 
 const Authenticate = () => {
     const { userInfo, userToken, permissions } = useSelector((state) => state.auth)
@@ -82,6 +83,7 @@ const Authenticate = () => {
                             </div>
                         </>
                 }
+                <Footer />
             </div>
         </>
         // : ""
