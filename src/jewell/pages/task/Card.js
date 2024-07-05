@@ -3,6 +3,7 @@ import maleLogo from "../../theme/images/profile/male1.png";
 import femaleLogo from "../../theme/images/profile/female.jpg";
 import { Link } from 'react-router-dom';
 import datetime from '../../components/forms/datetime';
+import NewProductLogo from "../../theme/images/profile/no-image.jpg";
 
 
 export const TaskCard = React.forwardRef((props, ref) => {
@@ -27,6 +28,8 @@ export const TaskCard = React.forwardRef((props, ref) => {
 
     if (element.task_image && element.task_image.url != "") {
         profileImage = element.task_image.url;
+    }else{
+        profileImage = NewProductLogo
     }
 
     if (element.worker_image && element.worker_image.url != "") {
@@ -52,7 +55,7 @@ export const TaskCard = React.forwardRef((props, ref) => {
                             {datetime.showDateTime(element.start_date)}
                         </div>
 
-                        <div className="fs-10 pt-3">
+                        <div className="fs-10 pt-3 pb-3">
                             <span className="grey fs-8">Due Date:</span><br></br>
                             {datetime.showDateTime(element.end_date)}
                         </div>

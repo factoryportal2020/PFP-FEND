@@ -20,10 +20,12 @@ export const Card = React.forwardRef((props, ref) => {
     var title = props.title;
     let status = (element.status == 1) ? "Active" : "Deactive"
 
-    let profileImage = maleLogo;
+    let profileImage = NewProductLogo;
 
     if (element.gender == "female") {
         profileImage = femaleLogo;
+    }else{
+        profileImage = maleLogo;
     }
 
     let card = <CustomerCard element={element} />;

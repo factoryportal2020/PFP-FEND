@@ -105,7 +105,7 @@ class View extends React.Component {
                                                     </div>
                                                 </div>
 
-                                                <h5 className='pt-2 fs-12'>Login attempts:</h5>
+                                                {/* <h5 className='pt-2 fs-12'>Login attempts:</h5>
 
                                                 <div className='row'>
                                                     <div className="col-sm-3">
@@ -126,7 +126,7 @@ class View extends React.Component {
                                                     <div className="col-sm-3">
                                                         <h5 className='grey fs-8'>Logged at {param.created_at}</h5>
                                                     </div>
-                                                </div>
+                                                </div> */}
 
                                             </>
                                             :
