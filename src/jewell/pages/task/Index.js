@@ -70,7 +70,6 @@ class Index extends React.Component {
                     hasTitleRequired: true,
                     hasQuantityRequired: true,
                     hasCategory_idRequired: true,
-                    hasWorker_idRequired: true,
 
                     //Inital false
                     hasTask_imageImage: false,

@@ -18,8 +18,9 @@ html {
 body {
 	font-family: 'Poppins Regular', sans-serif;
 	font-size: 15px;
-	color: #AC3B61;
-	background-color: #EDC7B7;
+	color: #1E2761;
+	/* background-color: #EDC7B7; */
+	background-color: #F96167;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;

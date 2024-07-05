@@ -14,9 +14,14 @@ import { logout, changeNavMenu } from '../../features/auth/authSlice';
 class Header extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log(props.userInfo);
+    let userProfileImg = (props.userInfo?.profile_image.length) ? props.userInfo.profile_image[0].url : profileLogo;
+    let userProfileName = (props.userInfo?.profile_image.length) ? props.userInfo.profile_image[0].name : "profileImg";
     this.state = {
-      isNavCollapsed: true, isProfileDropdown: false, userInfo: props.userInfo,
+      isNavCollapsed: true, isProfileDropdown: false,
+      userInfo: props.userInfo,
+      userProfileImg: userProfileImg,
+      userProfileName: userProfileName,
       navMenu: { ...props.auth.navMenu },
       permissions: [...props.auth.permissions],
       dropMenuOpen: false,
@@ -34,6 +39,7 @@ class Header extends React.Component {
     this.handleIsNavCollapsed = this.handleIsNavCollapsed.bind(this);
     this.handleIsProfileDropdown = this.handleIsProfileDropdown.bind(this);
     this.clickLink = this.clickLink.bind(this);
+    this.clickProfileLink = this.clickProfileLink.bind(this);
   }
 
   componentDidMount() {
@@ -52,13 +58,15 @@ class Header extends React.Component {
       .then(async (response) => {
         let responseData = response.data;
         console.log(responseData);
-        let notificationData = responseData.data;
+        if (responseData.status) {
+          let notificationData = responseData.data;
 
-        if (notificationData.notifications.length > 0) {
-          let stateObj = { ...this.state };
-          stateObj.notifications = [...notificationData.notifications];
-          stateObj.notificationCount = notificationData.notifications_count;
-          this.setState({ ...stateObj }, () => { console.log(stateObj) });
+          if (notificationData.notifications.length > 0) {
+            let stateObj = { ...this.state };
+            stateObj.notifications = [...notificationData.notifications];
+            stateObj.notificationCount = notificationData.notifications_count;
+            this.setState({ ...stateObj }, () => { console.log(stateObj) });
+          }
         }
       })
       .catch(e => {
@@ -87,6 +95,16 @@ class Header extends React.Component {
     this.props.categoryTaskCategoryId("")
     this.props.categoryItemCategoryId("")
     this.handleIsNavCollapsed();
+  }
+
+  clickProfileLink(e) {
+    let menuName = e.target.id;
+    console.log(menuName)
+    this.setState({ navMenu: menuName })
+    this.props.changeNavMenu(menuName)
+    this.props.workerTaskWorkerId("")
+    this.props.categoryTaskCategoryId("")
+    this.props.categoryItemCategoryId("")
   }
 
   clickDropDown(trigger) {
@@ -133,12 +151,11 @@ class Header extends React.Component {
           </div>
 
           <div className='logo-div logo-div-web' onMouseLeave={(e) => this.clickNotification(false)}>
-            <Link role="button" id="profile" onClick={(e) => this.clickLink(e)} to="/profile"
+            <Link role="button" id="profile" onClick={(e) => this.clickProfileLink(e)} to="/profile"
               className='profile-div text-decoration-none text-center'>
-              <img className="profile-logo" alt={profileLogo} src={profileLogo}
+              <img className="profile-logo" alt={this.state.userProfileName} src={this.state.userProfileImg}
               ></img><br></br>
-              <div className='theme-yellow fw-normal fs-6 text-center'>Hi, {this.state.userInfo.username}</div>
-
+              <div className='theme-yellow fw-normal fs-6 text-center' alt={this.state.userInfo.username}>Hi, {this.state.userInfo.username.substring(0, 10)}</div>
             </Link>
             <Link to={"/login"} className='float-end'
               onClick={() => { this.props.logout() }}>
@@ -386,7 +403,7 @@ class Header extends React.Component {
 
         </div>
         {/* </div> */}
-      </nav>
+      </nav >
     )
   }
 }

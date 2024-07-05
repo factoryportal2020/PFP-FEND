@@ -244,24 +244,25 @@ class Filter extends React.Component {
 
         return (
             <>
-                <div className='pt-0 pb-3'>
+                <div className='pt-0 pb-3 filter-div'>
                     {/* <form className="row g-3 brown border-1-brown border-radius-25"> */}
                     <div className="row g-3 brown">
 
                         {/* Item Per Page */}
 
                         <div className="col-sm">
-                            <div className='d-flex fs-10 theme-yellow fw-normal'>
-                                <div className='me-1 p-1 fs-14'>{this.state.states.title} Per Page:</div>
+                            <div className='d-flex fs-10 theme-yellow fw-normal justify-content-between'>
+                                <div className='me-1 p-1 fs-22 fw-600'>{this.state.states.title} </div>
                                 <InputElement element={this.state.perPageSelectEntity}
                                     // onChange={() => {}}
                                     onChange={(newValue) => { this.handleChangePerPage(newValue, "perPageSelectEntity", this.state.perPageSelectEntity) }}
                                     onClick={() => { }}
                                 // onClick={(e) => { this.handleDeleteImage(e, fieldName, new_element) }}
                                 ></InputElement>
-                                <div className='ms-2 p-1 fs-14'>
+                                <div className=' pt-2 fs-14'>
                                     {this.state.states.params.currentPage}&nbsp;-&nbsp;{this.state.states.params.itemPerPage}
-                                    &nbsp;of&nbsp;<span className='fs-16 green'>{this.state.totalCount}</span>&nbsp;{this.state.states.title}
+                                    &nbsp;of&nbsp;<span className='fs-16 green'>{this.state.totalCount}</span>
+                                    {/* &nbsp;{this.state.states.title} */}
                                 </div>
                             </div>
                         </div>
@@ -338,8 +339,10 @@ class Filter extends React.Component {
                                     </div>
 
                                     <div className='ms-2 p-0'>
-                                        <Link type="button" to={`/${this.state.states.addLink}/add`}
-                                            className="normal__btn">Add {this.state.states.addLink}</Link>
+                                        {/* <Link type="button" to={`/${this.state.states.addLink}/add`}
+                                            className="normal__btn">Add {this.state.states.addLink}</Link> */}
+                                            <Link type="button" to={`/${this.state.states.addLink}/add`}
+                                            className="normal__btn">Add&nbsp;New</Link>
                                     </div>
 
                                 </div> : ""}

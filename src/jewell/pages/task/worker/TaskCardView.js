@@ -26,7 +26,7 @@ export const TaskCardView = React.forwardRef((props, ref) => {
     return (
         <>
             <div className="card w-auto">
-                <div className="card-body d-flex">
+                <div className="card-body  d-flex-web d-block-web">
 
                     <div className="card-image">
                         <div className="col-sm mt-2 mb-2 img-container">
