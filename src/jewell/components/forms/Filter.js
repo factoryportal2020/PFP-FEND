@@ -251,20 +251,32 @@ class Filter extends React.Component {
                         {/* Item Per Page */}
 
                         <div className="col-sm">
-                            <div className='d-flex fs-10 theme-yellow fw-normal justify-content-between'>
-                                <div className='me-1 p-1 fs-22 fw-600'>{this.state.states.title} </div>
-                                <InputElement element={this.state.perPageSelectEntity}
-                                    // onChange={() => {}}
-                                    onChange={(newValue) => { this.handleChangePerPage(newValue, "perPageSelectEntity", this.state.perPageSelectEntity) }}
-                                    onClick={() => { }}
-                                // onClick={(e) => { this.handleDeleteImage(e, fieldName, new_element) }}
-                                ></InputElement>
-                                <div className=' pt-2 fs-14'>
-                                    {this.state.states.params.currentPage}&nbsp;-&nbsp;{this.state.states.params.itemPerPage}
-                                    &nbsp;of&nbsp;<span className='fs-16 green'>{this.state.totalCount}</span>
-                                    {/* &nbsp;{this.state.states.title} */}
+                            {(this.state.states.title) ?
+                                <div className='d-flex fs-10 theme-brown fw-normal justify-content-between'>
+                                    <div className='me-1 p-1 fs-22 fw-600'>{this.state.states.title} </div>
+                                    <InputElement element={this.state.perPageSelectEntity}
+                                        onChange={(newValue) => { this.handleChangePerPage(newValue, "perPageSelectEntity", this.state.perPageSelectEntity) }}
+                                        onClick={() => { }}
+                                    ></InputElement>
+                                    <div className=' pt-1 fs-14'>
+                                        {this.state.states.params.currentPage}&nbsp;-&nbsp;{this.state.states.params.itemPerPage}
+                                        &nbsp;of&nbsp;<span className='fs-16 green'>{this.state.totalCount}</span>
+                                    </div>
                                 </div>
-                            </div>
+                                :
+                                // pageniation select for website
+                                <div className='d-flex fs-10 theme-brown fw-normal'>
+                                    <div className='me-1 p-1 fs-22 fw-600'>{this.state.states.title} </div>
+                                    <InputElement element={this.state.perPageSelectEntity}
+                                        onChange={(newValue) => { this.handleChangePerPage(newValue, "perPageSelectEntity", this.state.perPageSelectEntity) }}
+                                        onClick={() => { }}
+                                    ></InputElement>
+                                    <div className='ms-4 pt-1 fs-18'>
+                                        {this.state.states.params.currentPage}&nbsp;-&nbsp;{this.state.states.params.itemPerPage}
+                                        &nbsp;of&nbsp;<span className='fs-18 green'>{this.state.totalCount}</span>
+                                    </div>
+                                </div>
+                            }
                         </div>
 
 
@@ -335,13 +347,13 @@ class Filter extends React.Component {
                                     <div className='ms-2 p-0'>
                                         <button type="button"
                                             onClick={this.filterClick}
-                                            className="normal__btn">{FilterCap}</button>
+                                            className={`${(FilterCap == "Filter") ? '' : 'mob-fs-8'} normal__btn`} >{FilterCap}</button>
                                     </div>
 
                                     <div className='ms-2 p-0'>
                                         {/* <Link type="button" to={`/${this.state.states.addLink}/add`}
                                             className="normal__btn">Add {this.state.states.addLink}</Link> */}
-                                            <Link type="button" to={`/${this.state.states.addLink}/add`}
+                                        <Link type="button" to={`/${this.state.states.addLink}/add`}
                                             className="normal__btn">Add&nbsp;New</Link>
                                     </div>
 

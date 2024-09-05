@@ -4,7 +4,7 @@
   position: relative;
   border: 0px solid transparent;
   height: calc(100% - 30px);
-  background-color: #F96167;
+  background-color: #fff; /* theme-red */
   -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
@@ -228,8 +228,8 @@
   border-radius: 6px;
 }
 
-.nav-tabs .nav-link.active,
-.nav-tabs .nav-item.show .nav-link {
+.dashboard .nav-tabs .nav-link.active,
+.dashboard .nav-tabs .nav-item.show .nav-link {
   background-color: #7A2048 !important;
   border-color: #f8e27d;
   color: #fff;
@@ -400,7 +400,7 @@
 }
 
 .jewell-bg-color {
-  background-color: #F96167;
+  background-color: #fff; /* theme-red */
 }
 
 
@@ -411,7 +411,7 @@
 
 .task_panel {
   /* display: flex; */
-  background-color: #F96167;
+  background-color: #fff; /* theme-red */
   -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);

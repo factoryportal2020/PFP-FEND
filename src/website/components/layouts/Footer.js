@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 
 import categoryImage from "../../theme/images/jewell/no-image.jpg"
 import { Link } from "react-router-dom";
+import banner1 from "../../theme/images/jewell/banner1.png"
+
 
 import { useEffect, useState } from "react";
 import apiDataService from "../../services/api.service";
@@ -18,7 +20,7 @@ const Footer = () => {
     const { adminInfo, adminToken } = useSelector((state) => state.adminAuth)
 
     const [preLoading, setPreLoading] = useState(false);
-    
+
     const [states, setStates] = useState({
         title: "",
         submitted: false,
@@ -139,37 +141,77 @@ const Footer = () => {
         });
     }
 
+    const [about, setAbout] = useState([]);
+    const [banner, setBanner] = useState([{ url: banner1 }]);
+
+    useEffect(() => {
+        getAbout();
+    }, []);
+
+    function getAbout() {
+        apiDataService.getAbout()
+            .then(async (response) => {
+                console.log(response);
+                let responseData = response.data.data;
+                let ResponseAbout = responseData.about
+                let aboutData = [];
+                if (ResponseAbout) {
+                    if (ResponseAbout.about_image.length > 0) {
+                        aboutData = ResponseAbout.about_image;
+                    }
+                    console.log(aboutData);
+                    setAbout(aboutData);
+                } else {
+                    setAbout([]);
+                }
+
+                let ResponseBanners = responseData.banners
+                let bannerData = [];
+                if (ResponseBanners) {
+                    if (ResponseBanners.banner_image1.length > 0) {
+                        bannerData = ResponseBanners.banner_image1[0];
+                    }
+                    console.log(bannerData);
+                    setBanner(bannerData);
+                } else {
+                    setBanner([{ url: banner1 }]);
+                }
+            })
+            .catch(e => {
+                setAbout([{ url: banner1 }]);
+                console.log(e);
+            });
+    }
+
     return (
         <>
             {(adminInfo && adminToken) ?
                 <>
-                    <footer className="bg3 p-t-75 p-b-32">
+                    <footer className="bg3 p-t-30 p-b-32">
                         <div className="container">
                             {preLoading ? <Preloader /> : ""}
                             <StatusBar className="m-t-3" status={status} onStatusClose={() => onStatusClose()} />
 
                             <div className="row">
-                                <div className="col-sm-6 col-lg-3 p-b-50">
-                                    <h4 className="stext-301 cl0 p-b-30">
-                                        Categories
-                                    </h4>
-
+                                <div className="col-sm-6 col-lg-3 p-b-20">
+                                    <h4 className="stext-301 cl0" to={`${adminInfo.site_url}/about`}>About</h4>
                                     <ul>
-                                        {categories.map((v, i) => {
-                                            return (
-
-                                                < li className="p-b-10" >
-                                                    <Link to={`/shop/${v.code}`} className="stext-107 cl7 hov-cl1 trans-04">
-                                                        {v.name}
-                                                    </Link>
-                                                </li>)
-                                        })}
-
+                                        < li className="p-t-5">
+                                            {(about.length > 0 && about[0].url && about[0].url != "" && about[0].url != null && about[0].detail) ?
+                                                <div className="tiny-p stext-107 cl7 hov-cl1 trans-04" dangerouslySetInnerHTML={{ __html: about[0].detail.replace(/\n/g, '<br />').substring(0, 500) + "...." }} ></div>
+                                                : ""}
+                                        </li>
+                                        <li className="p-b-5">
+                                            <Link to={`${adminInfo.site_url}/about`}
+                                                className="submit__btn">
+                                                Load Our Story
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </div>
 
-                                <div className="col-sm-6 col-lg-3 p-b-50">
-                                    <h4 className="stext-301 cl0 p-b-30">
+                                <div className="col-sm-6 col-lg-3 p-b-20">
+                                    <h4 className="stext-301 cl0 p-b-5">
                                         Help
                                     </h4>
 
@@ -200,8 +242,8 @@ const Footer = () => {
                                     </ul>
                                 </div>
 
-                                <div className="col-sm-6 col-lg-3 p-b-50">
-                                    <h4 className="stext-301 cl0 p-b-30">
+                                <div className="col-sm-6 col-lg-3 p-b-20">
+                                    <h4 className="stext-301 cl0 p-b-5">
                                         GET IN TOUCH
                                     </h4>
 
@@ -209,7 +251,7 @@ const Footer = () => {
                                         Any questions? Let us know in store at {contact.address} or call us on {contact.phone_no}
                                     </p>
 
-                                    <div className="p-t-27">
+                                    <div className="p-t-5">
                                         {
                                             (contact.facebook_link) ?
                                                 <a href={contact.facebook_link} className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
@@ -230,11 +272,20 @@ const Footer = () => {
                                                     <i className="fa fa-twitter"></i>
                                                 </a> : ""
                                         }
+                                        <a href={contact.facebook_link} className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                            <i className="fa fa-facebook"></i>
+                                        </a>
+                                        <a href={contact.instagram_link} className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                            <i className="fa fa-instagram"></i>
+                                        </a>
+                                        <a href={contact.twitter_link} className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                            <i className="fa fa-twitter"></i>
+                                        </a>
                                     </div>
                                 </div>
 
-                                <div className="col-sm-6 col-lg-3 p-b-50">
-                                    <h4 className="stext-301 cl0 p-b-30">
+                                <div className="col-sm-6 col-lg-3 p-b-20">
+                                    <h4 className="stext-301 cl0 p-b-5">
                                         Newsletter
                                     </h4>
 
@@ -267,7 +318,7 @@ const Footer = () => {
                                 </div>
                             </div>
 
-                            <div className="p-t-40">
+                            <div className="p-t-10">
                                 {/* <div className="flex-c-m flex-w p-b-18">
                             <a href="/" className="m-all-1">
                                 <img src="images/icons/icon-pay-01.png" alt="ICON-PAY" />
@@ -290,8 +341,8 @@ const Footer = () => {
                             </a>
                         </div> */}
 
-                                <p className="stext-107 cl6 txt-center">
-                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="" className="cor-link" >Pocket Poche Admin</a> &amp; distributed by <a href="" className="cor-link">Pocket Poche Admin</a>
+                                <p className="stext-107 cl1 txt-center">
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="" className="cor-link" >Pocket E-com</a> &amp; distributed by <a href="" className="cor-link">Pocket E-com Admin</a>
                                 </p>
                             </div>
                         </div>

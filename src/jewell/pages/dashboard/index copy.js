@@ -399,7 +399,7 @@ const Dashboard = () => {
                                 (dashboard?.website?.website) ?
 
 
-                                    <div className="card-new noboxShadow bg-secondary jewell-bg-color"
+                                    <div className="card-new noboxShadow bg-secondary"
                                         style={{ backgroundImage: `url(${dashboard?.website?.bannerImages.url})` }}
                                     >
                                         <div className="card-new-body p-5 green">

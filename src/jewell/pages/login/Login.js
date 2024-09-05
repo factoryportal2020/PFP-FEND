@@ -198,7 +198,7 @@ class Login extends React.Component {
                         <>
                             {this.state.auth.preLoading ? <Preloader /> : ""}
 
-                            <div className="content-div">
+                            <div className="content-div login-page">
 
                                 <div className='row login-row'>
 

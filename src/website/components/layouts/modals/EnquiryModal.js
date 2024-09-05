@@ -186,7 +186,7 @@ class EnquiryModal extends React.Component {
                                     className="stext-101 cl5 size-101 bggrey bor1 hov-btn1 p-lr-15 trans-04"
                                     data-dismiss="modal" onClick={this.clickClose}>Cancel</button>
                                 <button type="button"
-                                    className="stext-101 cl5 size-101 jewell-bg-color bor1 hov-btn1 p-lr-15 trans-04"
+                                    className="stext-101 cl5 size-101 bor1 hov-btn1 p-lr-15 trans-04"
                                     data-dismiss="modal" onClick={this.clickSubmit}>Submit</button>
                             </div> */}
                         </div>

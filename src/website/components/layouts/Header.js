@@ -9,6 +9,7 @@ import { useGetUserDetailsQuery } from "../../app/services/auth/authService";
 import { setCredentials } from "../../features/auth/websiteSlice";
 
 import cusDefaultLogo from "../../../jewell/theme/images/profile/6.jpg";
+import cusUserDefaultImg from "../../../jewell/theme/images/profile/6.jpg";
 import SearchModal from "./modals/SearchModal";
 import CartModal from "./modals/CartModal";
 
@@ -80,6 +81,7 @@ const Header = () => {
 
     const { userInfo } = useSelector((state) => state.websiteAuth)
     const [curUserInfo, setCurUserInfo] = useState(userInfo)
+    const [curUserImage, setCurUserImage] = useState(cusUserDefaultImg);
 
     // automatically authenticate user if token is found
     const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
@@ -104,9 +106,22 @@ const Header = () => {
     useEffect(() => {
         if (userInfo) {
             console.log(userInfo);
-            setCurUserInfo(userInfo)
+            setCurUserInfo(userInfo);
+            if (userInfo && userInfo.profile_image) {
+                if (userInfo.profile_image.length > 0 && userInfo.profile_image[0]) {
+                    setCurUserImage(userInfo.profile_image[0].url);
+                } else {
+                    setCurUserImage(cusUserDefaultImg);
+                }
+            }
         }
     }, [userInfo])
+
+    useEffect(() => {
+        console.log("navMenu");
+        console.log(navMenu);
+        setCurNavMenu(navMenu)
+    }, [navMenu])
 
 
     useEffect(() => {
@@ -117,7 +132,7 @@ const Header = () => {
     }, [data, dispatch])
 
 
-    const [cusLogoImage, setCusLogoImage] = useState("");
+    const [webLogoImage, setWebLogoImage] = useState(cusDefaultLogo);
     const [website, setWebsite] = useState("");
 
     function logOut() {
@@ -143,13 +158,13 @@ const Header = () => {
                 setWebsite(website);
                 if (ResponseLogo.length > 0 && ResponseLogo[0]) {
                     console.log(ResponseLogo);
-                    setCusLogoImage(ResponseLogo[0].url);
+                    setWebLogoImage(ResponseLogo[0].url);
                 } else {
-                    setCusLogoImage(cusDefaultLogo);
+                    setWebLogoImage(cusDefaultLogo);
                 }
             })
             .catch(e => {
-                setCusLogoImage(cusDefaultLogo);
+                setWebLogoImage(cusDefaultLogo);
                 console.log(e);
             });
     }
@@ -160,7 +175,7 @@ const Header = () => {
     const [fixMenuDesktop, setFixMenuDesktop] = useState("");
     const [wrapMenuCSS, setWrapMenuCSS] = useState(0);
     const [wrapMenuColorCSS, setWrapMenuColorCSS] = useState('transparent');
-
+    // console.log(adminInfo);
 
     useEffect(() => {
         if (adminInfo) {
@@ -181,6 +196,7 @@ const Header = () => {
             if (window.scrollY > posWrapHeader) {
                 setFixMenuDesktop('fix-menu-desktop');
                 setWrapMenuCSS(0)
+                // setWrapMenuColorCSS('#000435')
                 setWrapMenuColorCSS('#fff')
             }
             else {
@@ -194,6 +210,7 @@ const Header = () => {
         }
     }, [adminInfo]);
 
+   
     // console.log(offset);
     function settingMenuDesktop(posWrapHeader) {
         // const wrapMenuCSS = { top: 0 };
@@ -201,6 +218,7 @@ const Header = () => {
         if (window.scrollY > posWrapHeader) {
             setFixMenuDesktop('fix-menu-desktop');
             setWrapMenuCSS(0)
+            // setWrapMenuColorCSS('#000435')
             setWrapMenuColorCSS('#fff')
         }
         else {
@@ -220,11 +238,10 @@ const Header = () => {
 
     return (
         // (userInfo) ? <HeaderComponent userInfo={userInfo} /> : ""
-
         <>
             {(adminInfo && adminToken) ?
                 <>
-                    <header class="">
+                    <header class="header_head">
                         <div className={`container-menu-desktop ${fixMenuDesktop}`}>
                             <div className="top-bar">
                                 <div className="content-topbar flex-sb-m h-full container">
@@ -232,7 +249,7 @@ const Header = () => {
                                         {/* Free shipping for standard order over $100 */}
                                     </div>
 
-                                    <div className="right-top-bar flex-w h-full">
+                                    <div className="right-top-bar flex-w h-full  pt-1">
                                         {(adminInfo) ?
 
                                             (!userInfo) ?
@@ -252,11 +269,11 @@ const Header = () => {
                                                     </Link>
                                                     {(userInfo.username) ?
                                                         <>
-                                                            <span className="flex-c-m trans-04 p-lr-25">Hi,&nbsp;<span className="fs-6">{userInfo.username}</span></span>
+                                                            <span className="flex-c-m trans-04 p-lr-25">Hi,&nbsp;{userInfo.username}</span>
 
                                                             <Link className='float-end'
                                                                 onClick={logOut}>
-                                                                <i className="fa-solid fa-power-off grey pt-2 fs-6"></i>
+                                                                <i className="fa-solid fa-power-off grey fs-6"></i>
                                                             </Link>
                                                         </>
 
@@ -277,12 +294,18 @@ const Header = () => {
 
                             <div className={`wrap-menu-desktop`} style={{ top: wrapMenuCSS, backgroundColor: wrapMenuColorCSS }}>
                                 <nav className="limiter-menu-desktop container">
-                                    <Link to={`${adminInfo.site_url}/home`} className="logo">
-                                        <img src={cusLogoImage} alt="IMG-LOGO" />
-                                        {(website) ? <span className="company_name">{website.company_name}</span> : ""}
-                                    </Link>
+                                    <div className="flex-l-m">
+                                        <Link to={`${adminInfo.site_url}/home`} className="logo">
+                                            {(website) ? <span className="company-name">{website.company_name}</span> : ""}
+                                        </Link>
+                                    </div>
+                                    <div className="logo-center flex-c-str">
+                                        <Link to={`${adminInfo.site_url}/home`} className="logo">
+                                            <img src={webLogoImage} className="website-profile-logo" alt="IMG-LOGO" />
+                                        </Link>
+                                    </div>
 
-                                    <div className="menu-desktop">
+                                    {/* <div className="menu-desktop">
                                         <ul className="main-menu">
                                             <li className={(curNavMenu == "Home" ? "active-menu" : "")}>
                                                 <Link role="button" onClick={(e) => clickLink(e)} id="Home" to={`${adminInfo.site_url}/home`}>Home</Link>
@@ -305,21 +328,21 @@ const Header = () => {
                                             </li>
 
                                         </ul>
-                                    </div>
+                                    </div> */}
                                     <div className="wrap-icon-header flex-w flex-r-m">
-                                        <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search"
+                                        <div className="icon-header-item cl13 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search"
                                             onClick={() => setSearchModalTrigger(true)}>
                                             <i className="zmdi zmdi-search"></i>
                                         </div>
 
-                                        <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart " data-notify={curUserInfo?.enquiry_count}
+                                        <div className="icon-header-item cl13 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart " data-notify={curUserInfo?.enquiry_count}
                                             onClick={() => setCartModalTrigger(true)}
                                         >
                                             <i className="zmdi zmdi-shopping-cart tooltip100" data-tooltip="Enquiries"></i>
                                         </div>
 
                                         <Link to={`${adminInfo.site_url}/favourite`}
-                                            className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                                            className="dis-block icon-header-item cl13 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                                             data-notify={curUserInfo?.favourite_count}
                                         >
                                             <i className="zmdi zmdi-favorite-outline tooltip100" data-tooltip="Favourites"></i>
@@ -332,26 +355,53 @@ const Header = () => {
                         <div className="wrap-header-mobile">
                             <div className="logo-mobile">
                                 <Link to={`${adminInfo.site_url}/home`} className="logo">
-                                    <img src={cusLogoImage} alt="IMG-LOGO" />
-
+                                    <img src={webLogoImage} alt="IMG-LOGO" />
                                 </Link>
                             </div>
                             <div className="company-name-mobile">
                                 {(website) ? <span className="company-name m-t-10">{website.company_name}</span> : ""}
                             </div>
-                            <div className="wrap-icon-header flex-w flex-r-m m-r-15 m-l-auto">
-                                <div className="icon-header-item cl2 hov-cl1 trans-04 js-show-modal-search"
+
+
+                            {/* <div className="wrap-icon-header flex-w flex-r-m m-r-15 m-l-auto">
+                                <div className="icon-header-item cl2 hov-cl1 trans-04 js-show-modal-search text-center"
                                     onClick={() => setSearchModalTrigger(true)}>
-                                    <i className="zmdi zmdi-search"></i>
+                                    <i className="fa fa-user-circle-o"></i><br></br>
+                                    <span className="fs-10">{userInfo.username}</span><br></br>
+                                    <span className="fs-10">{userInfo.username}</span>
                                 </div>
+                            </div> */}
 
-                            </div>
+                            {/* <div className="account-mobile">
+                                <Link to={`${adminInfo.site_url}/home`} className="logo">
+                                    <img src={webLogoImage} alt="IMG-LOGO" />
+                                </Link>
+                                <div className="hello">Hello,</div>
+                            </div> */}
 
-                            <div className={`btn-show-menu-mobile hamburger hamburger--squeeze ${btnShowMenuMobile}`} onClick={() => { clickBtnShowMenuMobile(); onToggle(); }}>
+                            {(adminInfo && userInfo) ?
+
+                                <div className="account-mobile">
+                                    <Link to={`${adminInfo.site_url}/home`} className="logo">
+                                        <img src={curUserImage} alt="IMG-LOGO" />
+                                    </Link>
+                                    <div className="hello">Hello,</div>
+                                    <div className="username">{userInfo.username}</div>
+                                </div> :
+                                <div className="account-mobile">
+                                    <Link to="" className="logo">
+                                        <img src={curUserImage} alt="IMG-LOGO" />
+                                    </Link>
+                                    <div className="hello">Login</div>
+                                </div>
+                            }
+
+                            {/* <div className={`btn-show-menu-mobile hamburger hamburger--squeeze ${btnShowMenuMobile}`}
+                                onClick={() => { clickBtnShowMenuMobile(); onToggle(); }}>
                                 <span className="hamburger-box">
                                     <span className="hamburger-inner"></span>
                                 </span>
-                            </div>
+                            </div> */}
                         </div>
 
                         <SlideToggle toggleEvent={menuMobileToggleEvent} noDisplayStyle collapsed>

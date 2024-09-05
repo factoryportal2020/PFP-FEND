@@ -6,6 +6,7 @@ import profileService from '../../services/profile.service';
 import { Navigate } from 'react-router-dom';
 import View from './View';
 import { connect } from 'react-redux';
+import { setCredentials } from '../../features/auth/authSlice';
 // const FormImage = React.lazy(() => import('../../components/forms/FormImage'));
 
 
@@ -14,13 +15,15 @@ class Index extends React.Component {
         super(props);
         this.child = React.createRef();
         const stateEntities = formEntities
-        const role = (props.auth.userInfo.role)?props.auth.userInfo.role:localStorage.getItem('role')
+        const userInfo = props.auth.userInfo
+        const role = (props.auth.userInfo.role) ? props.auth.userInfo.role : localStorage.getItem('role')
         this.state = {
             // form
             apiService: (role == "admin") ? profileService : adminService,
             states: {
                 title: (role == "admin") ? "Profile" : "Admin",
                 listLink: "admin",
+                userInfo: userInfo,
                 editLink: (role == "admin") ? "profile" : "admin",
                 submitted: false,
                 submitDisabled: "",
@@ -57,7 +60,7 @@ class Index extends React.Component {
                     hasEmailEmail: true,
                     hasPhone_noRequired: true,
                     hasPhone_noPhone_no: false,
-                    
+
                     //Inital false
                     hasProfile_imageImage: false,
 
@@ -259,6 +262,12 @@ class Index extends React.Component {
             } else { // success
                 // this.setState({ action: "list" });
                 this.child.current.setStatusMsg("success", data.message)
+                if (data.data && data.data.profile_image.length > 0) {
+                    console.log(data.data);
+                    let usersInfo = { ...this.state.states.userInfo }
+                    usersInfo.profile_image = data.data.profile_image;
+                    this.props.setCredentials(usersInfo )
+                }
                 setInterval(() => {
                     this.child.current.emptyStatusMsg(true);
                     let stateObj = { ...this.state };
@@ -340,4 +349,8 @@ const mapStateToProps = state => ({
     ...state
 });
 
-export default connect(mapStateToProps, null)(Index);
+const mapDispatchToProps = dispatch => ({
+    setCredentials: (payload) => dispatch(setCredentials(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

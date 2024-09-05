@@ -124,43 +124,52 @@ class Header extends React.Component {
             <Link className="" to="/"> <img src={pocketMob} /></Link>
           </div>
 
-          <div className='bell-div logo-div-web'>
-            <div className='pointer d-inline-block'
-              onClick={(e) => this.clickNotification(!this.state.notificationOpen)}
-              onMouseLeave={(e) => this.clickNotification(false)}
-            >
-              <i className="fa-solid fa-bell pt-2 fs-3 theme-yellow badge-wrapper">
-                <span class='badge badge-secondary theme-red'>{this.state.notificationCount}</span>
-              </i>
-            </div>
-            <ul
-              onBlur={(e) => this.clickNotification(false)}
-              className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
-              {
-                (this.state.notificationCount == 0) ?
-                  <li className='fs-14 text-center pt-3 theme-red'>No Records Found</li> :
-                  this.state.notifications.map((element, i) => {
-                    return (
-                      (element.message) ?
-                        <li className=' theme-red'><Link to={element.link} onClick={(e) => this.clickNotification(false)}>{element.message}</Link></li> : ""
-                    )
-                  })
-              }
-              <li className='fs-14 text-center pt-3 black'><Link to="/notification/list">See More</Link></li>
-            </ul>
-          </div>
 
-          <div className='logo-div logo-div-web' onMouseLeave={(e) => this.clickNotification(false)}>
+
+          <div className='logo-div ms-auto me-auto logo-div-web' onMouseLeave={(e) => this.clickNotification(false)}>
             <Link role="button" id="profile" onClick={(e) => this.clickProfileLink(e)} to="/profile"
               className='profile-div text-decoration-none text-center'>
               <img className="profile-logo" alt={this.state.userProfileName} src={this.state.userProfileImg}
               ></img><br></br>
               <div className='theme-yellow fw-normal fs-6 text-center' alt={this.state.userInfo.username}>Hi, {this.state.userInfo.username.substring(0, 10)}</div>
             </Link>
-            <Link to={"/login"} className='float-end'
-              onClick={() => { this.props.logout() }}>
-              <i className="fa-solid fa-power-off grey pt-2 fs-5"></i>
-            </Link>
+          </div>
+
+
+          <div className='bell-div logo-div-web'>
+            <ul>
+              <li>
+                <Link to={"/login"} className=''
+                  onClick={() => { this.props.logout() }}>
+                  <i className="fa-solid fa-power-off grey pt-2 fs-5"></i>
+                </Link>
+              </li>
+              <li>
+                <div className='pointer d-inline-block'
+                  onClick={(e) => this.clickNotification(!this.state.notificationOpen)}
+                  onMouseLeave={(e) => this.clickNotification(false)}
+                >
+                  <i className="fa-solid fa-bell pt-2 fs-3 theme-yellow badge-wrapper">
+                    <span class='badge badge-secondary theme-red'>{this.state.notificationCount}</span>
+                  </i>
+                </div>
+                <ul
+                  onBlur={(e) => this.clickNotification(false)}
+                  className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
+                  {
+                    (this.state.notificationCount == 0) ?
+                      <li className='fs-14 text-center pt-3 theme-red'>No Records Found</li> :
+                      this.state.notifications.map((element, i) => {
+                        return (
+                          (element.message) ?
+                            <li className=' theme-red'><Link to={element.link} onClick={(e) => this.clickNotification(false)}>{element.message}</Link></li> : ""
+                        )
+                      })
+                  }
+                  <li className='fs-14 text-center pt-3 black'><Link to="/notification/list">See More</Link></li>
+                </ul>
+              </li>
+            </ul>
           </div>
 
           <button className="navbar-toggler" type="button"

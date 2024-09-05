@@ -41,7 +41,7 @@ class ErrorModal extends React.Component {
                                     errors.map((error, i) => {
                                         return (
                                             error.map((msg, j) => {
-                                                return <h6 key={`msg${j}`} className='fs-12 red'>{msg}</h6>
+                                                return <h6 key={`msg${j}`} className='fs-12 brown'>{msg}</h6>
                                             })
                                         )
                                     })

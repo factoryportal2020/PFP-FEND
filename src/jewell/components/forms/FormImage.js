@@ -570,7 +570,7 @@ class FormImage extends React.Component {
 
                                     <div className='breadcums_head'>
                                         <div className="d-flex justify-content-between" >
-                                            <h4 className='theme-yellow'>{this.state.states.title}</h4>
+                                            <h4 className='theme-brown'>{this.state.states.title}</h4>
                                             {/* <Link type="button" to={`/${this.state.states.listLink}/list`}
                                                 className="normal__btn">List</Link> */}
                                         </div>

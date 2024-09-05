@@ -154,7 +154,7 @@ class View extends React.Component {
                                     <hr />
 
 
-                                    <a href="/#" className="view__btn float-end"> Place Order </a>
+                                    <a href="/#" className="view__btn float-end"> Enquiry </a>
                                 </main>
 
                             </div>
