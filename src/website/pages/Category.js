@@ -105,7 +105,7 @@ const Category = () => {
 
     return (
         <>
-            <div className="sec-banner bg0 mob-p-t-100 p-b-20">
+            <div className="sec-banner bg0 mob-p-t-100 p-b-20 category_div">
                 {preLoading ? <Preloader /> : ""}
                 <div className="container">
                     <StatusBar status={status} onStatusClose={() => onStatusClose()} />

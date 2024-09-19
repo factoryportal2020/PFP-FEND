@@ -17,10 +17,11 @@ import banner3 from "../../theme/images/jewell/banner3.jpg"
 import Slider from "react-slick";
 import React, { useState } from 'react';
 import { useEffect } from "react";
+import { useSelector } from 'react-redux'
 
 import apiDataService from "../../services/api.service";
 import { Link } from "react-router-dom";
-
+import { changeNavMenu } from "../../features/auth/websiteSlice";
 
 function NextArrow(props) {
     const { className, style, onClick } = props;
@@ -45,6 +46,12 @@ function PrevArrow(props) {
 }
 
 
+function clickLink(e) {
+    let menuName = e.target.id;
+    console.log(menuName)
+    changeNavMenu(menuName)
+}
+
 
 
 
@@ -54,6 +61,9 @@ const Slide = () => {
     // let animates = { fadeInDown: "fadeInDown", fadeInUp: "fadeInUp" }
 
     const [visibleTrue, setVisibleTrue] = useState("visible-true");
+
+    const { adminInfo, adminToken } = useSelector((state) => state.adminAuth)
+
 
     // const [categories, setCategories] = useState([]);
     const [banners, setBanners] = useState([banner1, banner2, banner3]);
@@ -81,8 +91,9 @@ const Slide = () => {
         arrows: true,
         prevArrow: <PrevArrow />,
         nextArrow: <NextArrow />,
-        // dots: showDot,
-        dotsClass: 'slick1-dots',
+        dots: true,
+        dotsClass: 'slick-dots',
+        // dotsClass: 'button__bar',
 
         beforeChange: function (index) {
             let curArray = { ...animates[index] };
@@ -169,7 +180,7 @@ const Slide = () => {
 
     return (
         <>
-            <section className="section-slide">
+            <section className="section-slide top-slide">
                 <Slider {...slideSettings}>
                     {
                         (banners.length > 0) ?
@@ -188,6 +199,10 @@ const Slide = () => {
                                     aImage = 'rotateInDownLeft';
                                     aTitle = 'rotateInUpRight';
                                     aCaption = 'rotateIn';
+                                } else {
+                                    aImage = 'fadeInDown';
+                                    aTitle = 'fadeInUp';
+                                    aCaption = 'zoomIn';
                                 }
 
                                 return (
@@ -196,20 +211,21 @@ const Slide = () => {
                                             <div className="item-slick1" style={{ backgroundImage: `url(${bImage})` }}>
                                                 <div className="container h-full">
                                                     <div className="flex-col-l-m h-full p-t-100 p-b-30 respon5">
-                                                        <div className={`layer-slick1 animated ${animates[i][aImage]} ${visibleTrue}`} data-appear={aImage} data-delay="0">
-                                                            <span className="ltext-101 cl2 respon2">
+                                                        {/* <div className={`layer-slick1 animated ${animates[i][aImage]} ${visibleTrue}`} data-appear={aImage} data-delay="0">
+                                                            <span className="ltext-101 cl13 respon2">
                                                                 {bTitle}
                                                             </span>
                                                         </div>
 
                                                         <div className={`layer-slick1 animated ${animates[i][aTitle]} ${visibleTrue}`} data-appear={aTitle} data-delay="800">
-                                                            <h2 className="ltext-201 cl2 p-t-19 p-b-43 respon1">
+                                                            <h2 className="ltext-201 cl13 p-t-19 p-b-43 respon1">
                                                                 {bCaption}
                                                             </h2>
-                                                        </div>
+                                                        </div> */}
 
                                                         <div className={`layer-slick1 animated ${animates[i][aCaption]} ${visibleTrue}`} data-appear={aCaption} data-delay="1600">
-                                                            <Link to="/shop" className="flex-c-m stext-101 cl5 size-101 bg2 bor1 hov-btn1 p-lr-15 trans-04 textdoc-none">
+                                                            <Link onClick={(e) => clickLink(e)} to={`/${adminInfo.site_url}/shop`}
+                                                                className="flex-c-m stext-101 cl5 size-101 bg2 bor1 hov-btn1 p-lr-15 trans-04 textdoc-none">
                                                                 Shop Now
                                                             </Link>
                                                         </div>

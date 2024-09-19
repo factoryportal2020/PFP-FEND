@@ -4,7 +4,7 @@ import iconheart01 from "../../theme/images/icons/icon-heart-01.png";
 import iconheart02 from "../../theme/images/icons/icon-heart-02.png";
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from 'react-redux'
 
 import Isotope from "isotope-layout";
@@ -15,11 +15,18 @@ import Preloader from "../../../website/components/layouts/Preloader";
 import StatusBar from "../../../website/components/layouts/StatusBar";
 import { Link } from "react-router-dom";
 
+import ViewModal from "../../../jewell/modals/ViewModal";
+import CategoryModal from "./modals/CategoryModal";
+
 const ProductOverview = (props) => {
 
     const [howActive, setHowActive] = useState("*")
     const { adminInfo, adminToken } = useSelector((state) => state.adminAuth)
     const [curAdminInfo, setCurAdminInfo] = useState(adminInfo);
+
+    // const catArrayRef = useRef(null);
+    const [catArray, setCatArray] = useState([]);
+
 
     const [filterKey, setFilterKey] = useState('*');
 
@@ -30,6 +37,11 @@ const ProductOverview = (props) => {
     const [products, setProducts] = useState([]);
 
     const [preLoading, setPreLoading] = useState(false);
+
+    const [pagination, setPagination] = useState(props.pagination);
+
+    const [productFilterClass, setProductFilterClass] = useState("position-relative");
+
 
     const [totalCount, setTotalcount] = useState(0);
 
@@ -74,7 +86,7 @@ const ProductOverview = (props) => {
                 if (categoryData.length > 0) {
                     let selectArr = [{ id: '*', code: '*', name: 'All Categories' }];
                     let arr = selectArr.concat(categoryData);
-                    console.log(arr);
+                    // console.log(arr);
                     setCategories(arr);
                 }
             })
@@ -88,12 +100,14 @@ const ProductOverview = (props) => {
         let data = { ...productParams }
         data.offset = (data.currentPage - 1) * data.itemPerPage;
         if (category_code != "*") { data.category_code = category_code; }
+        data.categoriesFilter = catArray;
         apiDataService.getProductList(data)
             .then(async (response) => {
                 let responseData = response.data;
                 let productData = responseData.data.data;
                 if (productData.length > 0) {
-                    console.log(productData);
+                    // if (!props.pagination) { productData = productData.slice(0, 4); }
+                    // console.log(productData);
                     setProducts(productData);
                     setTotalcount(responseData.data.totalCount);
                     setPreLoading(false);
@@ -117,6 +131,7 @@ const ProductOverview = (props) => {
         let cat_code = (window.location.pathname.split('/')[3]) ? window.location.pathname.split('/')[3] : null;
         if ((cat_code != null) && (cat_code != "search")) {
             getProduct(cat_code);
+            setCatArray([cat_code]); //Filter
             setHowActive(cat_code);
             setFilterKey(cat_code);
         } else {
@@ -125,6 +140,9 @@ const ProductOverview = (props) => {
         setCurAdminInfo(adminInfo);
 
     }, [adminInfo]);
+
+
+
 
     function onPgClick() {
         setProductParams(productParams);
@@ -150,30 +168,76 @@ const ProductOverview = (props) => {
         setFilterKey(filterKey);
     }
 
+    useEffect(() => {
+        let posWrapProduct = 0;
+        if (document.querySelectorAll('.header_head').length > 0
+            && document.querySelectorAll('.top-slide').length > 0
+            && document.querySelectorAll('.prod-search-head').length > 0
+            && document.querySelectorAll('.sec-banner').length > 0) {
+            console.log(parseInt(document.getElementsByClassName('header_head')[0].offsetHeight));
+            console.log(parseInt(document.getElementsByClassName('top-slide')[0].offsetHeight));
+            console.log(parseInt(document.getElementsByClassName('prod-search-head')[0].offsetHeight));
+            console.log(parseInt(document.getElementsByClassName('sec-banner')[0].offsetHeight));
+            posWrapProduct = parseInt(document.getElementsByClassName('header_head')[0].offsetHeight) +
+                parseInt(document.getElementsByClassName('top-slide')[0].offsetHeight) +
+                parseInt(document.getElementsByClassName('prod-search-head')[0].offsetHeight) +
+                parseInt(document.getElementsByClassName('sec-banner')[0].offsetHeight);
+        }
+
+        // console.log(posWrapProduct);
+
+        const onScrollProduct = () => settingProductDesktop(posWrapProduct);
+        window.removeEventListener('scroll', onScrollProduct);
+        window.addEventListener('scroll', onScrollProduct, { passive: true });
+    }, []);
+
+    function settingProductDesktop(posWrapProduct) {
+        // console.log("posWrapProduct");
+        // console.log(posWrapProduct);
+        // console.log(window.scrollY);
+        if (window.scrollY > posWrapProduct) {
+            setPagination(true)
+            setProductFilterClass('prod-filter-head-sticky');
+        }
+        else {
+            setPagination(false)
+            setProductFilterClass('position-relative');
+        }
+    }
+
+    function setFilterCat(arr) {
+        // console.log(arr);
+        setCatArray(arr);
+    }
+
     return (
         <>
             <div className="bg0">
                 {preLoading ? <Preloader /> : ""}
-                <div className="container">
-                    <StatusBar status={status} onStatusClose={() => onStatusClose()} />
+                <StatusBar status={status} onStatusClose={() => onStatusClose()} />
 
-                    {(!props.pagination) ?
-                        <div className="p-b-10">
-                            <h3 className="ltext-103 cl5">
-                                Product Overview
-                            </h3>
-                        </div> : ""}
+                <div className={`prod-filter-head ${productFilterClass}`} id="prod-filter-head">
 
-                    <div className="flex-w flex-sb-m p-b-52">
-                        <div className="flex-w flex-l-m filter-tope-group m-tb-10">
-                            {/* <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+                    <div className="p-b-10">
+                        <h3 className="fs-16 fw-bold">
+                            Products For You
+                        </h3>
+                    </div>
+
+                    <div className="">
+                        <CategoryModal catArray={catArray} setFilterCat={(arr) => setFilterCat(arr)} setCloseModal={() => getProduct(null)} />
+                    </div>
+
+                </div>
+
+                {/* <div className="flex-w flex-sb-m p-b-20"> */}
+                {/* <div className="flex-w flex-l-m filter-tope-group m-tb-10"> */}
+                {/* <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
                                 All Products
                             </button> */}
-                            {categories.map((v, i) => {
+                {/* {categories.map((v, i) => {
                                 let code = v.code
                                 let id = code + v.id
-                                // console.log(id);
-                                // console.log(howActive);
                                 let howActiveClass = (howActive == code) ? "how-active1" : "";
                                 return (
 
@@ -186,11 +250,11 @@ const ProductOverview = (props) => {
                                         {v.name}
                                     </button>
                                 )
-                            })}
+                            })} */}
 
-                        </div>
+                {/* </div> */}
 
-                        <SlideToggle duration={150}>
+                {/* <SlideToggle duration={150}>
                             {({ toggle, setCollapsibleElement }) => (
                                 <>
                                     <div className="flex-w flex-c-m m-tb-10">
@@ -218,10 +282,11 @@ const ProductOverview = (props) => {
                                     </div>
                                 </>
                             )}
-                        </SlideToggle>
-                    </div>
+                        </SlideToggle> */}
+                {/* </div> */}
+                <div className="container">
 
-                    <div className="row isotope-grid pb-5">
+                    <div className="row isotope-grid">
                         {
                             (products.length == 0) ?
                                 <div className='fs-20 text-center mt-0 mb-5'>No Records found</div> :
@@ -240,15 +305,20 @@ const ProductOverview = (props) => {
                                                     </Link>
                                                 </div>
 
-                                                <div className="block2-txt flex-w flex-t p-t-14">
+                                                <div className="block2-txt flex-w flex-t p-t-8">
                                                     <div className="block2-txt-child1 flex-col-l ">
-                                                        <Link to={`/${adminInfo.site_url}/product/${p.encrypt_id}`} className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                        <Link to={`/${adminInfo.site_url}/product/${p.encrypt_id}`} className="prod_name">
                                                             {p.name}
                                                         </Link>
 
-                                                        <span className="stext-105 cl3">
-                                                            ${p.price}
+                                                        <span className="prod_cat p-t-1">
+                                                            {p.category_name}
                                                         </span>
+
+                                                        {(p.price) ?
+                                                            <span className="prod_price p-t-1">
+                                                                &#8377;{p.price}
+                                                            </span> : ""}
                                                     </div>
 
                                                     <div className="block2-txt-child2 flex-r p-t-3">
@@ -265,16 +335,15 @@ const ProductOverview = (props) => {
                         }
                     </div>
 
-                    {(!props.pagination && curAdminInfo) ?
-
-                        <div className="flex-c-m flex-w w-full p-t-20">
-                            <Link to={`/${curAdminInfo.site_url}/shop`} className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                    {(!pagination && curAdminInfo) ?
+                        <div className="flex-c-m flex-w w-full">
+                            <Link to={`/${curAdminInfo.site_url}/shop`}
+                                className="submit__btn">
                                 Load More
                             </Link>
                         </div> : ""}
 
-                    {(props.pagination) ?
-
+                    {(pagination) ?
                         <Filter filterEntities={[]}
                             perPageSelectEntity={perPageSelectEntity}
                             states={{ params: productParams }}

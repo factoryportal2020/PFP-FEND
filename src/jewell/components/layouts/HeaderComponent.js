@@ -14,9 +14,14 @@ import { logout, changeNavMenu } from '../../features/auth/authSlice';
 class Header extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log(props.userInfo);
+    let userProfileImg = (props.userInfo?.profile_image.length) ? props.userInfo.profile_image[0].url : profileLogo;
+    let userProfileName = (props.userInfo?.profile_image.length) ? props.userInfo.profile_image[0].name : "profileImg";
     this.state = {
-      isNavCollapsed: true, isProfileDropdown: false, userInfo: props.userInfo,
+      isNavCollapsed: true, isProfileDropdown: false,
+      userInfo: props.userInfo,
+      userProfileImg: userProfileImg,
+      userProfileName: userProfileName,
       navMenu: { ...props.auth.navMenu },
       permissions: [...props.auth.permissions],
       dropMenuOpen: false,
@@ -34,6 +39,7 @@ class Header extends React.Component {
     this.handleIsNavCollapsed = this.handleIsNavCollapsed.bind(this);
     this.handleIsProfileDropdown = this.handleIsProfileDropdown.bind(this);
     this.clickLink = this.clickLink.bind(this);
+    this.clickProfileLink = this.clickProfileLink.bind(this);
   }
 
   componentDidMount() {
@@ -52,13 +58,15 @@ class Header extends React.Component {
       .then(async (response) => {
         let responseData = response.data;
         console.log(responseData);
-        let notificationData = responseData.data;
+        if (responseData.status) {
+          let notificationData = responseData.data;
 
-        if (notificationData.notifications.length > 0) {
-          let stateObj = { ...this.state };
-          stateObj.notifications = [...notificationData.notifications];
-          stateObj.notificationCount = notificationData.notifications_count;
-          this.setState({ ...stateObj }, () => { console.log(stateObj) });
+          if (notificationData.notifications.length > 0) {
+            let stateObj = { ...this.state };
+            stateObj.notifications = [...notificationData.notifications];
+            stateObj.notificationCount = notificationData.notifications_count;
+            this.setState({ ...stateObj }, () => { console.log(stateObj) });
+          }
         }
       })
       .catch(e => {
@@ -89,6 +97,16 @@ class Header extends React.Component {
     this.handleIsNavCollapsed();
   }
 
+  clickProfileLink(e) {
+    let menuName = e.target.id;
+    console.log(menuName)
+    this.setState({ navMenu: menuName })
+    this.props.changeNavMenu(menuName)
+    this.props.workerTaskWorkerId("")
+    this.props.categoryTaskCategoryId("")
+    this.props.categoryItemCategoryId("")
+  }
+
   clickDropDown(trigger) {
     this.setState({ dropMenuOpen: trigger })
   }
@@ -106,44 +124,52 @@ class Header extends React.Component {
             <Link className="" to="/"> <img src={pocketMob} /></Link>
           </div>
 
-          <div className='bell-div logo-div-web'>
-            <div className='pointer d-inline-block'
-              onClick={(e) => this.clickNotification(!this.state.notificationOpen)}
-              onMouseLeave={(e) => this.clickNotification(false)}
-            >
-              <i className="fa-solid fa-bell pt-2 fs-3 theme-yellow badge-wrapper">
-                <span class='badge badge-secondary theme-red'>{this.state.notificationCount}</span>
-              </i>
-            </div>
-            <ul
-              onBlur={(e) => this.clickNotification(false)}
-              className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
-              {
-                (this.state.notificationCount == 0) ?
-                  <li className='fs-14 text-center pt-3 theme-red'>No Records Found</li> :
-                  this.state.notifications.map((element, i) => {
-                    return (
-                      (element.message) ?
-                        <li className=' theme-red'><Link to={element.link} onClick={(e) => this.clickNotification(false)}>{element.message}</Link></li> : ""
-                    )
-                  })
-              }
-              <li className='fs-14 text-center pt-3 black'><Link to="/notification/list">See More</Link></li>
-            </ul>
+
+
+          <div className='logo-div ms-auto me-auto logo-div-web' onMouseLeave={(e) => this.clickNotification(false)}>
+            <Link role="button" id="profile" onClick={(e) => this.clickProfileLink(e)} to="/profile"
+              className='profile-div text-decoration-none text-center'>
+              <img className="profile-logo" alt={this.state.userProfileName} src={this.state.userProfileImg}
+              ></img><br></br>
+              <div className='theme-yellow fw-normal fs-6 text-center' alt={this.state.userInfo.username}>Hi, {this.state.userInfo.username.substring(0, 10)}</div>
+            </Link>
           </div>
 
-          <div className='logo-div logo-div-web' onMouseLeave={(e) => this.clickNotification(false)}>
-            <Link role="button" id="profile" onClick={(e) => this.clickLink(e)} to="/profile"
-              className='profile-div text-decoration-none text-center'>
-              <img className="profile-logo" alt={profileLogo} src={profileLogo}
-              ></img><br></br>
-              <div className='theme-yellow fw-normal fs-6 text-center'>Hi, {this.state.userInfo.username}</div>
 
-            </Link>
-            <Link to={"/login"} className='float-end'
-              onClick={() => { this.props.logout() }}>
-              <i className="fa-solid fa-power-off grey pt-2 fs-5"></i>
-            </Link>
+          <div className='bell-div logo-div-web'>
+            <ul>
+              <li>
+                <Link to={"/login"} className=''
+                  onClick={() => { this.props.logout() }}>
+                  <i className="fa-solid fa-power-off grey pt-2 fs-5"></i>
+                </Link>
+              </li>
+              <li>
+                <div className='pointer d-inline-block'
+                  onClick={(e) => this.clickNotification(!this.state.notificationOpen)}
+                  onMouseLeave={(e) => this.clickNotification(false)}
+                >
+                  <i className="fa-solid fa-bell pt-2 fs-3 theme-yellow badge-wrapper">
+                    <span class='badge badge-secondary theme-red'>{this.state.notificationCount}</span>
+                  </i>
+                </div>
+                <ul
+                  onBlur={(e) => this.clickNotification(false)}
+                  className={`dropdown-menu me-auto mb-auto bell-dropdown mt-2 ${(this.state.notificationOpen) ? "show" : "hide"}`}>
+                  {
+                    (this.state.notificationCount == 0) ?
+                      <li className='fs-14 text-center pt-3 theme-red'>No Records Found</li> :
+                      this.state.notifications.map((element, i) => {
+                        return (
+                          (element.message) ?
+                            <li className=' theme-red'><Link to={element.link} onClick={(e) => this.clickNotification(false)}>{element.message}</Link></li> : ""
+                        )
+                      })
+                  }
+                  <li className='fs-14 text-center pt-3 black'><Link to="/notification/list">See More</Link></li>
+                </ul>
+              </li>
+            </ul>
           </div>
 
           <button className="navbar-toggler" type="button"
@@ -386,7 +412,7 @@ class Header extends React.Component {
 
         </div>
         {/* </div> */}
-      </nav>
+      </nav >
     )
   }
 }

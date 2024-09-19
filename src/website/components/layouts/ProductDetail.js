@@ -334,7 +334,7 @@ const ProductDetail = (props) => {
 
             {/* Product Detail */}
             {(product.item) ?
-                <section className="sec-product-detail bg0 p-t-30 p-b-60">
+                <section className="sec-product-detail bg0 p-t-30 p-b-30">
                     {preLoading ? <Preloader /> : ""}
 
                     <div className="container">
@@ -344,24 +344,7 @@ const ProductDetail = (props) => {
                             <div className="col-md-6 col-lg-7 p-b-30">
                                 <div className="p-l-25 p-r-30 p-lr-0-lg">
                                     <div className="wrap-slick3 flex-sb flex-w">
-                                        <div className="wrap-slick3-dots">
-                                            <ul className="slick3-dots">
 
-                                                {
-                                                    (productImages.length > 0) ?
-                                                        productImages.map((itm_img1, i) => {
-                                                            return (
-
-                                                                <li onClick={(e) => clickDot(e)} role={`presentation${i}`} key={`dot12${i}`}>
-                                                                    <img className="dot-size" src={itm_img1.url} alt="IMG-PRODUCT" />
-                                                                    <div className="slick3-dot-overlay dot-size" id={i}></div>
-                                                                </li>)
-                                                        })
-                                                        : ""}
-
-
-                                            </ul>
-                                        </div>
                                         <div className="wrap-slick3-arrows flex-sb-m flex-w">
                                             <PrevArrow onClick={previous} />
                                             <NextArrow onClick={next} />
@@ -411,6 +394,25 @@ const ProductDetail = (props) => {
 
 
                                     </div>
+
+                                    <div className="wrap-slick3-dots">
+                                        <ul className="slick3-dots">
+
+                                            {
+                                                (productImages.length > 0) ?
+                                                    productImages.map((itm_img1, i) => {
+                                                        return (
+
+                                                            <li onClick={(e) => clickDot(e)} role={`presentation${i}`} key={`dot12${i}`}>
+                                                                <img className="dot-size" src={itm_img1.url} alt="IMG-PRODUCT" />
+                                                                <div className="slick3-dot-overlay dot-size" id={i}></div>
+                                                            </li>)
+                                                    })
+                                                    : ""}
+
+
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
@@ -458,8 +460,8 @@ const ProductDetail = (props) => {
                                             {/* </div> */}
                                         </div>
 
-                                        <div className="flex-end p-b-2 p-t-15">
-                                            <div className="size-204 flex-w flex-m respon6-next">
+                                        <div className="d-flex justify-content-between p-b-2 p-t-15">
+                                            <div className="size-219 flex-w flex-m respon6-next">
                                                 {/* <div className="wrap-num-product flex-w m-r-20 m-tb-10">
                                                     <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                                         <i className="fs-16 zmdi zmdi-minus"></i>
@@ -474,45 +476,48 @@ const ProductDetail = (props) => {
                                                 {(!curUserInfo) ?
                                                     <button
                                                         onClick={() => setLoginModalTrigger("d-block")}
-                                                        className="flex-end stext-101 cl5 size-101 jewell-bg-color bor1 hov-btn1 p-lr-15 trans-04">
+                                                        className="flex-end stext-101 cl5 size-101 bor1 hov-btn1 p-lr-15 trans-04">
                                                         Login and Enquiry
                                                     </button> :
                                                     <button
                                                         onClick={() => setEnquiryModalTrigger("d-block")}
-                                                        className="flex-end stext-101 cl5 size-101 jewell-bg-color bor1 hov-btn1 p-lr-15 trans-04">
+                                                        // className="flex-end stext-101 cl5 size-101 bor1 hov-btn1 p-lr-15 trans-04"
+                                                        className="submit__btn">
                                                         Enquiry
                                                     </button>}
+                                            </div>
+
+                                            <div className="flex-w flex-m p-l-0">
+                                                <div className="flex-m bor9 p-r-10 m-r-11">
+                                                    <a href="#"
+                                                        className="fs-18 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+                                                        onClick={() => saveFavourite()}
+                                                        data-tooltip={`${(favourite) ? "Added in Favourite List" : "Add to Favourite List"}`} >
+                                                        <i className={`zmdi zmdi-favorite ${(favourite) ? "cl2" : ""}`}></i>
+                                                    </a>
+                                                </div>
+
+                                                <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+                                                    <i className="fa fa-facebook"></i>
+                                                </a>
+
+                                                <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+                                                    <i className="fa fa-twitter"></i>
+                                                </a>
+
+                                                <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+                                                    <i className="fa fa-google-plus"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex-w flex-m p-l-0 p-t-30 respon7">
-                                        <div className="flex-m bor9 p-r-10 m-r-11">
-                                            <a href="#"
-                                                className="fs-18 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-                                                onClick={() => saveFavourite()}
-                                                data-tooltip={`${(favourite) ? "Added in Favourite List" : "Add to Favourite List"}`} >
-                                                <i className={`zmdi zmdi-favorite ${(favourite) ? "cl2" : ""}`}></i>
-                                            </a>
-                                        </div>
 
-                                        {/* <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
-                                            <i className="fa fa-facebook"></i>
-                                        </a>
-
-                                        <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-                                            <i className="fa fa-twitter"></i>
-                                        </a>
-
-                                        <a href="#" className="fs-16 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-                                            <i className="fa fa-google-plus"></i>
-                                        </a> */}
-                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bor10 m-t-0 p-t-43 p-b-40">
+                        <div className="bor10 m-t-0 p-t-20 p-b-20">
                             {/* {let tabActive = (tabID == "description") ? "active" : ""} */}
 
                             <div className="tab01">
@@ -541,9 +546,9 @@ const ProductDetail = (props) => {
 
                                 </ul>
 
-                                <div className="tab-content p-t-43">
+                                <div className="tab-content p-t-15">
                                     <div className={`tab-pane fade ${tabID == "description" ? " show active" : ""}`} role="tabpanel">
-                                        <div className="how-pos2 p-lr-15-md">
+                                        <div className="how-pos2 p-lr-10-md">
                                             <p className="stext-102 cl6">
                                                 {product.item.description}
                                             </p>
@@ -679,12 +684,12 @@ const ProductDetail = (props) => {
                         </div>
                     </div>
 
-                    <div className="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-                        <span className="stext-107 cl6 p-lr-25">
+                    <div className="bg6 flex-c-m flex-w size-302 m-t-5">
+                        <span className="stext-108 cl6 p-lr-25">
                             SKU: {product.item.code}
                         </span>
 
-                        <span className="stext-107 cl6 p-lr-25">
+                        <span className="stext-108 cl6 p-lr-25">
                             Category: {product.item.category_name}
                         </span>
                     </div>
@@ -692,7 +697,8 @@ const ProductDetail = (props) => {
             }
 
 
-            <section className="sec-relate-product bg0 p-t-45 p-b-105">
+            {/* <section className="sec-relate-product bg0 p-t-45 p-b-105"> */}
+            <section className="sec-relate-product bg0 p-b-105">
                 <div className="container">
                     <div className="p-b-45">
                         <h3 className="ltext-106 cl5 txt-center">

@@ -19,12 +19,15 @@ export const CardView = React.forwardRef((props, ref) => {
 
     var title = props.title;
     let status = (element.status == 1) ? "Active" : "Deactive"
-    let profileImage = maleLogo;
-    let genderImage = maleLogo;
+    let profileImage = NewProductLogo;
+    let genderImage = NewProductLogo;
 
     if (element.gender == "female") {
         profileImage = femaleLogo;
         genderImage = femaleLogo;
+    }else{
+        profileImage = maleLogo;
+        genderImage = maleLogo;
     }
     let card = <CustomerCard element={element} />;
     let name = (element.first_name) ? element.first_name : "" + " " + (element.last_name) ? element.last_name : ""
@@ -78,7 +81,7 @@ export const CardView = React.forwardRef((props, ref) => {
 
     return (
         <>
-            <div className="card-body d-flex">
+            <div className="card-body d-flex-web d-block-web">
                 <div className="card-image">
                     <div className="col-sm mt-2 mb-2 img-container">
                         <img className="border-radius-50 view-profile-image" src={profileImage} alt={`${element.listLink} image cap`} />

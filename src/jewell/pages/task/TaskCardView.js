@@ -1,6 +1,7 @@
 import React from 'react';
 import maleLogo from "../../theme/images/profile/male1.png";
 import femaleLogo from "../../theme/images/profile/female.jpg";
+import NewProductLogo from "../../theme/images/profile/no-image.jpg";
 import { Link } from 'react-router-dom';
 import datetime from '../../components/forms/datetime';
 
@@ -14,7 +15,7 @@ export const TaskCardView = React.forwardRef((props, ref) => {
     let status = (element.status) ? element.status : "Unassigned"
     let name = element.title
 
-    let profileImage = (element.gender == "female") ? femaleLogo : maleLogo;
+    let profileImage = (element.gender == "female") ? NewProductLogo : NewProductLogo;
     let workerImage = (element.gender == "female") ? femaleLogo : maleLogo;
     let customerImage = (element.gender == "female") ? femaleLogo : maleLogo;
 
@@ -48,6 +49,10 @@ export const TaskCardView = React.forwardRef((props, ref) => {
                             <span className="grey fs-8">Due Date:</span><br></br>
                             {datetime.showDateTime(element.end_date)}
                         </div>
+
+                        <div className="ribbon-wrapper position-relative">
+                                <div className={`ribbon-green bg-color3 ${status}`}>{status} </div>
+                            </div>
 
                     </div>
 
@@ -127,9 +132,7 @@ export const TaskCardView = React.forwardRef((props, ref) => {
 
                         <div className="fs-12 d-flex justify-content-between">
 
-                            <div className="ribbon-wrapper position-relative">
-                                <div className={`ribbon-green bg-color3 ${status}`}>{status} </div>
-                            </div>
+                            
 
                             <div className={"float-right pt-0"}>
                                 <div className='fs-8 pb-1'>Created At: <span className="created_at" title="Created Date"> {element.created_at}</span></div>

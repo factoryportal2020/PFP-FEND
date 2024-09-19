@@ -3,6 +3,8 @@ import apiDataService from "../services/api.service"
 import React, { useState } from 'react';
 import { useEffect } from "react";
 import noImage from "../theme/images/jewell/no-image.jpg"
+import Slide from "../components/layouts/Slide";
+import Search from "../components/layouts/Search";
 
 
 const About = () => {
@@ -52,19 +54,17 @@ const About = () => {
     return (
         <>
 
-            <section className="bg-img1 txt-center p-lr-15 p-tb-92" style={{ backgroundImage: `url(${banner.url})` }}>
-                <h2 className="ltext-105 cl0 txt-center">
-                    About
-                </h2>
-            </section>
+            <Slide />
+            <Search />
 
 
-            <section className="bg0 p-t-75 p-b-10">
+
+            <section className="bg0 p-t-20 p-b-10">
                 <div className="container">
-                    <div className="row p-b-148">
-                        <div className="col-md-7 col-lg-8">
+                    <div className="row p-b-50">
+                        <div className="col-md-7 col-lg-8 p-b-10">
                             <div className="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
-                                <h3 className="mtext-111 cl2 p-b-16">
+                                <h3 className="mtext-111 cl2 p-b-15">
                                     Our Story
                                 </h3>
 

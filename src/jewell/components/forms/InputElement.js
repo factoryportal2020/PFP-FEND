@@ -263,7 +263,7 @@ export const ButtonInput = (props) => {
             <button type="button"
                 id={props.htmlFor}
                 disabled={props.disabled}
-                className={`form-control ${props.className}`}
+                className={` ${props.className}`}
                 onChange={(e) => { props.onChange(e.target.value) }}
                 onClick={(e) => { props.onClick(e.target.value) }}
                 onBlur={(e) => { props.onChange(e.target.value) }} >{props.label}</button>

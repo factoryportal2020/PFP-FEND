@@ -569,7 +569,11 @@ class FormImage extends React.Component {
                                     {this.state.preLoading ? <Preloader /> : ""}
 
                                     <div className='breadcums_head'>
-                                        <div><h4 className='theme-yellow'>{this.state.states.title}</h4></div>
+                                        <div className="d-flex justify-content-between" >
+                                            <h4 className='theme-brown'>{this.state.states.title}</h4>
+                                            {/* <Link type="button" to={`/${this.state.states.listLink}/list`}
+                                                className="normal__btn">List</Link> */}
+                                        </div>
                                         {(this.state.states.tabs.length > 1) ?
                                             <Tab state={this.state} onClick={(e) => this.clickTab(e)} /> : ""}
 

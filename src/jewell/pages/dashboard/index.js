@@ -85,7 +85,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <div className="content-div">
+            <div className="content-div dashboard">
                 <StatusBar status={status} onStatusClose={() => onStatusClose()} />
                 {preLoading ? <Preloader /> : ""}
 
@@ -94,8 +94,8 @@ const Dashboard = () => {
                         <div className="col-sm">
                             <div className='d-flex justify-content-between brown fw-normal'>
                                 <div>
-                                    <h2 className="font-w600 mb-0 theme-yellow">Dashboard</h2>
-                                    <p className="mb-0 theme-red">Welcome to Pocket Admin!</p>
+                                    <h2 className="font-w600 mb-0 theme-brown">Dashboard</h2>
+                                    <p className="mb-0 theme-red">Welcome to Pocket E-com Admin!</p>
                                 </div>
 
                                 <div className="dropdown custom-dropdown d-flex">
@@ -199,7 +199,7 @@ const Dashboard = () => {
                                         (dashboard?.website?.website) ?
 
 
-                                            <div className="card-new noboxShadow bg-secondary jewell-bg-color"
+                                            <div className="card-new noboxShadow bg-secondary"
                                                 style={{ backgroundImage: `url(${dashboard?.website?.bannerImages.url})` }}
                                             >
                                                 <div className="card-new-body p-5 green">
